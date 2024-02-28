@@ -6,6 +6,14 @@ namespace Installer;
 
 public partial class App : Application
 {
+    public readonly static byte[] DefaultIconBinary;
+
+	static App()
+    {
+        var path = Path.Combine(AppContext.BaseDirectory, "Assets", "Icon.png");
+		DefaultIconBinary = File.ReadAllBytes(path);
+    }
+
     public App() => InitializeComponent();
 
     protected override void OnLaunched(LaunchActivatedEventArgs launchActivatedEventArgs)

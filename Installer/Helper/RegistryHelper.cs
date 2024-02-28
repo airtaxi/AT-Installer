@@ -38,7 +38,7 @@ public static class RegistryHelper
         uninstallKey.SetValue("NoRepair", 1); // Batch file doesn't support repairing
 
         // Generate icon file and set it as the display icon
-        var iconBinary = GenerateIconBinaryFromPng(installManifest.IconBinary);
+        var iconBinary = GenerateIconBinaryFromPng(installManifest.IconBinary ?? App.DefaultIconBinary);
         var iconFilePath = Path.Combine(installationDirectoryPath, IconFileName);
         File.WriteAllBytes(iconFilePath, iconBinary);
         uninstallKey.SetValue("DisplayIcon", iconFilePath);
