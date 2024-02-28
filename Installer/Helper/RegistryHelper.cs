@@ -8,7 +8,7 @@ using System.Text;
 using Windows.Storage.Streams;
 using WinUIEx;
 
-namespace Installer.Helper;
+namespace InstallerCommons.Helper;
 
 public static class RegistryHelper
 {

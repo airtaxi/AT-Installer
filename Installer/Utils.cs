@@ -1,6 +1,6 @@
 ﻿using InstallerCommons;
 
-namespace Installer;
+namespace InstallerCommons;
 
 public static class Utils
 {

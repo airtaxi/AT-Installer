@@ -13,7 +13,7 @@
     IsResizable="False"
     IsMaximizable="False">
 
-    <Grid x:Name="GdMain" VerticalAlignment="Center" LayoutUpdated="OnGridLayoutUpdated">
+    <Grid x:Name="GdMain" VerticalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="32"/>
             <RowDefinition Height="Auto"/>

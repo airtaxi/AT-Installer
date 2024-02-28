@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using WinUIEx;
 
-namespace Installer;
+namespace InstallerCommons;
 
 public partial class App : Application
 {

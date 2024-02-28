@@ -1,10 +1,12 @@
 using InstallerCommons;
+using InstallerCommons.ZipHelper;
 using Ionic.Zip;
 using Ionic.Zlib;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using Windows.Storage;
@@ -23,9 +25,13 @@ public sealed partial class ComposerWindow : WindowEx
 		InitializeComponent();
 		ExtendsContentIntoTitleBar = true;
 		SystemBackdrop = new MicaBackdrop() { Kind = Microsoft.UI.Composition.SystemBackdrops.MicaKind.Base };
-	}
 
-	private async Task ExportPackageAsync()
+		var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500) };
+		timer.Tick += OnUpdateHeightTimerTick;
+		timer.Start();
+    }
+
+    private async Task ExportPackageAsync()
 	{
 		var applicationId = TbxApplicationId.Text;
 		var applicationName = TbxApplicationName.Text;
@@ -89,25 +95,20 @@ public sealed partial class ComposerWindow : WindowEx
 
 			await Task.Run(() =>
 			{
-				using var zip = new ZipFile();
-				zip.AlternateEncoding = Encoding.UTF8;
-				zip.AlternateEncodingUsage = ZipOption.AsNecessary;
-				zip.CompressionLevel = CompressionLevel.None; // No need to compress since this file will be compressed again
-				zip.SaveProgress += (s, e) =>
-				{
-					var progress = (double)e.EntriesSaved / e.EntriesTotal;
-					if (double.IsNaN(progress)) return; // Ignore NaN
-
-					DispatcherQueue.TryEnqueue(() =>
-					{
-						TbLoading.Text = $"Archiving Application Root Directory... ({progress:P0})"; // Update the loading text
-					});
-				};
-				zip.AddDirectory(applicationRootDirectoryPath);
-				zip.AddEntry("uninstall.json", uninstallManifestJson);
-
+                // No need to compress since this file will be compressed again
 				var archiveFilePath = Path.Combine(instancePath, "data.bin");
-				zip.Save(archiveFilePath);
+				var uninstallManifestFilePath = Path.Combine(applicationRootDirectoryPath, "uninstall.json");
+				byte[] existingUninstallManifest = File.Exists(uninstallManifestFilePath) ? File.ReadAllBytes(uninstallManifestFilePath) : null;
+				File.WriteAllText(uninstallManifestFilePath, uninstallManifestJson);
+                ZipFileWithProgress.CreateFromDirectory(applicationRootDirectoryPath, archiveFilePath, System.IO.Compression.CompressionLevel.NoCompression, new ActionProgress<ZipProgressStatus>((progress) =>
+                {
+                    DispatcherQueue.TryEnqueue(() =>
+                    {
+                        TbLoading.Text = $"Archiving Application Root Directory... ({progress.Progress:P0})\n{progress.FileName}"; // Update the loading text
+                    });
+                }));
+				File.Delete(uninstallManifestFilePath);
+				if (existingUninstallManifest != null) File.WriteAllBytes(uninstallManifestFilePath, existingUninstallManifest);
 			});
 
 			// Compress the instance directory
@@ -258,13 +259,6 @@ public sealed partial class ComposerWindow : WindowEx
 		return true;
 	}
 
-	private void OnGridLayoutUpdated(object sender, object e)
-	{
-		// Update the window height
-		var height = GdMain.ActualHeight + 10; // 10 is the margin by WinUI
-		Height = height;
-	}
-
 	private async void OnAboutMenuFlyoutItemClicked(object sender, RoutedEventArgs e)
 	{
 		var localVersion = Assembly.GetExecutingAssembly().GetName().Version;
@@ -413,5 +407,12 @@ public sealed partial class ComposerWindow : WindowEx
 
 		// Set the thumbnail
 		ApplyThumbnailFromApplicationIconBinaryField();
-	}
+    }
+
+    private void OnUpdateHeightTimerTick(object sender, object e)
+    {
+		// Update the window height
+		var height = GdMain.ActualHeight + 10; // 10 is the margin by WinUI
+        Height = height;
+    }
 }

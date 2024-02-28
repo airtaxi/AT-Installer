@@ -1,6 +1,6 @@
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
-using Installer.Helper;
+using InstallerCommons.Helper;
 using InstallerCommons;
 using Ionic.Zip;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -9,8 +9,9 @@ using System.Diagnostics;
 using System.Reflection;
 using WinUIEx;
 using ZipFile = Ionic.Zip.ZipFile;
+using InstallerCommons.ZipHelper;
 
-namespace Installer;
+namespace InstallerCommons;
 
 public sealed partial class InstallerWindow : WindowEx
 {
@@ -142,14 +143,7 @@ public sealed partial class InstallerWindow : WindowEx
             // Update the UI
             DispatcherQueue.TryEnqueue(() => BtInstall.Content = "Installing...");
 
-            var events = new FastZipEvents { ProgressInterval = TimeSpan.FromMilliseconds(10) };
-            events.Progress += OnArchiveExtractProgress;
-
-            var fastZip = new FastZip();
-            fastZip.ExtractZip(tempFile, installationDirectoryPath, FastZip.Overwrite.Always, null, null, null, true);
-
-            // Remove the events handler
-            events.Progress -= OnArchiveExtractProgress;
+            ZipFileWithProgress.ExtractToDirectory(tempFile, installationDirectoryPath, new ActionProgress<ZipProgressStatus>(OnArchiveExtractProgress));
 
             // Update the UI
             DispatcherQueue.TryEnqueue(() =>
@@ -166,16 +160,13 @@ public sealed partial class InstallerWindow : WindowEx
         });
     }
 
-    private void OnArchiveExtractProgress(object sender, ProgressEventArgs e)
+    private void OnArchiveExtractProgress(ZipProgressStatus status)
     {
-        var percent = e.PercentComplete;
-        if (percent == 0) return; // Ignore 0%
-
         DispatcherQueue.TryEnqueue(() =>
         {
             PbInstallProgress.IsIndeterminate = false;
-            PbInstallProgress.Value = percent;
-            TbInstallProgress.Text = e.Name;
+            PbInstallProgress.Value = status.Progress * 100;
+            TbInstallProgress.Text = status.FileName;
         });
     }
 
@@ -211,22 +202,6 @@ public sealed partial class InstallerWindow : WindowEx
             DispatcherQueue.TryEnqueue(() => BtInstall.Content = $"Install Complete! Exit In {secondsRemaining} Seconds");
         };
         timer.Start();
-    }
-
-    private void OnArchiveExtractProgress(object sender, ExtractProgressEventArgs e)
-    {
-        // Overwrite
-        e.Cancel = false;
-
-        var progress = (double)e.EntriesExtracted / e.EntriesTotal;
-        if (double.IsNaN(progress)) return; // Ignore NaN
-
-        DispatcherQueue.TryEnqueue(() =>
-        {
-            PbInstallProgress.IsIndeterminate = false;
-            PbInstallProgress.Value = progress * 100;
-            TbInstallProgress.Text = e.CurrentEntry.FileName;
-        });
     }
 
     private void OnClosed(object sender, WindowEventArgs args)
