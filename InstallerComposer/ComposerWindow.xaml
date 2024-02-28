@@ -193,6 +193,7 @@
                     Style="{ThemeResource BodyTextBlockStyle}"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    TextAlignment="Center"
                     Margin="0,10,0,0"/>
             </StackPanel>
         </Grid>
