@@ -105,6 +105,13 @@
                 Click="OnInstallButtonClicked"/>
         </StackPanel>
 
+        <TextBlock
+            x:Name="TbInstallProgress"
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            VerticalAlignment="Bottom"
+            Margin="10,0,10,60"/>
+
         <ProgressBar
             x:Name="PbInstallProgress"
             Grid.Row="1"
@@ -117,6 +124,7 @@
             x:Name="GdLoading"
             Grid.Row="0"
             Grid.RowSpan="2"
+            Grid.ColumnSpan="2"
             Visibility="Collapsed">
             <Grid.Background>
                 <media:BackdropBlurBrush Amount="5.0"/>

@@ -1,3 +1,5 @@
+using ICSharpCode.SharpZipLib.Core;
+using ICSharpCode.SharpZipLib.Zip;
 using Installer.Helper;
 using InstallerCommons;
 using Ionic.Zip;
@@ -6,6 +8,7 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Reflection;
 using WinUIEx;
+using ZipFile = Ionic.Zip.ZipFile;
 
 namespace Installer;
 
@@ -136,20 +139,17 @@ public sealed partial class InstallerWindow : WindowEx
             tempFileStream.Close();
             tempFileStream.Dispose();
 
-            // Read the archive
-            using var archive = ZipFile.Read(tempFile);
-
-            // Add the event handler
-            archive.ExtractProgress += OnArchiveExtractProgress;
-
             // Update the UI
             DispatcherQueue.TryEnqueue(() => BtInstall.Content = "Installing...");
 
-            // Extract the archive
-            archive.ExtractAll(installationDirectoryPath, ExtractExistingFileAction.OverwriteSilently);
+            var events = new FastZipEvents { ProgressInterval = TimeSpan.FromMilliseconds(10) };
+            events.Progress += OnArchiveExtractProgress;
 
-            // Remove the event handler
-            archive.ExtractProgress -= OnArchiveExtractProgress;
+            var fastZip = new FastZip();
+            fastZip.ExtractZip(tempFile, installationDirectoryPath, FastZip.Overwrite.Always, null, null, null, true);
+
+            // Remove the events handler
+            events.Progress -= OnArchiveExtractProgress;
 
             // Update the UI
             DispatcherQueue.TryEnqueue(() =>
@@ -159,11 +159,23 @@ public sealed partial class InstallerWindow : WindowEx
             });
 
             // Delete the temp file
-            archive.Dispose(); // Archive should be disposed before deleting to release the file handle
             File.Delete(tempFile);
 
             // Execute post installation task
             DispatcherQueue.TryEnqueue(OnPostInstallation);
+        });
+    }
+
+    private void OnArchiveExtractProgress(object sender, ProgressEventArgs e)
+    {
+        var percent = e.PercentComplete;
+        if (percent == 0) return; // Ignore 0%
+
+        DispatcherQueue.TryEnqueue(() =>
+        {
+            PbInstallProgress.IsIndeterminate = false;
+            PbInstallProgress.Value = percent;
+            TbInstallProgress.Text = e.Name;
         });
     }
 
@@ -213,6 +225,7 @@ public sealed partial class InstallerWindow : WindowEx
         {
             PbInstallProgress.IsIndeterminate = false;
             PbInstallProgress.Value = progress * 100;
+            TbInstallProgress.Text = e.CurrentEntry.FileName;
         });
     }
 
