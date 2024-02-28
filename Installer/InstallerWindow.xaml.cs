@@ -10,6 +10,7 @@ using System.Reflection;
 using WinUIEx;
 using ZipFile = Ionic.Zip.ZipFile;
 using InstallerCommons.ZipHelper;
+using Windows.Services.Maps;
 
 namespace InstallerCommons;
 
@@ -143,6 +144,13 @@ public sealed partial class InstallerWindow : WindowEx
             // Update the UI
             DispatcherQueue.TryEnqueue(() => BtInstall.Content = "Installing...");
 
+            //var events = new FastZipEvents();
+            //events.Progress += OnArchiveExtractProgress;
+            //events.ProgressInterval = TimeSpan.FromMilliseconds(100);
+
+            //var zip = new FastZip(events);
+            //zip.ExtractZip(tempFile, installationDirectoryPath, FastZip.Overwrite.Always, null, null, null, true);
+
             ZipFileWithProgress.ExtractToDirectory(tempFile, installationDirectoryPath, new ActionProgress<ZipProgressStatus>(OnArchiveExtractProgress));
 
             // Update the UI
@@ -157,6 +165,16 @@ public sealed partial class InstallerWindow : WindowEx
 
             // Execute post installation task
             DispatcherQueue.TryEnqueue(OnPostInstallation);
+        });
+    }
+
+    private void OnArchiveExtractProgress(object sender, ProgressEventArgs e)
+    {
+        DispatcherQueue.TryEnqueue(() =>
+        {
+            PbInstallProgress.IsIndeterminate = false;
+            PbInstallProgress.Value = e.PercentComplete;
+            TbInstallProgress.Text = e.Name;
         });
     }
 
