@@ -156,6 +156,7 @@ public sealed partial class InstallerWindow : WindowEx
             // Update the UI
             DispatcherQueue.TryEnqueue(() =>
             {
+                TbInstallProgress.Text = "Complete!";
                 BtInstall.Content = "Cleaning Up...";
                 PbInstallProgress.IsIndeterminate = true;
             });
