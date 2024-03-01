@@ -52,7 +52,7 @@ namespace InstallerCommons.ZipHelper
 
                 if (fileName.EndsWith('\\') || fileName.EndsWith('/')) continue;
                 using var inputStream = entry.Open();
-                using var outputStream = File.OpenWrite(fileName);
+                using var outputStream = File.Create(fileName);
                 var progressStream = new StreamWithProgress(outputStream, null, new ActionProgress<int>(i =>
                 {
                     currentBytes += i;
