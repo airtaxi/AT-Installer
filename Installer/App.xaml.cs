@@ -27,9 +27,10 @@ public partial class App : Application
 
 		// Compose manifest from command line argument
 		var packageFilePath = args[1];
+		var silent = args.Length > 2 && args[2] == "/silent";
 
-		// Create window with manifest and archive file path
-		_window = new InstallerWindow(packageFilePath);
+        // Create window with manifest and archive file path
+        _window = new InstallerWindow(packageFilePath, silent);
 		_window.Activate();
 	}
 

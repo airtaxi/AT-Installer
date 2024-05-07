@@ -20,12 +20,19 @@ public sealed partial class InstallerWindow : WindowEx
 
     private readonly string _packageFilePath;
     private InstallManifest _installManifest;
+    private bool _isSilent;
 
-	public InstallerWindow(string packageFilePath)
+    public InstallerWindow(string packageFilePath, bool isSlient)
 	{
+        _isSilent = isSlient;
         _packageFilePath = packageFilePath;
 		InitializeComponent();
         Initialize();
+        if (isSlient)
+        {
+            AppWindow.IsShownInSwitchers = false;
+            AppWindow.Hide();
+        }
 	}
 
     private async void Initialize()
@@ -89,9 +96,18 @@ public sealed partial class InstallerWindow : WindowEx
             {
                 BtInstall.IsEnabled = false;
                 BtInstall.Content = "Can't Downgrade";
+                if (_isSilent) Environment.Exit(24);
             }
-            else if (installedApplicationExecutableFileVersion == installManifest.Version) BtInstall.Content = "Reinstall";
-            else BtInstall.Content = "Update";
+            else if (installedApplicationExecutableFileVersion == installManifest.Version)
+            {
+                BtInstall.Content = "Reinstall";
+                if (_isSilent) OnInstallButtonClicked(null, null);
+            }
+            else
+            {
+                BtInstall.Content = "Update";
+                if (_isSilent) OnInstallButtonClicked(null, null);
+            }
         }
 
         // Hide loading
@@ -151,7 +167,16 @@ public sealed partial class InstallerWindow : WindowEx
             //var zip = new FastZip(events);
             //zip.ExtractZip(tempFile, installationDirectoryPath, FastZip.Overwrite.Always, null, null, null, true);
 
-            ZipFileWithProgress.ExtractToDirectory(tempFile, installationDirectoryPath, new ActionProgress<ZipProgressStatus>(OnArchiveExtractProgress));
+            try { ZipFileWithProgress.ExtractToDirectory(tempFile, installationDirectoryPath, new ActionProgress<ZipProgressStatus>(OnArchiveExtractProgress)); }
+            catch (Exception exception)
+            {
+                if (_isSilent)
+                {
+                    File.Delete(tempFile);
+                    Environment.Exit(25);
+                }
+                DispatcherQueue.TryEnqueue(() => TbInstallProgress.Text = $"ERROR: {exception.Message}");
+            }
 
             // Update the UI
             DispatcherQueue.TryEnqueue(() =>
@@ -201,14 +226,27 @@ public sealed partial class InstallerWindow : WindowEx
         BtInstall.Content = "Registering Program...";
 
         // Register the program to the registry (User)
+        bool isRegistered = false;
         await Task.Run(() =>
         {
-            ShortcutHelper.CreateShortcutToProgramsFolder(_installManifest);
-            RegistryHelper.ComposeUninstallerRegistryKey(uninstallManifest);
+            try
+            {
+                ShortcutHelper.CreateShortcutToProgramsFolder(_installManifest);
+                RegistryHelper.ComposeUninstallerRegistryKey(uninstallManifest);
+                isRegistered = true;
+            }
+            catch (Exception exception)
+            {
+                if (_isSilent) Environment.Exit(26);
+                TbInstallProgress.Text = $"ERROR: {exception.Message}";
+            }
         });
+        if (!isRegistered) return;
 
         // Update the UI
         PbInstallProgress.Visibility = Visibility.Collapsed;
+
+        if (_isSilent) Environment.Exit(0);
 
         // Update the UI and setup the timer for exit
         var secondsRemaining = SecondsForExitAfterInstallationComplete;
