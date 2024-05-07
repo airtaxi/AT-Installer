@@ -28,11 +28,6 @@ public sealed partial class InstallerWindow : WindowEx
         _packageFilePath = packageFilePath;
 		InitializeComponent();
         Initialize();
-        if (isSlient)
-        {
-            AppWindow.IsShownInSwitchers = false;
-            AppWindow.Hide();
-        }
 	}
 
     private async void Initialize()
@@ -98,17 +93,11 @@ public sealed partial class InstallerWindow : WindowEx
                 BtInstall.Content = "Can't Downgrade";
                 if (_isSilent) Environment.Exit(24);
             }
-            else if (installedApplicationExecutableFileVersion == installManifest.Version)
-            {
-                BtInstall.Content = "Reinstall";
-                if (_isSilent) OnInstallButtonClicked(null, null);
-            }
-            else
-            {
-                BtInstall.Content = "Update";
-                if (_isSilent) OnInstallButtonClicked(null, null);
-            }
+            else if (installedApplicationExecutableFileVersion == installManifest.Version) BtInstall.Content = "Reinstall";
+            else BtInstall.Content = "Update";
         }
+
+        if (_isSilent) OnInstallButtonClicked(null, null);
 
         // Hide loading
         GdLoading.Visibility = Visibility.Collapsed;
