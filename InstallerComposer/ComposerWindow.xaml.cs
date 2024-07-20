@@ -169,7 +169,7 @@ public sealed partial class ComposerWindow : WindowEx
 		}
 	}
 
-	private bool ValidateFields()
+	private async Task<bool> ValidateFieldsAsync()
 	{
 		// Retrieve all fields
 		var applicationId = TbxApplicationId.Text;
@@ -182,28 +182,25 @@ public sealed partial class ComposerWindow : WindowEx
 		// Check if the application ID is a valid GUID
         var isValidApplicationId = Guid.TryParse(applicationId, out _);
 		if (!isValidApplicationId)
-		{
-			TbWarning.Text = "The Application ID field is not a valid GUID";
-			TbWarning.Visibility = Visibility.Visible;
-			return false;
+        {
+            await Content.ShowDialogAsync("Error", "The Application ID field is not a valid GUID", "OK");
+            return false;
 		}
 
 		// Check if the application name is not empty
 		var isValidApplicationName = !string.IsNullOrWhiteSpace(applicationName);
 		if (!isValidApplicationName)
 		{
-			TbWarning.Text = "The Application Name field is empty";
-			TbWarning.Visibility = Visibility.Visible;
+            await Content.ShowDialogAsync("Error", "The Application Name field is empty", "OK");
 			return false;
 		}
 
 		// Check if the application publisher is not empty
 		var isValidApplicationPublisher = !string.IsNullOrWhiteSpace(applicationPublisher);
 		if (!isValidApplicationPublisher)
-		{
-			TbWarning.Text = "The Application Publisher field is empty";
-			TbWarning.Visibility = Visibility.Visible;
-			return false;
+        {
+            await Content.ShowDialogAsync("Error", "The Application Publisher field is empty", "OK");
+            return false;
 		}
 
 
@@ -211,9 +208,8 @@ public sealed partial class ComposerWindow : WindowEx
 		var isValidApplicationRootDirectoryPath = !string.IsNullOrWhiteSpace(applicationRootDirectoryPath);
 		isValidApplicationRootDirectoryPath &= Directory.Exists(applicationRootDirectoryPath);
 		if (!isValidApplicationRootDirectoryPath)
-		{
-			TbWarning.Text = "The Application Root Directory field is empty or the directory does not exist";
-			TbWarning.Visibility = Visibility.Visible;
+        {
+            await Content.ShowDialogAsync("Error", "The Application Root Directory field is empty or the directory does not exist", "OK");
 			return false;
 		}
 
@@ -221,27 +217,24 @@ public sealed partial class ComposerWindow : WindowEx
 		var applicationExecutableFilePath = Path.Combine(applicationRootDirectoryPath, applicationExecutableFileName);
 		var isValidApplicationExecutableFile = !string.IsNullOrWhiteSpace(applicationExecutableFileName) && File.Exists(applicationExecutableFilePath);
 		if (!isValidApplicationExecutableFile)
-		{
-			TbWarning.Text = "Application Executable File is not selected or the file does not exist";
-			TbWarning.Visibility = Visibility.Visible;
+        {
+            await Content.ShowDialogAsync("Error", "Application Executable File is not selected or the file does not exist", "OK");
 			return false;
 		}
 
 		// Check if the application installation folder name is not empty
 		var isValidApplicationInstallationFolderName = !string.IsNullOrWhiteSpace(applicationInstallationFolderName);
         if (!isValidApplicationInstallationFolderName)
-		{
-            TbWarning.Text = "The Application Installation Folder Name field is empty";
-            TbWarning.Visibility = Visibility.Visible;
+        {
+            await Content.ShowDialogAsync("Error", "The Application Installation Folder Name field is empty", "OK");
             return false;
         }
 
 		// Check if the application installation folder name does not contain illegal characters
 		isValidApplicationInstallationFolderName = Utils.RemoveIllegalCharacters(applicationInstallationFolderName) == applicationInstallationFolderName;
         if (!isValidApplicationInstallationFolderName)
-		{
-            TbWarning.Text = "The Application Installation Folder Name field contains illegal characters";
-            TbWarning.Visibility = Visibility.Visible;
+        {
+            await Content.ShowDialogAsync("Error", "The Application Installation Folder Name field contains illegal characters", "OK");
             return false;
         }
 
@@ -334,7 +327,6 @@ public sealed partial class ComposerWindow : WindowEx
 		TbxApplicationRootDirectoryPath.Text = "";
 		CbxApplicationExecutableFileName.IsEnabled = false;
 		CbxApplicationExecutableFileName.SelectedItem = null;
-		TbWarning.Visibility = Visibility.Collapsed;
 
 		// Reset the binary field
 		_applicationIconBinary = null;
@@ -345,10 +337,8 @@ public sealed partial class ComposerWindow : WindowEx
 	private async void OnExportPackageMenuFlyoutItemClicked(object sender, RoutedEventArgs e)
 	{
 		// Validate fields
-		var isAllFieldsValid = ValidateFields();
+		var isAllFieldsValid = await ValidateFieldsAsync();
 		if (!isAllFieldsValid) return; // Validation failed
-
-		TbWarning.Visibility = Visibility.Collapsed; // Hide the warning message since the validation has succeeded
 
 		await ExportPackageAsync();
 	}
@@ -385,7 +375,6 @@ public sealed partial class ComposerWindow : WindowEx
 		TbxApplicationName.Text = installManifest.Name;
 		TbxApplicationPublisher.Text = installManifest.Publisher;
 		TbxApplicationInstallationFolderName.Text = installManifest.InstallationFolderName ?? installManifest.Name; // Fall back to the application name if the installation folder name is not set (for backward compatibility)
-        TbWarning.Visibility = Visibility.Collapsed;
 
 		// Set the binary field
 		_applicationIconBinary = installManifest.IconBinary;
