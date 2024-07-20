@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace InstallerCommons.ZipHelper
+﻿namespace InstallerCommons.ZipHelper
 {
     public class ActionProgress<T>(Action<T> handler) : IProgress<T>
     {

@@ -1,12 +1,6 @@
 ﻿using ImageMagick;
-using InstallerCommons;
 using Microsoft.Win32;
-using ShellLink;
-using System.Drawing;
-using System.IO;
 using System.Text;
-using Windows.Storage.Streams;
-using WinUIEx;
 
 namespace InstallerCommons.Helper;
 

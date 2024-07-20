@@ -14,6 +14,13 @@
     mc:Ignorable="d">
 
     <Grid x:Name="GdMain" VerticalAlignment="Center">
+        <Grid.Resources>
+            <XamlUICommand x:Key="BrowseApplicationRootDirectoryCommand" ExecuteRequested="OnBrowseApplicationRootDirectoryRequested">
+                <XamlUICommand.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="B" Modifiers="Control" />
+                </XamlUICommand.KeyboardAccelerators>
+            </XamlUICommand>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
             <RowDefinition Height="Auto" />
@@ -48,11 +55,19 @@
                 <MenuFlyoutItem
                     AccessKey="L"
                     Click="OnLoadPackageInformationMenuFlyoutItemClicked"
-                    Text="Load Manifest From Package" />
+                    Text="Load Manifest From Package">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="O" Modifiers="Control" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
                 <MenuFlyoutItem
                     AccessKey="E"
                     Click="OnExportPackageMenuFlyoutItemClicked"
-                    Text="Export Package" />
+                    Text="Export Package">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="X" Modifiers="Control" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
                 <MenuFlyoutSeparator />
                 <MenuFlyoutItem
                     AccessKey="X"
@@ -163,7 +178,7 @@
                 <Button
                     Grid.Column="1"
                     VerticalAlignment="Bottom"
-                    Click="OnBrowseApplicationRootDirectoryButtonClicked"
+                    Command="{StaticResource BrowseApplicationRootDirectoryCommand}"
                     Content="..." />
             </Grid>
             <Grid Margin="0,0,0,0" ColumnSpacing="5">

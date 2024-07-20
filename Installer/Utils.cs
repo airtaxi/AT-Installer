@@ -1,6 +1,4 @@
-﻿using InstallerCommons;
-
-namespace InstallerCommons;
+﻿namespace InstallerCommons;
 
 public static class Utils
 {

@@ -1,6 +1,4 @@
-﻿using InstallerCommons;
-using Newtonsoft.Json;
-using System.Text;
+﻿using System.Text;
 using WinUIEx;
 
 namespace InstallerCommons;

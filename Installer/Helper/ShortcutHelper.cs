@@ -1,5 +1,4 @@
-﻿using InstallerCommons;
-using ShellLink;
+﻿using ShellLink;
 
 namespace InstallerCommons.Helper;
 

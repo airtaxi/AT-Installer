@@ -292,31 +292,6 @@ public sealed partial class ComposerWindow : WindowEx
 		ImgApplicationIconThumbnail.Source = bitmapImage;
 	}
 
-	private async void OnBrowseApplicationRootDirectoryButtonClicked(object sender, RoutedEventArgs e)
-	{
-		// Pick a folder
-		var picker = new FolderPicker();
-		WinRT.Interop.InitializeWithWindow.Initialize(picker, this.GetWindowHandle());
-
-		// Get the folder
-		var folder = await picker.PickSingleFolderAsync();
-		if (folder == null) return; // User cancelled
-
-		// Check if there is any executable file
-		var files = await folder.GetFilesAsync();
-		var executableFiles = files.Where(file => file.FileType == ".exe");
-		if(!executableFiles.Any())
-		{
-			await Content.ShowDialogAsync("Error", "No executable file found in the selected folder", "OK");
-			return;
-		}
-
-		// Setup UI
-		TbxApplicationRootDirectoryPath.Text = folder.Path;
-		CbxApplicationExecutableFileName.IsEnabled = true;
-		CbxApplicationExecutableFileName.ItemsSource = executableFiles.Select(file => file.Name);
-	}
-
 	private void OnNewPackageMenuFlyoutItemClicked(object sender, RoutedEventArgs e)
 	{
 		// Reset all fields and UI
@@ -388,5 +363,30 @@ public sealed partial class ComposerWindow : WindowEx
 		// Update the window height
 		var height = GdMain.ActualHeight + 10; // 10 is the margin by WinUI
         Height = height;
+    }
+
+    private async void OnBrowseApplicationRootDirectoryRequested(Microsoft.UI.Xaml.Input.XamlUICommand sender, Microsoft.UI.Xaml.Input.ExecuteRequestedEventArgs args)
+    {
+        // Pick a folder
+        var picker = new FolderPicker();
+        WinRT.Interop.InitializeWithWindow.Initialize(picker, this.GetWindowHandle());
+
+        // Get the folder
+        var folder = await picker.PickSingleFolderAsync();
+        if (folder == null) return; // User cancelled
+
+        // Check if there is any executable file
+        var files = await folder.GetFilesAsync();
+        var executableFiles = files.Where(file => file.FileType == ".exe");
+        if (!executableFiles.Any())
+        {
+            await Content.ShowDialogAsync("Error", "No executable file found in the selected folder", "OK");
+            return;
+        }
+
+        // Setup UI
+        TbxApplicationRootDirectoryPath.Text = folder.Path;
+        CbxApplicationExecutableFileName.IsEnabled = true;
+        CbxApplicationExecutableFileName.ItemsSource = executableFiles.Select(file => file.Name);
     }
 }
