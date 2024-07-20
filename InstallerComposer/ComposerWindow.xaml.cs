@@ -21,10 +21,6 @@ public sealed partial class ComposerWindow : WindowEx
 		InitializeComponent();
 		ExtendsContentIntoTitleBar = true;
 		SystemBackdrop = new MicaBackdrop() { Kind = Microsoft.UI.Composition.SystemBackdrops.MicaKind.Base };
-
-		var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500) };
-		timer.Tick += OnUpdateHeightTimerTick;
-		timer.Start();
     }
 
     private async Task ExportPackageAsync()
@@ -355,13 +351,6 @@ public sealed partial class ComposerWindow : WindowEx
 
 		// Set the thumbnail
 		ApplyThumbnailFromApplicationIconBinaryField();
-    }
-
-    private void OnUpdateHeightTimerTick(object sender, object e)
-    {
-		// Update the window height
-		var height = GdMain.ActualHeight + 10; // 10 is the margin by WinUI
-        Height = height;
     }
 
     private async void OnBrowseApplicationRootDirectoryRequested(Microsoft.UI.Xaml.Input.XamlUICommand sender, Microsoft.UI.Xaml.Input.ExecuteRequestedEventArgs args)
