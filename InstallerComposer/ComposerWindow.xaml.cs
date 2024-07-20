@@ -113,7 +113,7 @@ public sealed partial class ComposerWindow : WindowEx
 				{
 					DispatcherQueue.TryEnqueue(() =>
 					{
-						TbLoading.Text = $"Exporting Package... ({progress:P0})"; // Update the loading text
+						TbLoading.Text = $"Exporting Package... ({progress.Progress:P0})"; // Update the loading text
 					});
 				}));
 
