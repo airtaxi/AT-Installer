@@ -13,6 +13,8 @@ public static class ZipFileNative
         double totalBytes = sourceFiles.Sum(f => f.Length);
         long currentBytes = 0;
 
+        if (File.Exists(destinationArchiveFileName)) File.Delete(destinationArchiveFileName);
+
         using var archive = ZipFile.Open(destinationArchiveFileName, ZipArchiveMode.Create, Encoding.UTF8);
         foreach (var file in sourceFiles)
         {
