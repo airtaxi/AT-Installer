@@ -13,7 +13,7 @@
 		<EnableMsixTooling>true</EnableMsixTooling>
 		<WindowsPackageType>None</WindowsPackageType>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<ApplicationIcon>icon.ico</ApplicationIcon>
+		<ApplicationIcon>Icon.ico</ApplicationIcon>
 		<Version>1.0.2.3</Version>
 		<Version></Version>
 	</PropertyGroup>

@@ -18,10 +18,11 @@ public sealed partial class InstallerWindow : WindowEx
     private bool _isSilent;
 
     public InstallerWindow(string packageFilePath, bool isSlient)
-	{
+    {
         _isSilent = isSlient;
         _packageFilePath = packageFilePath;
 		InitializeComponent();
+        AppWindow.SetIcon("Icon.ico");
         Initialize();
 	}
 

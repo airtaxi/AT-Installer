@@ -19,7 +19,8 @@ public sealed partial class ComposerWindow : WindowEx
 	public ComposerWindow()
 	{
 		InitializeComponent();
-		ExtendsContentIntoTitleBar = true;
+        AppWindow.SetIcon("Icon.ico");
+        ExtendsContentIntoTitleBar = true;
 		SystemBackdrop = new MicaBackdrop() { Kind = Microsoft.UI.Composition.SystemBackdrops.MicaKind.Base };
     }
 
@@ -153,10 +154,10 @@ public sealed partial class ComposerWindow : WindowEx
 			// Display the success message
 			await Content.ShowDialogAsync("Success", "The package has been exported successfully", "OK");
 		}
-		catch (Exception)
+		catch (Exception exception)
 		{
 			// display error message
-			await Content.ShowDialogAsync("Error", "An error occurred while exporting the package", "OK");
+			await Content.ShowDialogAsync("Error", $"An error occurred while exporting the package\n{exception.Message}: {exception.StackTrace}", "OK");
 		}
 		finally
 		{

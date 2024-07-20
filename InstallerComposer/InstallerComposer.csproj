@@ -13,7 +13,7 @@
 		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 		<WindowsPackageType>None</WindowsPackageType>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<ApplicationIcon>icon.ico</ApplicationIcon>
+		<ApplicationIcon>Icon.ico</ApplicationIcon>
 		<AssemblyName>AT Installer Composer</AssemblyName>
 		<Version>1.0.1.4</Version>
 	</PropertyGroup>
@@ -22,10 +22,12 @@
 		<None Remove="icon.png" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Content Include="icon.ico" />
+	  <Content Include="Icon.ico">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
 	</ItemGroup>
 	<ItemGroup>
-	  <Resource Include="icon.ico">
+	  <Resource Include="Icon.ico">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
 	</ItemGroup>
