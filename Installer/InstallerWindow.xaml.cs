@@ -1,15 +1,10 @@
-using ICSharpCode.SharpZipLib.Zip;
 using InstallerCommons.Helper;
-using InstallerCommons;
-using Ionic.Zip;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Reflection;
 using WinUIEx;
-using ZipFile = Ionic.Zip.ZipFile;
 using InstallerCommons.ZipHelper;
-using Windows.Services.Maps;
 
 namespace InstallerCommons;
 
@@ -55,11 +50,7 @@ public sealed partial class InstallerWindow : WindowEx
         string manifestJson = default; // This variable will be set in the task
         await Task.Run(() =>
         {
-            using var zip = ZipFile.Read(_packageFilePath);
-            var manifest = zip["manifest.json"];
-            using var reader = manifest.OpenReader();
-            using var streamReader = new StreamReader(reader);
-            manifestJson = streamReader.ReadToEnd();
+            manifestJson = ZipFileNative.ReadFileText(_packageFilePath, "manifest.json");
         });
         var installManifest = JsonConvert.DeserializeObject<InstallManifest>(manifestJson);
         _installManifest = installManifest;
@@ -128,22 +119,12 @@ public sealed partial class InstallerWindow : WindowEx
 
         await Task.Run(() =>
         {
-            // Read the package
-            using var package = ZipFile.Read(_packageFilePath);
-
-            // Get the archive entry
-            var archiveEntry = package[_installManifest.ArchiveFileName];
-            using var archiveEntryReader = archiveEntry.OpenReader();
-
             // Update the UI
             DispatcherQueue.TryEnqueue(() => BtInstall.Content = "Preparing Archive...");
 
             // Extract the archive entry to a temp file
             var tempFile = Path.GetTempFileName();
-            var tempFileStream = File.OpenWrite(tempFile);
-            archiveEntryReader.CopyTo(tempFileStream);
-            tempFileStream.Close();
-            tempFileStream.Dispose();
+            ZipFileNative.ExtractFile(_packageFilePath, _installManifest.ArchiveFileName, tempFile, new ActionProgress<ZipProgressStatus>(OnArchiveExtractProgress));
 
             // Update the UI
             DispatcherQueue.TryEnqueue(() => BtInstall.Content = "Installing...");
