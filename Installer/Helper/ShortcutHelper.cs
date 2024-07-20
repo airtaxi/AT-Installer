@@ -1,6 +1,7 @@
-﻿using ShellLink;
+﻿using InstallerCommons;
+using ShellLink;
 
-namespace InstallerCommons.Helper;
+namespace Installer.Helper;
 
 public static class ShortcutHelper
 {

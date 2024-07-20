@@ -1,8 +1,9 @@
 ﻿using ImageMagick;
+using InstallerCommons;
 using Microsoft.Win32;
 using System.Text;
 
-namespace InstallerCommons.Helper;
+namespace Installer.Helper;
 
 public static class RegistryHelper
 {

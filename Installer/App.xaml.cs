@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using WinUIEx;
 
-namespace InstallerCommons;
+namespace Installer;
 
 public partial class App : Application
 {

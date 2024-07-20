@@ -1,5 +1,5 @@
-using InstallerCommons;
-using InstallerCommons.ZipHelper;
+using Installer;
+using Installer.ZipHelper;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Newtonsoft.Json;
 using System.Diagnostics;

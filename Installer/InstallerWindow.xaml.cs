@@ -1,12 +1,13 @@
-using InstallerCommons.Helper;
+using Installer.Helper;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Reflection;
 using WinUIEx;
 using InstallerCommons.ZipHelper;
+using InstallerCommons;
 
-namespace InstallerCommons;
+namespace Installer;
 
 public sealed partial class InstallerWindow : WindowEx
 {
