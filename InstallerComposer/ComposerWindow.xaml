@@ -1,51 +1,72 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <winuiex:WindowEx
     x:Class="InstallerComposer.ComposerWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:InstallerComposer"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:InstallerComposer"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winuiex="using:WinUIEx"
-    mc:Ignorable="d"
     Width="600"
     Height="300"
+    IsMaximizable="False"
     IsResizable="False"
-    IsMaximizable="False">
+    mc:Ignorable="d">
 
     <Grid x:Name="GdMain" VerticalAlignment="Center">
         <Grid.RowDefinitions>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="32" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel
             Grid.Row="0"
-            Orientation="Horizontal"
-            Spacing="8"
             HorizontalAlignment="Left"
-            VerticalAlignment="Center">
+            VerticalAlignment="Center"
+            Orientation="Horizontal"
+            Spacing="8">
             <Image
-                Source="ms-appx:///Assets/Icon.png"
                 Height="16"
-                Margin="10,0,0,0"/>
+                Margin="10,0,0,0"
+                Source="ms-appx:///Assets/Icon.png" />
             <TextBlock
-                Text="AT Installer Composer"
-                Style="{ThemeResource BodyTextBlockStyle}"
                 HorizontalAlignment="Left"
-                VerticalAlignment="Center"/>
+                VerticalAlignment="Center"
+                Style="{ThemeResource BodyTextBlockStyle}"
+                Text="AT Installer Composer" />
         </StackPanel>
         <MenuBar Grid.Row="1">
-            <MenuBarItem Title="File" AccessKey="F">
-                <MenuFlyoutItem Text="New Package" AccessKey="N" Click="OnNewPackageMenuFlyoutItemClicked"/>
-                <MenuFlyoutSeparator/>
-                <MenuFlyoutItem Text="Load Manifest From Package" AccessKey="L" Click="OnLoadPackageInformationMenuFlyoutItemClicked"/>
-                <MenuFlyoutItem Text="Export Package" AccessKey="E" Click="OnExportPackageMenuFlyoutItemClicked"/>
-                <MenuFlyoutSeparator/>
-                <MenuFlyoutItem Text="Exit" AccessKey="X" Click="OnExitMenuFlyoutItemClicked"/>
+            <MenuBarItem
+                Title="File"
+                AccessKey="F"
+                IsAccessKeyScope="True">
+                <MenuFlyoutItem
+                    AccessKey="N"
+                    Click="OnNewPackageMenuFlyoutItemClicked"
+                    Text="New Package" />
+                <MenuFlyoutSeparator />
+                <MenuFlyoutItem
+                    AccessKey="L"
+                    Click="OnLoadPackageInformationMenuFlyoutItemClicked"
+                    Text="Load Manifest From Package" />
+                <MenuFlyoutItem
+                    AccessKey="E"
+                    Click="OnExportPackageMenuFlyoutItemClicked"
+                    Text="Export Package" />
+                <MenuFlyoutSeparator />
+                <MenuFlyoutItem
+                    AccessKey="X"
+                    Click="OnExitMenuFlyoutItemClicked"
+                    Text="Exit" />
             </MenuBarItem>
-            <MenuBarItem Title="Help" AccessKey="H">
-                <MenuFlyoutItem Text="About" AccessKey="A" Click="OnAboutMenuFlyoutItemClicked"/>
+            <MenuBarItem
+                Title="Help"
+                AccessKey="H"
+                IsAccessKeyScope="True">
+                <MenuFlyoutItem
+                    AccessKey="A"
+                    Click="OnAboutMenuFlyoutItemClicked"
+                    Text="About" />
             </MenuBarItem>
         </MenuBar>
         <StackPanel
@@ -55,122 +76,116 @@
             BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
             BorderThickness="0,1,0,0">
             <TextBlock
-                Text="Application Manifest"
+                Margin="0,10,0,10"
                 Style="{ThemeResource TitleTextBlockStyle}"
-                Margin="0,10,0,10"/>
-            
-            <Grid ColumnSpacing="5" Margin="0,0,0,11">
+                Text="Application Manifest" />
+
+            <Grid Margin="0,0,0,11" ColumnSpacing="5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBox
                     x:Name="TbxApplicationId"
                     Grid.Column="0"
-                    PlaceholderText="GUID String"
-                    Header="Application ID"/>
+                    Header="Application ID"
+                    PlaceholderText="GUID String" />
                 <Button
                     Grid.Column="1"
-                    Content="Generate"
                     VerticalAlignment="Bottom"
-                    Click="OnGenerateApplicationIdButtonClicked"/>
+                    Click="OnGenerateApplicationIdButtonClicked"
+                    Content="Generate" />
             </Grid>
-            <Grid ColumnSpacing="5" Margin="0,0,0,10">
+            <Grid Margin="0,0,0,10" ColumnSpacing="5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBox
                     x:Name="TbxApplicationName"
                     Grid.Column="0"
-                    PlaceholderText="e.g. My Application"
-                    Header="Application Name"/>
+                    Header="Application Name"
+                    PlaceholderText="e.g. My Application" />
                 <TextBox
                     x:Name="TbxApplicationPublisher"
                     Grid.Column="1"
-                    PlaceholderText="e.g. My Company"
-                    Header="Application Publisher"/>
+                    Header="Application Publisher"
+                    PlaceholderText="e.g. My Company" />
             </Grid>
             <TextBox
                 x:Name="TbxApplicationInstallationFolderName"
-                PlaceholderText="e.g. MyApplication"
+                Margin="0,0,0,10"
                 Header="Application Installation Folder Name"
-                Margin="0,0,0,10"/>
-            <Grid ColumnSpacing="5" Margin="0,0,0,10">
+                PlaceholderText="e.g. MyApplication" />
+            <Grid Margin="0,0,0,10" ColumnSpacing="5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <StackPanel
-                    Grid.Column="0">
-                    <TextBlock
-                        Text="Application Icon"
-                        Margin="0,0,0,7.5"/>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Margin="0,0,0,7.5" Text="Application Icon" />
                     <Grid
                         Width="100"
                         Height="100"
                         HorizontalAlignment="Left">
-                        <Rectangle Fill="{ThemeResource LayerOnMicaBaseAltFillColorSecondaryBrush}"/>
-                        <Image x:Name="ImgApplicationIconThumbnail"/>
+                        <Rectangle Fill="{ThemeResource LayerOnMicaBaseAltFillColorSecondaryBrush}" />
+                        <Image x:Name="ImgApplicationIconThumbnail" />
                         <Button
-                            Background="Transparent"
-                            BorderBrush="Transparent"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
-                            Opacity="0.2"
-                            Click="OnBrowseIconFileButtonClicked">
-                            <SymbolIcon Symbol="Pictures"/>
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            Click="OnBrowseIconFileButtonClicked"
+                            Opacity="0.2">
+                            <SymbolIcon Symbol="Pictures" />
                         </Button>
                     </Grid>
                 </StackPanel>
             </Grid>
-            
+
             <TextBlock
-                Text="Application Data"
+                Margin="0,0,0,10"
                 Style="{ThemeResource TitleTextBlockStyle}"
-                Margin="0,0,0,10"/>
-            
-            <Grid ColumnSpacing="5" Margin="0,0,0,10">
+                Text="Application Data" />
+
+            <Grid Margin="0,0,0,10" ColumnSpacing="5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <StackPanel
-                    Grid.Column="0">
-                    <TextBlock
-                        Text="Application Root Directory"
-                        Margin="0,0,0,7.5"/>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Margin="0,0,0,7.5" Text="Application Root Directory" />
                     <TextBox
                         x:Name="TbxApplicationRootDirectoryPath"
-                        PlaceholderText="Path to the application root directory"
-                        IsTabStop="False"/>
+                        IsTabStop="False"
+                        PlaceholderText="Path to the application root directory" />
                 </StackPanel>
                 <Button
                     Grid.Column="1"
-                    Content="..."
                     VerticalAlignment="Bottom"
-                    Click="OnBrowseApplicationRootDirectoryButtonClicked"/>
+                    Click="OnBrowseApplicationRootDirectoryButtonClicked"
+                    Content="..." />
             </Grid>
-            <Grid ColumnSpacing="5" Margin="0,0,0,0">
+            <Grid Margin="0,0,0,0" ColumnSpacing="5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <ComboBox
                     x:Name="CbxApplicationExecutableFileName"
                     Grid.Column="0"
-                    PlaceholderText="File Name"
-                    Header="Application Executable File"
                     HorizontalAlignment="Stretch"
-                    IsEnabled="False"/>
+                    Header="Application Executable File"
+                    IsEnabled="False"
+                    PlaceholderText="File Name" />
             </Grid>
             <TextBlock
                 x:Name="TbWarning"
+                Margin="0,10,0,0"
                 Foreground="Red"
-                Text="Warning Placeholder Text"
                 Style="{ThemeResource BodyStrongTextBlockStyle}"
-                Visibility="Collapsed"
-                Margin="0,10,0,0"/>
+                Text="Warning Placeholder Text"
+                Visibility="Collapsed" />
         </StackPanel>
         <Grid
             x:Name="GdLoading"
@@ -178,23 +193,21 @@
             Margin="-10"
             Visibility="Collapsed">
             <Grid.Background>
-                <AcrylicBrush Opacity="0.5" TintColor="{ThemeResource LayerOnMicaBaseAltFillColorDefault}"/>
+                <AcrylicBrush Opacity="0.5" TintColor="{ThemeResource LayerOnMicaBaseAltFillColorDefault}" />
             </Grid.Background>
-            <StackPanel
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <ProgressRing
-                    IsIndeterminate="True"
                     Width="85"
-                    Height="85"/>
+                    Height="85"
+                    IsIndeterminate="True" />
                 <TextBlock
                     x:Name="TbLoading"
-                    Text="Loading..."
-                    Style="{ThemeResource BodyTextBlockStyle}"
+                    Margin="0,10,0,0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    TextAlignment="Center"
-                    Margin="0,10,0,0"/>
+                    Style="{ThemeResource BodyTextBlockStyle}"
+                    Text="Loading..."
+                    TextAlignment="Center" />
             </StackPanel>
         </Grid>
     </Grid>
