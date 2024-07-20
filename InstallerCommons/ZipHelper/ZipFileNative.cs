@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace InstallerCommons.ZipHelper
 {
-    public static class ZipFileWithProgress
+    public static class ZipFileNative
     {
         public static void CreateFromDirectory(string sourceDirectoryName, string destinationArchiveFileName, CompressionLevel compressionLevel = CompressionLevel.Optimal, IProgress<ZipProgressStatus> progress = null)
         {
@@ -63,6 +63,31 @@ namespace InstallerCommons.ZipHelper
 
                 File.SetLastWriteTime(fileName, entry.LastWriteTime.LocalDateTime);
             }
+        }
+
+        public static byte[] ReadFileBytes(string sourceArchiveFileName, string fileName)
+        {
+            using var archive = ZipFile.Open(sourceArchiveFileName, ZipArchiveMode.Read, Encoding.UTF8);
+            var entry = archive.GetEntry(fileName);
+            if (entry == null) return null;
+
+            using var inputStream = entry.Open();
+            using var outputStream = new MemoryStream();
+            inputStream.CopyTo(outputStream);
+
+            return outputStream.ToArray();
+        }
+
+        public static string ReadFileText(string sourceArchiveFileName, string fileName)
+        {
+            using var archive = ZipFile.Open(sourceArchiveFileName, ZipArchiveMode.Read, Encoding.UTF8);
+            var entry = archive.GetEntry(fileName);
+            if (entry == null) return null;
+
+            using var inputStream = entry.Open();
+            using var reader = new StreamReader(inputStream);
+
+            return reader.ReadToEnd();
         }
     }
 }

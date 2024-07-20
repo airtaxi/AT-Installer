@@ -1,14 +1,10 @@
 using InstallerCommons;
 using InstallerCommons.ZipHelper;
-using Ionic.Zip;
-using Ionic.Zlib;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using WinUI.Utils;
@@ -100,7 +96,7 @@ public sealed partial class ComposerWindow : WindowEx
 				var uninstallManifestFilePath = Path.Combine(applicationRootDirectoryPath, "uninstall.json");
 				byte[] existingUninstallManifest = File.Exists(uninstallManifestFilePath) ? File.ReadAllBytes(uninstallManifestFilePath) : null;
 				File.WriteAllText(uninstallManifestFilePath, uninstallManifestJson);
-                ZipFileWithProgress.CreateFromDirectory(applicationRootDirectoryPath, archiveFilePath, System.IO.Compression.CompressionLevel.NoCompression, new ActionProgress<ZipProgressStatus>((progress) =>
+                ZipFileNative.CreateFromDirectory(applicationRootDirectoryPath, archiveFilePath, System.IO.Compression.CompressionLevel.NoCompression, new ActionProgress<ZipProgressStatus>((progress) =>
                 {
                     DispatcherQueue.TryEnqueue(() =>
                     {
@@ -117,23 +113,15 @@ public sealed partial class ComposerWindow : WindowEx
 			await Task.Run(() =>
 			{
 				var archiveFilePath = Path.Combine(tempDirectoryPath, "Package.atp");
-				using var zip = new ZipFile();
-
-				zip.SaveProgress += (s, e) =>
+				ZipFileNative.CreateFromDirectory(instancePath, archiveFilePath, System.IO.Compression.CompressionLevel.Optimal, new ActionProgress<ZipProgressStatus>((progress) =>
 				{
-					if (e.CurrentEntry?.FileName != "data.bin") return; // Only show the progress of the data.bin file
-
-					var progress = (double)e.BytesTransferred / e.TotalBytesToTransfer;
-					if (double.IsNaN(progress)) return; // Ignore NaN
-
 					DispatcherQueue.TryEnqueue(() =>
 					{
 						TbLoading.Text = $"Exporting Package... ({progress:P0})"; // Update the loading text
 					});
-				};
-				zip.AddDirectory(instancePath);
-				zip.Save(archiveFilePath);
-			});
+				}));
+
+            });
 
 			// Clean up the instance directory
 			TbLoading.Text = "Cleaning Up..."; // Update the loading text
@@ -383,11 +371,7 @@ public sealed partial class ComposerWindow : WindowEx
 		string manifestJson = default; // This variable will be set in the task
 		await Task.Run(() =>
 		{
-			using var zip = ZipFile.Read(file.Path);
-			var manifest = zip["manifest.json"];
-			using var reader = manifest.OpenReader();
-			using var streamReader = new StreamReader(reader);
-			manifestJson = streamReader.ReadToEnd();
+			manifestJson = ZipFileNative.ReadFileText(file.Path, "manifest.json");
 		});
 
 		GdLoading.Visibility = Visibility.Collapsed; // Hide the loading UI

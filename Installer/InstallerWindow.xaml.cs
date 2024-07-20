@@ -156,7 +156,7 @@ public sealed partial class InstallerWindow : WindowEx
             //var zip = new FastZip(events);
             //zip.ExtractZip(tempFile, installationDirectoryPath, FastZip.Overwrite.Always, null, null, null, true);
 
-            try { ZipFileWithProgress.ExtractToDirectory(tempFile, installationDirectoryPath, new ActionProgress<ZipProgressStatus>(OnArchiveExtractProgress)); }
+            try { ZipFileNative.ExtractToDirectory(tempFile, installationDirectoryPath, new ActionProgress<ZipProgressStatus>(OnArchiveExtractProgress)); }
             catch (Exception exception)
             {
                 if (_isSilent)
