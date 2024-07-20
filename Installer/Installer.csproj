@@ -31,7 +31,7 @@
 		<PackageReference Include="DotNetZip" Version="1.16.0" />
 		<PackageReference Include="Magick.NET-Q8-AnyCPU" Version="13.6.0" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240404000" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version=".0.22621.3233" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="securifybv.ShellLink" Version="0.1.0" />
 		<PackageReference Include="SharpZipLib" Version="1.4.2" />
