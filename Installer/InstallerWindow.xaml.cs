@@ -1,4 +1,3 @@
-using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using InstallerCommons.Helper;
 using InstallerCommons;
@@ -149,13 +148,6 @@ public sealed partial class InstallerWindow : WindowEx
             // Update the UI
             DispatcherQueue.TryEnqueue(() => BtInstall.Content = "Installing...");
 
-            //var events = new FastZipEvents();
-            //events.Progress += OnArchiveExtractProgress;
-            //events.ProgressInterval = TimeSpan.FromMilliseconds(100);
-
-            //var zip = new FastZip(events);
-            //zip.ExtractZip(tempFile, installationDirectoryPath, FastZip.Overwrite.Always, null, null, null, true);
-
             try { ZipFileNative.ExtractToDirectory(tempFile, installationDirectoryPath, new ActionProgress<ZipProgressStatus>(OnArchiveExtractProgress)); }
             catch (Exception exception)
             {
@@ -180,16 +172,6 @@ public sealed partial class InstallerWindow : WindowEx
 
             // Execute post installation task
             DispatcherQueue.TryEnqueue(OnPostInstallation);
-        });
-    }
-
-    private void OnArchiveExtractProgress(object sender, ProgressEventArgs e)
-    {
-        DispatcherQueue.TryEnqueue(() =>
-        {
-            PbInstallProgress.IsIndeterminate = false;
-            PbInstallProgress.Value = e.PercentComplete;
-            TbInstallProgress.Text = e.Name;
         });
     }
 

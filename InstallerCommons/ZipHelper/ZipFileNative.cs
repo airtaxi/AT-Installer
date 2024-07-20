@@ -40,8 +40,8 @@ namespace InstallerCommons.ZipHelper
         public static void ExtractToDirectory(string sourceArchiveFileName, string destinationDirectoryName, IProgress<ZipProgressStatus> progress = null)
         {
             using var archive = ZipFile.Open(sourceArchiveFileName, ZipArchiveMode.Read, Encoding.UTF8);
-            double totalBytes = archive.Entries.Sum(e => e.Length);
-            long currentBytes = 0;
+            var totalBytes = archive.Entries.Sum(e => e.Length);
+            double currentBytes = 0;
 
             foreach (ZipArchiveEntry entry in archive.Entries)
             {
@@ -51,8 +51,10 @@ namespace InstallerCommons.ZipHelper
                 Directory.CreateDirectory(directory);
 
                 if (fileName.EndsWith('\\') || fileName.EndsWith('/')) continue;
+
                 using var inputStream = entry.Open();
                 using var outputStream = File.Create(fileName);
+
                 var progressStream = new StreamWithProgress(outputStream, null, new ActionProgress<int>(i =>
                 {
                     currentBytes += i;
@@ -63,6 +65,29 @@ namespace InstallerCommons.ZipHelper
 
                 File.SetLastWriteTime(fileName, entry.LastWriteTime.LocalDateTime);
             }
+        }
+
+        public static void ExtractFile(string sourceArchiveFileName, string fileName, string outFilePath, IProgress<ZipProgressStatus> progress = null)
+        {
+            using var archive = ZipFile.Open(sourceArchiveFileName, ZipArchiveMode.Read, Encoding.UTF8);
+            var entry = archive.GetEntry(fileName);
+            if (entry == null) throw new FileNotFoundException("File not found in archive", fileName);
+
+            var totalBytes = entry.Length;
+            double currentBytes = 0;
+
+            using var inputStream = entry.Open();
+            using var outputStream = File.Create(outFilePath);
+
+            var progressStream = new StreamWithProgress(outputStream, null, new ActionProgress<int>(i =>
+            {
+                currentBytes += i;
+                progress?.Report(new(currentBytes / totalBytes, entry.Name));
+            }));
+
+            inputStream.CopyTo(progressStream);
+
+            File.SetLastWriteTime(outFilePath, entry.LastWriteTime.LocalDateTime);
         }
 
         public static byte[] ReadFileBytes(string sourceArchiveFileName, string fileName)
