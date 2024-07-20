@@ -1,11 +1,11 @@
 using InstallerCommons;
 using InstallerCommons.ZipHelper;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Newtonsoft.Json;
 using System.Diagnostics;
 using System.IO.Compression;
 using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text.Json;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using WinUIEx;
@@ -68,7 +68,7 @@ public sealed partial class ComposerWindow : WindowEx
 			await Task.Run(() =>
 			{
 				// Write the manifest file
-				File.WriteAllText(Path.Combine(instancePath, "manifest.json"), JsonConvert.SerializeObject(installManifest));
+				File.WriteAllText(Path.Combine(instancePath, "manifest.json"), JsonSerializer.Serialize(installManifest));
 			});
 
 			// Generate Uninstall Manifest
@@ -83,7 +83,7 @@ public sealed partial class ComposerWindow : WindowEx
 					InstallManifest = installManifest,
 					InstalledVersion = applicationExecutableFileVersion
 				};
-				uninstallManifestJson = JsonConvert.SerializeObject(uninstallManifest);
+				uninstallManifestJson = JsonSerializer.Serialize(uninstallManifest);
 			});
 
 			// Archive the application root directory
@@ -342,7 +342,7 @@ public sealed partial class ComposerWindow : WindowEx
 		GdLoading.Visibility = Visibility.Collapsed; // Hide the loading UI
 
 		// Deserialize the manifest
-		var installManifest = JsonConvert.DeserializeObject<InstallManifest>(manifestJson);
+		var installManifest = JsonSerializer.Deserialize<InstallManifest>(manifestJson);
 
 		// Setup UI
 		TbxApplicationId.Text = installManifest.Id;
