@@ -1,5 +1,5 @@
-using Installer;
-using Installer.ZipHelper;
+using InstallerCommons;
+using InstallerCommons.ZipHelper;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Newtonsoft.Json;
 using System.Diagnostics;
@@ -8,7 +8,6 @@ using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using WinUI.Utils;
 using WinUIEx;
 
 namespace InstallerComposer;
