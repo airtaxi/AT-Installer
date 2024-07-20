@@ -22,14 +22,13 @@ public partial class App : Application
 {
 	public App()
 	{
-		this.InitializeComponent();
+		DetoursCustomDPI.Handler.OverrideDefaltDpi(192f);
+		InitializeComponent();
 	}
 
 	protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
 	{
-		_window = new ComposerWindow();
-		_window.Activate();
+		var window = new ComposerWindow();
+		window.Activate();
 	}
-
-	private Window _window;
 }
