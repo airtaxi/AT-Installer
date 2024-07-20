@@ -3,6 +3,7 @@ using InstallerCommons.ZipHelper;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.IO.Compression;
 using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Storage;
@@ -96,7 +97,7 @@ public sealed partial class ComposerWindow : WindowEx
 				var uninstallManifestFilePath = Path.Combine(applicationRootDirectoryPath, "uninstall.json");
 				byte[] existingUninstallManifest = File.Exists(uninstallManifestFilePath) ? File.ReadAllBytes(uninstallManifestFilePath) : null;
 				File.WriteAllText(uninstallManifestFilePath, uninstallManifestJson);
-                ZipFileNative.CreateFromDirectory(applicationRootDirectoryPath, archiveFilePath, System.IO.Compression.CompressionLevel.NoCompression, new ActionProgress<ZipProgressStatus>((progress) =>
+                ZipFileNative.CreateFromDirectory(applicationRootDirectoryPath, archiveFilePath, CompressionLevel.NoCompression, new ActionProgress<ZipProgressStatus>((progress) =>
                 {
                     DispatcherQueue.TryEnqueue(() =>
                     {
@@ -113,7 +114,7 @@ public sealed partial class ComposerWindow : WindowEx
 			await Task.Run(() =>
 			{
 				var archiveFilePath = Path.Combine(tempDirectoryPath, "Package.atp");
-				ZipFileNative.CreateFromDirectory(instancePath, archiveFilePath, System.IO.Compression.CompressionLevel.Optimal, new ActionProgress<ZipProgressStatus>((progress) =>
+				ZipFileNative.CreateFromDirectory(instancePath, archiveFilePath, CompressionLevel.Optimal, new ActionProgress<ZipProgressStatus>((progress) =>
 				{
 					DispatcherQueue.TryEnqueue(() =>
 					{
@@ -136,7 +137,7 @@ public sealed partial class ComposerWindow : WindowEx
 			// Pick a file
 			var picker = new FileSavePicker();
 			WinRT.Interop.InitializeWithWindow.Initialize(picker, this.GetWindowHandle());
-			picker.FileTypeChoices.Add("AT Package", new List<string>() { ".atp" });
+			picker.FileTypeChoices.Add("AT Package", [".atp"]);
 			picker.SuggestedFileName = $"Package.atp";
 
 			// Get the file
