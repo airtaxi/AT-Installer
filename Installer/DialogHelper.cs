@@ -1,4 +1,6 @@
-﻿namespace Installer;
+﻿using Microsoft.UI.Xaml.Controls;
+
+namespace Installer;
 
 public static class DialogHelper
 {
