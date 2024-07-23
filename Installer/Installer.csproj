@@ -6,28 +6,26 @@
 		<RootNamespace>Installer</RootNamespace>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<Platforms>x86;x64;ARM64</Platforms>
-		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 		<RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
 		<PublishProfile>win-$(Platform).pubxml</PublishProfile>
-		<UseRidGraph>true</UseRidGraph>
-		<EnableMsixTooling>true</EnableMsixTooling>
+		<UseWinUI>true</UseWinUI>
 		<WindowsPackageType>None</WindowsPackageType>
+		<EnableMsixTooling>true</EnableMsixTooling>
+		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<ApplicationIcon>Icon.ico</ApplicationIcon>
 		<Version>1.0.2.3</Version>
-		<Version></Version>
 	</PropertyGroup>
 	<ItemGroup>
-	  <None Remove="Assets\Icon.png" />
+		<None Remove="Assets\Icon.png" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Content Include="Icon.ico">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
+		<Content Include="Icon.ico">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.WinUI.UI.Media" Version="7.1.2" />
 		<PackageReference Include="DetoursCustomDPI" Version="1.0.3" />
 		<PackageReference Include="Magick.NET-Q8-AnyCPU" Version="13.10.0" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240627000" />
@@ -37,22 +35,13 @@
 		<PackageReference Include="WinUIEx" Version="2.3.4" />
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
-
-	<!-- 
-    Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
-    Tools extension to be activated for this project even if the Windows App SDK Nuget
-    package has not yet been restored.
-  -->
-	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-		<ProjectCapability Include="Msix" />
+	<ItemGroup>
+		<ProjectReference Include="..\InstallerCommons\InstallerCommons.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\InstallerCommons\InstallerCommons.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Content Update="Assets\Icon.png">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
+		<Content Update="Assets\Icon.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 	<!-- 
@@ -63,4 +52,13 @@
 	<PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
 		<HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
 	</PropertyGroup>
+
+	<!-- 
+    Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
+    Tools extension to be activated for this project even if the Windows App SDK Nuget
+    package has not yet been restored.
+  -->
+	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+		<ProjectCapability Include="Msix" />
+	</ItemGroup>
 </Project>

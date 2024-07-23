@@ -46,7 +46,8 @@ public sealed partial class InstallerWindow : WindowEx
         // Show loading
         GdLoading.Visibility = Visibility.Visible;
 
-        await Task.Delay(100); // Wait for the UI to load
+        // Fake loading
+        await Task.Delay(500);
 
         // Read the manifest file
         string manifestJson = default; // This variable will be set in the task
