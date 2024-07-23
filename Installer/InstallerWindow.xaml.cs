@@ -46,9 +46,6 @@ public sealed partial class InstallerWindow : WindowEx
         // Show loading
         GdLoading.Visibility = Visibility.Visible;
 
-        // Fake loading
-        await Task.Delay(500);
-
         // Read the manifest file
         string manifestJson = default; // This variable will be set in the task
         await Task.Run(() =>
@@ -72,6 +69,9 @@ public sealed partial class InstallerWindow : WindowEx
             ImgApplicationIcon.Source = bitmapImage;
             SiApplicationIconFallback.Visibility = Visibility.Collapsed;
         }
+
+        // Fake loading
+        await Task.Delay(250);
 
         // Set the UI: Install button
         var installedApplicationInstallationDirectoryPath = Utils.GetInstallationDirectoryPath(installManifest);
