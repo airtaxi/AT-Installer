@@ -104,6 +104,14 @@ public sealed partial class InstallerWindow : WindowEx
         PbInstallProgress.Visibility = Visibility.Visible;
         PbInstallProgress.IsIndeterminate = true;
 
+        // Try close existing process
+        try
+        {
+            var existingProcess = Process.GetProcessesByName(_installManifest.ExecutableFileName.Replace(".exe", ""));
+            foreach (var process in existingProcess) process.Kill(true);
+        }
+        catch { } // Ignore
+
         // Create the installation directory
         var installationDirectoryPath = Utils.GetInstallationDirectoryPath(_installManifest);
 
