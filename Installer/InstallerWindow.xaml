@@ -95,8 +95,7 @@
             <Button
                 x:Name="BtInstall"
                 Click="OnInstallButtonClicked"
-                Content="Install"
-                Foreground="{ThemeResource TextOnAccentFillColorDefault}" />
+                Content="Install" />
         </StackPanel>
 
         <TextBlock
