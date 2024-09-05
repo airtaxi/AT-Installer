@@ -4,10 +4,8 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System.Diagnostics;
 using System.IO.Compression;
 using System.Reflection;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.Json;
-using Windows.Storage;
-using Windows.Storage.Pickers;
+using WindowsAPICodePack.Dialogs;
 using WinUIEx;
 
 namespace InstallerComposer;
@@ -130,26 +128,23 @@ public sealed partial class ComposerWindow : WindowEx
 
 			TbLoading.Text = "Waiting for User Input..."; // Update the loading text
 
-			// Pick a file
-			var picker = new FileSavePicker();
-			WinRT.Interop.InitializeWithWindow.Initialize(picker, this.GetWindowHandle());
-			picker.FileTypeChoices.Add("AT Package", [".atp"]);
-			picker.SuggestedFileName = $"Package.atp";
+            // Pick a file
+            var dialog = new CommonSaveFileDialog();
+            dialog.DefaultFileName = "Package.atp";
+            dialog.Filters.Add(new CommonFileDialogFilter("AT Package", "atp"));
 
-			// Get the file
-			var file = await picker.PickSaveFileAsync();
-			if (file == null) // User cancelled
+            if (dialog.ShowDialog() != CommonFileDialogResult.Ok) // User cancelled
 			{
 				// Display the cancellation message
 				await Content.ShowDialogAsync("Cancelled", "The package has not been exported", "OK");
 				return;
 			}
 
-			File.Delete(file.Path); // FileSavePicker creates a file with 0 bytes
+            var filePath = dialog.FileName; // Get the file path
 
 			// Move the file
 			var packageFilePath = Path.Combine(tempDirectoryPath, "Package.atp");
-			File.Move(packageFilePath, file.Path);
+			File.Move(packageFilePath, filePath, true);
 
 			// Display the success message
 			await Content.ShowDialogAsync("Success", "The package has been exported successfully", "OK");
@@ -252,20 +247,21 @@ public sealed partial class ComposerWindow : WindowEx
 
 	private async void OnBrowseIconFileButtonClicked(object sender, RoutedEventArgs e)
 	{
-		// Pick a PNG file
-		var picker = new FileOpenPicker();
-		WinRT.Interop.InitializeWithWindow.Initialize(picker, this.GetWindowHandle());
-		picker.ViewMode = PickerViewMode.Thumbnail;
-		picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-		picker.FileTypeFilter.Add(".png");
+        // Pick a PNG file
+        var dialog = new CommonOpenFileDialog();
+        dialog.IsFolderPicker = false;
+        dialog.Filters.Add(new CommonFileDialogFilter("PNG Files", "png"));
+        dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+        dialog.EnsureFileExists = true;
 
-		// Get the file
-		var file = await picker.PickSingleFileAsync();
-		if (file == null) return; // User cancelled
+
+        // Get the file path
+        if (dialog.ShowDialog() != CommonFileDialogResult.Ok) return; // User cancelled
+        var filePath = dialog.FileName;
 
 		// Check if the file is a valid PNG file
-		var buffer = await FileIO.ReadBufferAsync(file);
-		var isValidPngFile = Utils.IsPng(buffer.ToArray());
+		var bytes = File.ReadAllBytes(filePath);
+		var isValidPngFile = Utils.IsPng(bytes);
 		if (!isValidPngFile)
 		{
 			await Content.ShowDialogAsync("Error", "The selected file is not a valid PNG file", "OK");
@@ -273,7 +269,6 @@ public sealed partial class ComposerWindow : WindowEx
 		}
 
 		// Set the binary field
-		var bytes = buffer.ToArray();
 		_applicationIconBinary = bytes;
 
 		// Set the thumbnail
@@ -316,24 +311,25 @@ public sealed partial class ComposerWindow : WindowEx
 
 	private async void OnLoadPackageInformationMenuFlyoutItemClicked(object sender, RoutedEventArgs e)
 	{
-		// Pick a file
-		var picker = new FileOpenPicker();
-		WinRT.Interop.InitializeWithWindow.Initialize(picker, this.GetWindowHandle());
-		picker.FileTypeFilter.Add(".atp");
+        // Pick a file
+        var dialog = new CommonOpenFileDialog();
+        dialog.IsFolderPicker = false;
+        dialog.Filters.Add(new CommonFileDialogFilter("AT Package Files", "atp"));
+        dialog.EnsureFileExists = true;
 
-		// Get the file
-		var file = await picker.PickSingleFileAsync();
-		if (file == null) return; // User cancelled
+        // Get the file path
+        if (dialog.ShowDialog() != CommonFileDialogResult.Ok) return; // User cancelled
+		var filePath = dialog.FileName;
 
-		// Show the loading UI
-		GdLoading.Visibility = Visibility.Visible;
+        // Show the loading UI
+        GdLoading.Visibility = Visibility.Visible;
 		TbLoading.Text = "Loading Package Information..."; // Update the loading text
 
 		// Read the manifest file
 		string manifestJson = default; // This variable will be set in the task
 		await Task.Run(() =>
 		{
-			manifestJson = ZipFileNative.ReadFileText(file.Path, "manifest.json");
+			manifestJson = ZipFileNative.ReadFileText(filePath, "manifest.json");
 		});
 
 		GdLoading.Visibility = Visibility.Collapsed; // Hide the loading UI
@@ -357,24 +353,25 @@ public sealed partial class ComposerWindow : WindowEx
     private async void OnBrowseApplicationRootDirectoryRequested(Microsoft.UI.Xaml.Input.XamlUICommand sender, Microsoft.UI.Xaml.Input.ExecuteRequestedEventArgs args)
     {
         // Pick a folder
-        var picker = new FolderPicker();
-        WinRT.Interop.InitializeWithWindow.Initialize(picker, this.GetWindowHandle());
+        var dialog = new CommonOpenFileDialog();
+        dialog.IsFolderPicker = true;
+        dialog.EnsurePathExists = true;
 
-        // Get the folder
-        var folder = await picker.PickSingleFolderAsync();
-        if (folder == null) return; // User cancelled
+        // Get the folder path
+        if (dialog.ShowDialog() != CommonFileDialogResult.Ok) return; // User cancelled
+		var folderPath = dialog.FileName;
 
         // Check if there is any executable file
-        var files = await folder.GetFilesAsync();
-        var executableFiles = files.Where(file => file.FileType == ".exe");
-        if (!executableFiles.Any())
+        var files = Directory.GetFiles(folderPath).Select(filePath => new FileInfo(filePath));
+        var executableFiles = files.Where(file => file.Extension == ".exe").ToList();
+        if (executableFiles.Count == 0)
         {
             await Content.ShowDialogAsync("Error", "No executable file found in the selected folder", "OK");
             return;
         }
 
-        // Setup UI
-        TbxApplicationRootDirectoryPath.Text = folder.Path;
+		// Setup UI
+		TbxApplicationRootDirectoryPath.Text = folderPath;
         CbxApplicationExecutableFileName.IsEnabled = true;
         CbxApplicationExecutableFileName.ItemsSource = executableFiles.Select(file => file.Name);
     }
