@@ -7,6 +7,7 @@
     xmlns:local="using:InstallerComposer"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winuiex="using:WinUIEx"
+    Title="AT Installer Composer"
     Width="600"
     Height="738"
     IsMaximizable="False"
