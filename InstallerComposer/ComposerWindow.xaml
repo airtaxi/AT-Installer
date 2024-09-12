@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winuiex="using:WinUIEx"
     Width="600"
-    Height="749"
+    Height="738"
     IsMaximizable="False"
     IsResizable="False"
     mc:Ignorable="d">
