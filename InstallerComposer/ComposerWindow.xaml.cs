@@ -1,6 +1,7 @@
 using InstallerCommons;
 using InstallerCommons.ZipHelper;
 using InstallerComposer.DataTypes;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Diagnostics;
 using System.IO.Compression;
@@ -428,7 +429,7 @@ public sealed partial class ComposerWindow : WindowEx
 		await Content.ShowDialogAsync("Success", "The settings have been loaded successfully", "OK");
     }
 
-    private async void OnBrowseApplicationRootDirectoryRequested(Microsoft.UI.Xaml.Input.XamlUICommand sender, Microsoft.UI.Xaml.Input.ExecuteRequestedEventArgs args)
+    private async void OnBrowseApplicationRootDirectoryRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
     {
         // Pick a folder
         var dialog = new CommonOpenFileDialog();
@@ -454,7 +455,7 @@ public sealed partial class ComposerWindow : WindowEx
         CbxApplicationExecutableFileName.ItemsSource = executableFiles.Select(file => file.Name);
     }
 
-    private void OnBrowsePackageFilePathCommandRequested(Microsoft.UI.Xaml.Input.XamlUICommand sender, Microsoft.UI.Xaml.Input.ExecuteRequestedEventArgs args)
+    private void OnBrowsePackageFilePathCommandRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
     {
         // Pick a file
         var dialog = new CommonSaveFileDialog();
