@@ -55,7 +55,11 @@
                 <MenuFlyoutItem
                     AccessKey="N"
                     Click="OnNewPackageMenuFlyoutItemClicked"
-                    Text="New Package" />
+                    Text="New Package">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="N" Modifiers="Control" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
                 <MenuFlyoutSeparator />
                 <MenuFlyoutItem
                     AccessKey="L"
