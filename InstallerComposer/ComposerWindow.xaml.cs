@@ -15,13 +15,28 @@ namespace InstallerComposer;
 public sealed partial class ComposerWindow : WindowEx
 {
 	private byte[] _applicationIconBinary;
+	private readonly string _installerConfigSettingsPath;
 
-	public ComposerWindow()
+    public ComposerWindow(string installerConfigSettingsPath)
 	{
-		InitializeComponent();
+        InitializeComponent();
         AppWindow.SetIcon("Icon.ico");
         ExtendsContentIntoTitleBar = true;
 		SystemBackdrop = new MicaBackdrop() { Kind = Microsoft.UI.Composition.SystemBackdrops.MicaKind.Base };
+
+		if (!string.IsNullOrWhiteSpace(installerConfigSettingsPath))
+		{
+			_installerConfigSettingsPath = installerConfigSettingsPath;
+			ExecuteAutomatedInstall();
+        }
+    }
+
+    private async void ExecuteAutomatedInstall()
+    {
+		LoadSettings(_installerConfigSettingsPath);
+		var success = await ValidateFieldsAsync();
+        if (!success) return;
+		await ExportPackageAsync();
     }
 
     private async Task ExportPackageAsync()
@@ -136,8 +151,10 @@ public sealed partial class ComposerWindow : WindowEx
 			var tempPackageFilePath = Path.Combine(tempDirectoryPath, "Package.atp");
 			File.Move(tempPackageFilePath, packageFilePath, true);
 
-			// Display the success message
-			await Content.ShowDialogAsync("Success", "The package has been exported successfully", "OK");
+			// Display the success message if it's not automated export
+			if (_installerConfigSettingsPath == null) await Content.ShowDialogAsync("Success", "The package has been exported successfully", "OK");
+            // Close the window if it's automated export
+            else Process.GetCurrentProcess().Kill();
 		}
 		catch (Exception exception)
 		{
@@ -395,18 +412,26 @@ public sealed partial class ComposerWindow : WindowEx
 	}
 
 	private async void OnLoadSettingsMenuFlyoutItemClicked(object sender, RoutedEventArgs e)
-	{
-		// Pick a file
-		var dialog = new CommonOpenFileDialog();
-		dialog.IsFolderPicker = false;
-		dialog.Filters.Add(new CommonFileDialogFilter("AT Installer Composer Config", "aticconfig"));
-		dialog.EnsureFileExists = true;
+    {
+        // Pick a file
+        var dialog = new CommonOpenFileDialog();
+        dialog.IsFolderPicker = false;
+        dialog.Filters.Add(new CommonFileDialogFilter("AT Installer Composer Config", "aticconfig"));
+        dialog.EnsureFileExists = true;
 
-		// Get the file path
-		if (dialog.ShowDialog() != CommonFileDialogResult.Ok) return; // User cancelled
-		var filePath = dialog.FileName;
+        // Get the file path
+        if (dialog.ShowDialog() != CommonFileDialogResult.Ok) return; // User cancelled
+        var filePath = dialog.FileName;
 
         // Read the settings file
+        LoadSettings(filePath);
+
+        // Display the success message
+        await Content.ShowDialogAsync("Success", "The settings have been loaded successfully", "OK");
+    }
+
+    private void LoadSettings(string filePath)
+    {
         var settingsJson = File.ReadAllText(filePath);
         var settings = JsonSerializer.Deserialize<InstallerComposerConfig>(settingsJson);
 
@@ -418,15 +443,12 @@ public sealed partial class ComposerWindow : WindowEx
         CbxApplicationExecutableFileName.IsEnabled = true;
         CbxApplicationExecutableFileName.ItemsSource = Directory.GetFiles(settings.ApplicationRootDirectoryPath).Select(filePath => new FileInfo(filePath)).Where(file => file.Extension == ".exe").Select(file => file.Name);
         CbxApplicationExecutableFileName.SelectedItem = settings.ApplicationExecutableFileName;
-		TbxApplicationInstallationFolderName.Text = settings.ApplicationInstallationFolderName;
+        TbxApplicationInstallationFolderName.Text = settings.ApplicationInstallationFolderName;
         TbxPackageFilePath.Text = settings.PackageFilePath;
 
         // Set the field and thumbnail
         _applicationIconBinary = settings.ApplicationIconBinary;
         ApplyThumbnailFromApplicationIconBinaryField();
-
-		// Display the success message
-		await Content.ShowDialogAsync("Success", "The settings have been loaded successfully", "OK");
     }
 
     private async void OnBrowseApplicationRootDirectoryRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
