@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winuiex="using:WinUIEx"
     Width="600"
-    Height="669"
+    Height="749"
     IsMaximizable="False"
     IsResizable="False"
     mc:Ignorable="d">
@@ -62,13 +62,31 @@
                 </MenuFlyoutItem>
                 <MenuFlyoutSeparator />
                 <MenuFlyoutItem
-                    AccessKey="L"
-                    Click="OnLoadPackageInformationMenuFlyoutItemClicked"
-                    Text="Load Manifest From Package">
+                    AccessKey="I"
+                    Click="OnImportPackageInformationMenuFlyoutItemClicked"
+                    Text="Import Manifest From Package">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="I" Modifiers="Control" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutSeparator />
+                <MenuFlyoutItem
+                    AccessKey="S"
+                    Click="OnSaveSettingsMenuFlyoutItemClicked"
+                    Text="Save Settings">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="S" Modifiers="Control" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem
+                    AccessKey="O"
+                    Click="OnLoadSettingsMenuFlyoutItemClicked"
+                    Text="Load Settings">
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="O" Modifiers="Control" />
                     </MenuFlyoutItem.KeyboardAccelerators>
                 </MenuFlyoutItem>
+                <MenuFlyoutSeparator />
                 <MenuFlyoutItem
                     AccessKey="E"
                     Click="OnExportPackageMenuFlyoutItemClicked"
@@ -219,7 +237,7 @@
                 <Button
                     Grid.Column="1"
                     VerticalAlignment="Bottom"
-                    Command="{StaticResource BrowseApplicationRootDirectoryCommand}"
+                    Command="{StaticResource BrowsePackageFilePathCommand}"
                     Content="..." />
             </Grid>
         </StackPanel>

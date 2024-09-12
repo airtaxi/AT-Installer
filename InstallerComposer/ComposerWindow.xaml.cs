@@ -1,5 +1,6 @@
 using InstallerCommons;
 using InstallerCommons.ZipHelper;
+using InstallerComposer.DataTypes;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Diagnostics;
 using System.IO.Compression;
@@ -13,7 +14,6 @@ namespace InstallerComposer;
 public sealed partial class ComposerWindow : WindowEx
 {
 	private byte[] _applicationIconBinary;
-	private string _pacakgeFilePath;
 
 	public ComposerWindow()
 	{
@@ -31,10 +31,12 @@ public sealed partial class ComposerWindow : WindowEx
 		var applicationRootDirectoryPath = TbxApplicationRootDirectoryPath.Text;
 		var applicationExecutableFileName = CbxApplicationExecutableFileName.SelectedItem?.ToString();
         var applicationInstallationFolderName = TbxApplicationInstallationFolderName.Text;
+		var packageFilePath = TbxPackageFilePath.Text;
 
         var applicationExecutableFilePath = Path.Combine(applicationRootDirectoryPath, applicationExecutableFileName);
         var applicationVersionInfo = FileVersionInfo.GetVersionInfo(applicationExecutableFilePath);
         var applicationExecutableFileVersion = new Version(applicationVersionInfo.FileVersion);
+
 
         var installManifest = new InstallManifest()
 		{
@@ -130,8 +132,8 @@ public sealed partial class ComposerWindow : WindowEx
 			TbLoading.Text = "Finishing..."; // Update the loading text
 
 			// Move the file
-			var packageFilePath = Path.Combine(tempDirectoryPath, "Package.atp");
-			File.Move(packageFilePath, _pacakgeFilePath, true);
+			var tempPackageFilePath = Path.Combine(tempDirectoryPath, "Package.atp");
+			File.Move(tempPackageFilePath, packageFilePath, true);
 
 			// Display the success message
 			await Content.ShowDialogAsync("Success", "The package has been exported successfully", "OK");
@@ -156,8 +158,9 @@ public sealed partial class ComposerWindow : WindowEx
 		var applicationRootDirectoryPath = TbxApplicationRootDirectoryPath.Text;
 		var applicationExecutableFileName = CbxApplicationExecutableFileName.SelectedItem?.ToString();
         var applicationInstallationFolderName = TbxApplicationInstallationFolderName.Text;
+		var packageFilePath = TbxPackageFilePath.Text;
 
-		// Check if the application ID is a valid GUID
+        // Check if the application ID is a valid GUID
         var isValidApplicationId = Guid.TryParse(applicationId, out _);
 		if (!isValidApplicationId)
         {
@@ -217,7 +220,7 @@ public sealed partial class ComposerWindow : WindowEx
         }
 
         // Check if Package File Path is set
-        var isValidPackageFilePath = !string.IsNullOrWhiteSpace(_pacakgeFilePath);
+        var isValidPackageFilePath = !string.IsNullOrWhiteSpace(packageFilePath);
 		if (!isValidPackageFilePath)
 		{
 			await Content.ShowDialogAsync("Error", "The Package File Path field is not set", "OK");
@@ -225,7 +228,7 @@ public sealed partial class ComposerWindow : WindowEx
         }
 
         // Check if Package File Path's directory exists
-        var isValidPackageFilePathDirectory = Directory.Exists(Path.GetDirectoryName(_pacakgeFilePath));
+        var isValidPackageFilePathDirectory = Directory.Exists(Path.GetDirectoryName(packageFilePath));
         if (!isValidPackageFilePathDirectory)
 		{
             await Content.ShowDialogAsync("Error", "The Package File Path's directory does not exist", "OK");
@@ -312,7 +315,7 @@ public sealed partial class ComposerWindow : WindowEx
 		await ExportPackageAsync();
 	}
 
-	private async void OnLoadPackageInformationMenuFlyoutItemClicked(object sender, RoutedEventArgs e)
+	private async void OnImportPackageInformationMenuFlyoutItemClicked(object sender, RoutedEventArgs e)
 	{
         // Pick a file
         var dialog = new CommonOpenFileDialog();
@@ -353,6 +356,78 @@ public sealed partial class ComposerWindow : WindowEx
 		ApplyThumbnailFromApplicationIconBinaryField();
     }
 
+	private async void OnSaveSettingsMenuFlyoutItemClicked(object sender, RoutedEventArgs e)
+    {
+        // Validate fields
+        var isAllFieldsValid = await ValidateFieldsAsync();
+        if (!isAllFieldsValid) return; // Validation failed
+
+        // Save the settings
+		var settings = new InstallerComposerConfig()
+        {
+            ApplicationId = TbxApplicationId.Text,
+            ApplicationName = TbxApplicationName.Text,
+            ApplicationPublisher = TbxApplicationPublisher.Text,
+            ApplicationRootDirectoryPath = TbxApplicationRootDirectoryPath.Text,
+            ApplicationExecutableFileName = CbxApplicationExecutableFileName.SelectedItem?.ToString(),
+            ApplicationInstallationFolderName = TbxApplicationInstallationFolderName.Text,
+            ApplicationIconBinary = _applicationIconBinary,
+            PackageFilePath = TbxPackageFilePath.Text
+        };
+
+        var settingsJson = JsonSerializer.Serialize(settings);
+
+        // Pick a file
+        var dialog = new CommonSaveFileDialog();
+        dialog.DefaultFileName = "Package.aticconfig";
+        dialog.Filters.Add(new CommonFileDialogFilter("AT Installer Composer Config", "aticconfig"));
+
+        // Get the file path
+        if (dialog.ShowDialog() != CommonFileDialogResult.Ok) return; // User cancelled
+        var filePath = dialog.FileName;
+
+        // Write the settings to the file
+        File.WriteAllText(filePath, settingsJson);
+
+        // Display the success message
+        await Content.ShowDialogAsync("Success", "The settings have been saved successfully", "OK");
+	}
+
+	private async void OnLoadSettingsMenuFlyoutItemClicked(object sender, RoutedEventArgs e)
+	{
+		// Pick a file
+		var dialog = new CommonOpenFileDialog();
+		dialog.IsFolderPicker = false;
+		dialog.Filters.Add(new CommonFileDialogFilter("AT Installer Composer Config", "aticconfig"));
+		dialog.EnsureFileExists = true;
+
+		// Get the file path
+		if (dialog.ShowDialog() != CommonFileDialogResult.Ok) return; // User cancelled
+		var filePath = dialog.FileName;
+
+        // Read the settings file
+        var settingsJson = File.ReadAllText(filePath);
+        var settings = JsonSerializer.Deserialize<InstallerComposerConfig>(settingsJson);
+
+        // Setup UI
+        TbxApplicationId.Text = settings.ApplicationId;
+        TbxApplicationName.Text = settings.ApplicationName;
+        TbxApplicationPublisher.Text = settings.ApplicationPublisher;
+        TbxApplicationRootDirectoryPath.Text = settings.ApplicationRootDirectoryPath;
+        CbxApplicationExecutableFileName.IsEnabled = true;
+        CbxApplicationExecutableFileName.ItemsSource = Directory.GetFiles(settings.ApplicationRootDirectoryPath).Select(filePath => new FileInfo(filePath)).Where(file => file.Extension == ".exe").Select(file => file.Name);
+        CbxApplicationExecutableFileName.SelectedItem = settings.ApplicationExecutableFileName;
+		TbxApplicationInstallationFolderName.Text = settings.ApplicationInstallationFolderName;
+        TbxPackageFilePath.Text = settings.PackageFilePath;
+
+        // Set the field and thumbnail
+        _applicationIconBinary = settings.ApplicationIconBinary;
+        ApplyThumbnailFromApplicationIconBinaryField();
+
+		// Display the success message
+		await Content.ShowDialogAsync("Success", "The settings have been loaded successfully", "OK");
+    }
+
     private async void OnBrowseApplicationRootDirectoryRequested(Microsoft.UI.Xaml.Input.XamlUICommand sender, Microsoft.UI.Xaml.Input.ExecuteRequestedEventArgs args)
     {
         // Pick a folder
@@ -390,7 +465,6 @@ public sealed partial class ComposerWindow : WindowEx
 
         var filePath = dialog.FileName; // Get the file path
 
-		_pacakgeFilePath = filePath;
 		TbxPackageFilePath.Text = filePath;
     }
 }
