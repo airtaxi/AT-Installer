@@ -15,7 +15,7 @@
 		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<ApplicationIcon>Icon.ico</ApplicationIcon>
-		<Version>1.0.1.4</Version>
+		<Version>1.0.1.5</Version>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Remove="icon.ico" />
