@@ -13,6 +13,7 @@ namespace InstallerComposer;
 public sealed partial class ComposerWindow : WindowEx
 {
 	private byte[] _applicationIconBinary;
+	private string _pacakgeFilePath;
 
 	public ComposerWindow()
 	{
@@ -126,25 +127,11 @@ public sealed partial class ComposerWindow : WindowEx
 				Directory.Delete(instancePath, true);
 			});
 
-			TbLoading.Text = "Waiting for User Input..."; // Update the loading text
-
-            // Pick a file
-            var dialog = new CommonSaveFileDialog();
-            dialog.DefaultFileName = "Package.atp";
-            dialog.Filters.Add(new CommonFileDialogFilter("AT Package", "atp"));
-
-            if (dialog.ShowDialog() != CommonFileDialogResult.Ok) // User cancelled
-			{
-				// Display the cancellation message
-				await Content.ShowDialogAsync("Cancelled", "The package has not been exported", "OK");
-				return;
-			}
-
-            var filePath = dialog.FileName; // Get the file path
+			TbLoading.Text = "Finishing..."; // Update the loading text
 
 			// Move the file
 			var packageFilePath = Path.Combine(tempDirectoryPath, "Package.atp");
-			File.Move(packageFilePath, filePath, true);
+			File.Move(packageFilePath, _pacakgeFilePath, true);
 
 			// Display the success message
 			await Content.ShowDialogAsync("Success", "The package has been exported successfully", "OK");
@@ -229,7 +216,23 @@ public sealed partial class ComposerWindow : WindowEx
             return false;
         }
 
-		return true;
+        // Check if Package File Path is set
+        var isValidPackageFilePath = !string.IsNullOrWhiteSpace(_pacakgeFilePath);
+		if (!isValidPackageFilePath)
+		{
+			await Content.ShowDialogAsync("Error", "The Package File Path field is not set", "OK");
+            return false;
+        }
+
+        // Check if Package File Path's directory exists
+        var isValidPackageFilePathDirectory = Directory.Exists(Path.GetDirectoryName(_pacakgeFilePath));
+        if (!isValidPackageFilePathDirectory)
+		{
+            await Content.ShowDialogAsync("Error", "The Package File Path's directory does not exist", "OK");
+            return false;
+        }
+
+        return true;
 	}
 
 	private async void OnAboutMenuFlyoutItemClicked(object sender, RoutedEventArgs e)
@@ -374,5 +377,20 @@ public sealed partial class ComposerWindow : WindowEx
 		TbxApplicationRootDirectoryPath.Text = folderPath;
         CbxApplicationExecutableFileName.IsEnabled = true;
         CbxApplicationExecutableFileName.ItemsSource = executableFiles.Select(file => file.Name);
+    }
+
+    private void OnBrowsePackageFilePathCommandRequested(Microsoft.UI.Xaml.Input.XamlUICommand sender, Microsoft.UI.Xaml.Input.ExecuteRequestedEventArgs args)
+    {
+        // Pick a file
+        var dialog = new CommonSaveFileDialog();
+        dialog.DefaultFileName = "Package.atp";
+        dialog.Filters.Add(new CommonFileDialogFilter("AT Package", "atp"));
+
+        if (dialog.ShowDialog() != CommonFileDialogResult.Ok) return; // User cancelled
+
+        var filePath = dialog.FileName; // Get the file path
+
+		_pacakgeFilePath = filePath;
+		TbxPackageFilePath.Text = filePath;
     }
 }

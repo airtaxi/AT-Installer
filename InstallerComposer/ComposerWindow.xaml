@@ -20,6 +20,11 @@
                     <KeyboardAccelerator Key="B" Modifiers="Control" />
                 </XamlUICommand.KeyboardAccelerators>
             </XamlUICommand>
+            <XamlUICommand x:Key="BrowsePackageFilePathCommand" ExecuteRequested="OnBrowsePackageFilePathCommandRequested">
+                <XamlUICommand.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="P" Modifiers="Control" />
+                </XamlUICommand.KeyboardAccelerators>
+            </XamlUICommand>
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
@@ -181,7 +186,7 @@
                     Command="{StaticResource BrowseApplicationRootDirectoryCommand}"
                     Content="..." />
             </Grid>
-            <Grid Margin="0,0,0,0" ColumnSpacing="5">
+            <Grid Margin="0,0,0,10" ColumnSpacing="5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
@@ -193,6 +198,25 @@
                     Header="Application Executable File"
                     IsEnabled="False"
                     PlaceholderText="File Name" />
+            </Grid>
+
+            <Grid Margin="0,0,0,0" ColumnSpacing="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Margin="0,0,0,7.5" Text="Package File Path" />
+                    <TextBox
+                        x:Name="TbxPackageFilePath"
+                        IsTabStop="False"
+                        PlaceholderText="Path to the export package file" />
+                </StackPanel>
+                <Button
+                    Grid.Column="1"
+                    VerticalAlignment="Bottom"
+                    Command="{StaticResource BrowseApplicationRootDirectoryCommand}"
+                    Content="..." />
             </Grid>
         </StackPanel>
         <Grid
