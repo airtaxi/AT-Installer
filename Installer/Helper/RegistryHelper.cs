@@ -49,7 +49,7 @@ public static class RegistryHelper
         using var collection = new MagickImageCollection();
 
         // Define icon sizes
-        int[] sizes = [16, 32, 48, 64, 128, 256];
+        uint[] sizes = [16, 32, 48, 64, 128, 256];
 
         // Generate icon images
         foreach (var size in sizes)
