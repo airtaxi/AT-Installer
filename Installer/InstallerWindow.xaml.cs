@@ -167,13 +167,18 @@ public sealed partial class InstallerWindow : WindowEx
         });
     }
 
+    private DateTime _lastExtractionProgressUpdateTime = DateTime.MinValue;
     private void OnArchiveExtractProgress(ZipProgressStatus status)
     {
         DispatcherQueue.TryEnqueue(() =>
         {
-            PbInstallProgress.IsIndeterminate = false;
-            PbInstallProgress.Value = status.Progress * 100;
-            TbInstallProgress.Text = status.FileName;
+            if (DateTime.UtcNow > _lastExtractionProgressUpdateTime.AddSeconds(0.13) || status.Progress == 1)
+            {
+                PbInstallProgress.IsIndeterminate = false;
+                PbInstallProgress.Value = status.Progress * 100;
+                TbInstallProgress.Text = status.FileName;
+                _lastExtractionProgressUpdateTime = DateTime.UtcNow;
+            }
         });
     }
 
