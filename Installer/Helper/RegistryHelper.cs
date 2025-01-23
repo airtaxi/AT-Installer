@@ -77,6 +77,7 @@ public static class RegistryHelper
 
         // Compose uninstall batch file content
         batchFileContent.AppendLine("@echo off");
+        batchFileContent.AppendLine("chcp 65001");
         batchFileContent.AppendLine("echo Uninstalling... Do not close this window.");
 
         // Kill executable if it's running
