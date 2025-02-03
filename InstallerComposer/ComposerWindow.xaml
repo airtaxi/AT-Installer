@@ -161,16 +161,22 @@
                     Margin="0,0,0,10"
                     Header="Application Installation Folder Name"
                     PlaceholderText="e.g. MyApplication" />
-                <TextBox
-                    x:Name="TbxApplicationExecuteAfterInstall"
-                    Margin="0,0,0,10"
-                    Header="Execute After Install"
-                    PlaceholderText="Optional: Command line in install root" />
-                <TextBox
-                    x:Name="TbxApplicationExecuteOnUninstall"
-                    Margin="0,0,0,10"
-                    Header="Execute On Uninstall"
-                    PlaceholderText="Optional: Command line in install root" />
+                <Grid Margin="0,0,0,10" ColumnSpacing="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox
+                        x:Name="TbxApplicationExecuteAfterInstall"
+                        Grid.Column="0"
+                        Header="Execute After Install"
+                        PlaceholderText="Optional: Command line in install root" />
+                    <TextBox
+                        x:Name="TbxApplicationExecuteOnUninstall"
+                        Grid.Column="1"
+                        Header="Execute on Uninstall"
+                        PlaceholderText="Optional: Command line in install root" />
+                </Grid>
                 <Grid Margin="0,0,0,10" ColumnSpacing="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
