@@ -11,4 +11,5 @@ public class InstallManifest
 	public string ArchiveFileName { get; set; }
 	public string ExecutableFileName { get; set; }
 	public string InstallationFolderName { get; set; }
+	public string ExecuteAfterInstall { get; set; } // Optional
 }

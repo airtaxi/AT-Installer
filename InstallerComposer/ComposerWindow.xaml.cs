@@ -53,6 +53,8 @@ public sealed partial class ComposerWindow : WindowEx
         var applicationVersionInfo = FileVersionInfo.GetVersionInfo(applicationExecutableFilePath);
         var applicationExecutableFileVersion = new Version(applicationVersionInfo.FileVersion);
 
+		var applicationExecuteAfterInstall = TbxApplicationExecuteAfterInstall.Text;
+		if (string.IsNullOrWhiteSpace(applicationExecuteAfterInstall)) applicationExecuteAfterInstall = null;
 
         var installManifest = new InstallManifest()
 		{
@@ -63,8 +65,9 @@ public sealed partial class ComposerWindow : WindowEx
 			ArchiveFileName = "data.bin",
 			ExecutableFileName = applicationExecutableFileName,
 			InstallationFolderName = applicationInstallationFolderName,
-			Version = applicationExecutableFileVersion
-		};
+			Version = applicationExecutableFileVersion,
+            ExecuteAfterInstall = applicationExecuteAfterInstall
+        };
 
 		// Setup the export instance directory
 		var exportInstanceId = Guid.NewGuid().ToString();

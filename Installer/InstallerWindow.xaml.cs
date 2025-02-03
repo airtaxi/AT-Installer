@@ -184,6 +184,18 @@ public sealed partial class InstallerWindow : WindowEx
 
     private async void OnPostInstallation()
     {
+        if (!string.IsNullOrWhiteSpace(_installManifest.ExecuteAfterInstall))
+        {
+            try
+            {
+                var process = new Process();
+                process.StartInfo.FileName = _installManifest.ExecuteAfterInstall;
+                process.StartInfo.WorkingDirectory = Utils.GetInstallationDirectoryPath(_installManifest);
+                process.Start();
+            }
+            catch { } // Ignore
+        }
+
         // Retrieve the new uninstall manifest
         var installationDirectoryPath = Utils.GetInstallationDirectoryPath(_installManifest);
         var uninstallManifestPath = Path.Combine(installationDirectoryPath, "uninstall.json");
