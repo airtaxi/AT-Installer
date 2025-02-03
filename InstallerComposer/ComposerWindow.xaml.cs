@@ -454,6 +454,9 @@ public sealed partial class ComposerWindow : WindowEx
         TbxApplicationInstallationFolderName.Text = settings.ApplicationInstallationFolderName;
         TbxPackageFilePath.Text = settings.PackageFilePath;
 
+		if (!string.IsNullOrWhiteSpace(settings.ExecuteAfterInstall)) TbxApplicationExecuteAfterInstall.Text = settings.ExecuteAfterInstall;
+		if (!string.IsNullOrWhiteSpace(settings.ExecuteOnUninstall)) TbxApplicationExecuteOnUninstall.Text = settings.ExecuteOnUninstall;
+
         // Set the field and thumbnail
         _applicationIconBinary = settings.ApplicationIconBinary;
         ApplyThumbnailFromApplicationIconBinaryField();

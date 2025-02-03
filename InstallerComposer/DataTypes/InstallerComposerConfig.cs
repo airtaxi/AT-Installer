@@ -10,4 +10,6 @@ public class InstallerComposerConfig
     public string ApplicationInstallationFolderName { get; set; }
     public byte[] ApplicationIconBinary { get; set; }
     public string PackageFilePath { get; set; }
+    public string ExecuteAfterInstall { get; set; } // Optional
+    public string ExecuteOnUninstall { get; set; } // Optional
 }
