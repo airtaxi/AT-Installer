@@ -56,6 +56,9 @@ public sealed partial class ComposerWindow : WindowEx
 		var applicationExecuteAfterInstall = TbxApplicationExecuteAfterInstall.Text;
 		if (string.IsNullOrWhiteSpace(applicationExecuteAfterInstall)) applicationExecuteAfterInstall = null;
 
+		var applicationExecuteOnUninstall = TbxApplicationExecuteOnUninstall.Text;
+        if (string.IsNullOrWhiteSpace(applicationExecuteOnUninstall)) applicationExecuteOnUninstall = null;
+
         var installManifest = new InstallManifest()
 		{
 			Id = applicationId,
@@ -66,7 +69,8 @@ public sealed partial class ComposerWindow : WindowEx
 			ExecutableFileName = applicationExecutableFileName,
 			InstallationFolderName = applicationInstallationFolderName,
 			Version = applicationExecutableFileVersion,
-            ExecuteAfterInstall = applicationExecuteAfterInstall
+            ExecuteAfterInstall = applicationExecuteAfterInstall,
+			ExecuteOnUninstall = applicationExecuteOnUninstall
         };
 
 		// Setup the export instance directory
@@ -98,7 +102,8 @@ public sealed partial class ComposerWindow : WindowEx
 				var uninstallManifest = new UninstallManifest()
 				{
 					InstallManifest = installManifest,
-					InstalledVersion = applicationExecutableFileVersion
+					InstalledVersion = applicationExecutableFileVersion,
+					ExecuteOnUninstall = installManifest.ExecuteOnUninstall
 				};
 				uninstallManifestJson = JsonSerializer.Serialize(uninstallManifest);
 			});

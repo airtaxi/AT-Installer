@@ -98,6 +98,12 @@ public static class RegistryHelper
         batchFileContent.AppendLine("cd /"); // Change directory to root to avoid "The process cannot access the file because it is being used by another process" error
         batchFileContent.AppendLine($"rmdir /s /q \"{installationDirectoryPath}\"");
 
+        if (!string.IsNullOrWhiteSpace(uninstallManifest.ExecuteOnUninstall))
+        {
+            batchFileContent.AppendLine("echo Executing uninstallation script...");
+            batchFileContent.AppendLine(uninstallManifest.ExecuteOnUninstall);
+        }
+
         // Write batch file to disk
         File.WriteAllText(uninstallationBatchFilePath, batchFileContent.ToString());
 

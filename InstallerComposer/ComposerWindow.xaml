@@ -166,6 +166,11 @@
                     Margin="0,0,0,10"
                     Header="Execute After Install"
                     PlaceholderText="Optional: Command line in install root" />
+                <TextBox
+                    x:Name="TbxApplicationExecuteOnUninstall"
+                    Margin="0,0,0,10"
+                    Header="Execute On Uninstall"
+                    PlaceholderText="Optional: Command line in install root" />
                 <Grid Margin="0,0,0,10" ColumnSpacing="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
