@@ -80,6 +80,12 @@ public static class RegistryHelper
         batchFileContent.AppendLine("chcp 65001");
         batchFileContent.AppendLine("echo Uninstalling... Do not close this window.");
 
+        if (!string.IsNullOrWhiteSpace(uninstallManifest.ExecuteOnUninstall))
+        {
+            batchFileContent.AppendLine("echo Executing uninstallation script...");
+            batchFileContent.AppendLine(uninstallManifest.ExecuteOnUninstall);
+        }
+
         // Kill executable if it's running
         batchFileContent.AppendLine("echo Closing opened applications...");
         batchFileContent.AppendLine($"taskkill /f /im \"{installManifest.ExecutableFileName}\"");
@@ -97,12 +103,6 @@ public static class RegistryHelper
         batchFileContent.AppendLine("echo Deleting installation directory...");
         batchFileContent.AppendLine("cd /"); // Change directory to root to avoid "The process cannot access the file because it is being used by another process" error
         batchFileContent.AppendLine($"rmdir /s /q \"{installationDirectoryPath}\"");
-
-        if (!string.IsNullOrWhiteSpace(uninstallManifest.ExecuteOnUninstall))
-        {
-            batchFileContent.AppendLine("echo Executing uninstallation script...");
-            batchFileContent.AppendLine(uninstallManifest.ExecuteOnUninstall);
-        }
 
         // Write batch file to disk
         File.WriteAllText(uninstallationBatchFilePath, batchFileContent.ToString());
