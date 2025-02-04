@@ -30,7 +30,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel
             Grid.Row="0"
@@ -113,10 +113,8 @@
             </MenuBarItem>
         </MenuBar>
 
-        <ScrollViewer>
-
+        <ScrollViewer Grid.Row="2">
             <StackPanel
-                Grid.Row="2"
                 Padding="10,0,10,10"
                 Background="{ThemeResource LayerOnMicaBaseAltFillColorDefaultBrush}"
                 BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"

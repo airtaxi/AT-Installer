@@ -401,6 +401,9 @@ public sealed partial class ComposerWindow : WindowEx
             PackageFilePath = TbxPackageFilePath.Text
         };
 
+		if (!string.IsNullOrWhiteSpace(TbxApplicationExecuteAfterInstall.Text)) settings.ExecuteAfterInstall = TbxApplicationExecuteAfterInstall.Text;
+		if (!string.IsNullOrWhiteSpace(TbxApplicationExecuteOnUninstall.Text)) settings.ExecuteOnUninstall = TbxApplicationExecuteOnUninstall.Text;
+
         var settingsJson = JsonSerializer.Serialize(settings);
 
         // Pick a file
@@ -455,7 +458,10 @@ public sealed partial class ComposerWindow : WindowEx
         TbxPackageFilePath.Text = settings.PackageFilePath;
 
 		if (!string.IsNullOrWhiteSpace(settings.ExecuteAfterInstall)) TbxApplicationExecuteAfterInstall.Text = settings.ExecuteAfterInstall;
-		if (!string.IsNullOrWhiteSpace(settings.ExecuteOnUninstall)) TbxApplicationExecuteOnUninstall.Text = settings.ExecuteOnUninstall;
+		else TbxApplicationExecuteAfterInstall.Text = string.Empty;
+
+        if (!string.IsNullOrWhiteSpace(settings.ExecuteOnUninstall)) TbxApplicationExecuteOnUninstall.Text = settings.ExecuteOnUninstall;
+		else TbxApplicationExecuteOnUninstall.Text = string.Empty;
 
         // Set the field and thumbnail
         _applicationIconBinary = settings.ApplicationIconBinary;

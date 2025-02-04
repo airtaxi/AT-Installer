@@ -186,12 +186,16 @@ public sealed partial class InstallerWindow : WindowEx
     {
         if (!string.IsNullOrWhiteSpace(_installManifest.ExecuteAfterInstall))
         {
+            BtInstall.Content = "Running Post Installation Script...";
             try
             {
-                var process = new Process();
-                process.StartInfo.FileName = _installManifest.ExecuteAfterInstall;
-                process.StartInfo.WorkingDirectory = Utils.GetInstallationDirectoryPath(_installManifest);
+                var process = Process.Start(new ProcessStartInfo("cmd.exe", "/C " + _installManifest.ExecuteAfterInstall)
+                {
+                    CreateNoWindow = true,
+                    WorkingDirectory = Utils.GetInstallationDirectoryPath(_installManifest)
+                });
                 process.Start();
+                process.WaitForExit();
             }
             catch { } // Ignore
         }
