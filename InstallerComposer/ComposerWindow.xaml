@@ -14,105 +14,107 @@
     IsResizable="False"
     mc:Ignorable="d">
 
-    <ScrollViewer>
-        <Grid x:Name="GdMain" VerticalAlignment="Center">
-            <Grid.Resources>
-                <XamlUICommand x:Key="BrowseApplicationRootDirectoryCommand" ExecuteRequested="OnBrowseApplicationRootDirectoryRequested">
-                    <XamlUICommand.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="B" Modifiers="Control" />
-                    </XamlUICommand.KeyboardAccelerators>
-                </XamlUICommand>
-                <XamlUICommand x:Key="BrowsePackageFilePathCommand" ExecuteRequested="OnBrowsePackageFilePathCommandRequested">
-                    <XamlUICommand.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="P" Modifiers="Control" />
-                    </XamlUICommand.KeyboardAccelerators>
-                </XamlUICommand>
-            </Grid.Resources>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="32" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <StackPanel
-                Grid.Row="0"
+    <Grid x:Name="GdMain" VerticalAlignment="Center">
+        <Grid.Resources>
+            <XamlUICommand x:Key="BrowseApplicationRootDirectoryCommand" ExecuteRequested="OnBrowseApplicationRootDirectoryRequested">
+                <XamlUICommand.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="B" Modifiers="Control" />
+                </XamlUICommand.KeyboardAccelerators>
+            </XamlUICommand>
+            <XamlUICommand x:Key="BrowsePackageFilePathCommand" ExecuteRequested="OnBrowsePackageFilePathCommandRequested">
+                <XamlUICommand.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="P" Modifiers="Control" />
+                </XamlUICommand.KeyboardAccelerators>
+            </XamlUICommand>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel
+            Grid.Row="0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Orientation="Horizontal"
+            Spacing="8">
+            <Image
+                Height="16"
+                Margin="10,0,0,0"
+                Source="ms-appx:///Assets/Icon.png" />
+            <TextBlock
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                Orientation="Horizontal"
-                Spacing="8">
-                <Image
-                    Height="16"
-                    Margin="10,0,0,0"
-                    Source="ms-appx:///Assets/Icon.png" />
-                <TextBlock
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Style="{ThemeResource BodyTextBlockStyle}"
-                    Text="AT Installer Composer" />
-            </StackPanel>
-            <MenuBar Grid.Row="1">
-                <MenuBarItem
-                    Title="File"
-                    AccessKey="F"
-                    IsAccessKeyScope="True">
-                    <MenuFlyoutItem
-                        AccessKey="N"
-                        Click="OnNewPackageMenuFlyoutItemClicked"
-                        Text="New Package">
-                        <MenuFlyoutItem.KeyboardAccelerators>
-                            <KeyboardAccelerator Key="N" Modifiers="Control" />
-                        </MenuFlyoutItem.KeyboardAccelerators>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutSeparator />
-                    <MenuFlyoutItem
-                        AccessKey="I"
-                        Click="OnImportPackageInformationMenuFlyoutItemClicked"
-                        Text="Import Manifest From Package">
-                        <MenuFlyoutItem.KeyboardAccelerators>
-                            <KeyboardAccelerator Key="I" Modifiers="Control" />
-                        </MenuFlyoutItem.KeyboardAccelerators>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutSeparator />
-                    <MenuFlyoutItem
-                        AccessKey="S"
-                        Click="OnSaveSettingsMenuFlyoutItemClicked"
-                        Text="Save Settings">
-                        <MenuFlyoutItem.KeyboardAccelerators>
-                            <KeyboardAccelerator Key="S" Modifiers="Control" />
-                        </MenuFlyoutItem.KeyboardAccelerators>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem
-                        AccessKey="O"
-                        Click="OnLoadSettingsMenuFlyoutItemClicked"
-                        Text="Load Settings">
-                        <MenuFlyoutItem.KeyboardAccelerators>
-                            <KeyboardAccelerator Key="O" Modifiers="Control" />
-                        </MenuFlyoutItem.KeyboardAccelerators>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutSeparator />
-                    <MenuFlyoutItem
-                        AccessKey="E"
-                        Click="OnExportPackageMenuFlyoutItemClicked"
-                        Text="Export Package">
-                        <MenuFlyoutItem.KeyboardAccelerators>
-                            <KeyboardAccelerator Key="X" Modifiers="Control" />
-                        </MenuFlyoutItem.KeyboardAccelerators>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutSeparator />
-                    <MenuFlyoutItem
-                        AccessKey="X"
-                        Click="OnExitMenuFlyoutItemClicked"
-                        Text="Exit" />
-                </MenuBarItem>
-                <MenuBarItem
-                    Title="Help"
-                    AccessKey="H"
-                    IsAccessKeyScope="True">
-                    <MenuFlyoutItem
-                        AccessKey="A"
-                        Click="OnAboutMenuFlyoutItemClicked"
-                        Text="About" />
-                </MenuBarItem>
-            </MenuBar>
+                Style="{ThemeResource BodyTextBlockStyle}"
+                Text="AT Installer Composer" />
+        </StackPanel>
+        <MenuBar Grid.Row="1">
+            <MenuBarItem
+                Title="File"
+                AccessKey="F"
+                IsAccessKeyScope="True">
+                <MenuFlyoutItem
+                    AccessKey="N"
+                    Click="OnNewPackageMenuFlyoutItemClicked"
+                    Text="New Package">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="N" Modifiers="Control" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutSeparator />
+                <MenuFlyoutItem
+                    AccessKey="I"
+                    Click="OnImportPackageInformationMenuFlyoutItemClicked"
+                    Text="Import Manifest From Package">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="I" Modifiers="Control" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutSeparator />
+                <MenuFlyoutItem
+                    AccessKey="S"
+                    Click="OnSaveSettingsMenuFlyoutItemClicked"
+                    Text="Save Settings">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="S" Modifiers="Control" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem
+                    AccessKey="O"
+                    Click="OnLoadSettingsMenuFlyoutItemClicked"
+                    Text="Load Settings">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="O" Modifiers="Control" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutSeparator />
+                <MenuFlyoutItem
+                    AccessKey="E"
+                    Click="OnExportPackageMenuFlyoutItemClicked"
+                    Text="Export Package">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="X" Modifiers="Control" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutSeparator />
+                <MenuFlyoutItem
+                    AccessKey="X"
+                    Click="OnExitMenuFlyoutItemClicked"
+                    Text="Exit" />
+            </MenuBarItem>
+            <MenuBarItem
+                Title="Help"
+                AccessKey="H"
+                IsAccessKeyScope="True">
+                <MenuFlyoutItem
+                    AccessKey="A"
+                    Click="OnAboutMenuFlyoutItemClicked"
+                    Text="About" />
+            </MenuBarItem>
+        </MenuBar>
+
+        <ScrollViewer>
+
             <StackPanel
                 Grid.Row="2"
                 Padding="10,0,10,10"
@@ -259,29 +261,29 @@
                         Content="..." />
                 </Grid>
             </StackPanel>
-            <Grid
-                x:Name="GdLoading"
-                Grid.RowSpan="3"
-                Margin="-10"
-                Visibility="Collapsed">
-                <Grid.Background>
-                    <AcrylicBrush Opacity="0.5" TintColor="{ThemeResource LayerOnMicaBaseAltFillColorDefault}" />
-                </Grid.Background>
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <ProgressRing
-                        Width="85"
-                        Height="85"
-                        IsIndeterminate="True" />
-                    <TextBlock
-                        x:Name="TbLoading"
-                        Margin="0,10,0,0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Style="{ThemeResource BodyTextBlockStyle}"
-                        Text="Loading..."
-                        TextAlignment="Center" />
-                </StackPanel>
-            </Grid>
+        </ScrollViewer>
+        <Grid
+            x:Name="GdLoading"
+            Grid.RowSpan="3"
+            Margin="-10"
+            Visibility="Collapsed">
+            <Grid.Background>
+                <AcrylicBrush Opacity="0.5" TintColor="{ThemeResource LayerOnMicaBaseAltFillColorDefault}" />
+            </Grid.Background>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ProgressRing
+                    Width="85"
+                    Height="85"
+                    IsIndeterminate="True" />
+                <TextBlock
+                    x:Name="TbLoading"
+                    Margin="0,10,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{ThemeResource BodyTextBlockStyle}"
+                    Text="Loading..."
+                    TextAlignment="Center" />
+            </StackPanel>
         </Grid>
-    </ScrollViewer>
+    </Grid>
 </winuiex:WindowEx>
