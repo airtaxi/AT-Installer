@@ -15,6 +15,7 @@ public sealed partial class InstallerWindow : WindowEx
 
     private readonly string _packageFilePath;
     private InstallManifest _installManifest;
+    private bool _isFirstInstall = true;
     private bool _isSilent;
 
     public InstallerWindow(string packageFilePath, bool isSlient)
@@ -88,6 +89,8 @@ public sealed partial class InstallerWindow : WindowEx
             }
             else if (installedApplicationExecutableFileVersion == installManifest.Version) BtInstall.Content = "Reinstall";
             else BtInstall.Content = "Update";
+
+            _isFirstInstall = false;
         }
 
         if (_isSilent) OnInstallButtonClicked(null, null);
@@ -104,6 +107,29 @@ public sealed partial class InstallerWindow : WindowEx
         PbInstallProgress.Visibility = Visibility.Visible;
         PbInstallProgress.IsIndeterminate = true;
 
+        // Create the installation directory
+        var installationDirectoryPath = Utils.GetInstallationDirectoryPath(_installManifest);
+
+        // Run the uninstall script if it's not the first install
+        if (!_isFirstInstall && !string.IsNullOrWhiteSpace(_installManifest.ExecuteOnUninstall))
+        {
+            BtInstall.Content = "Running Uninstallation Script...";
+            try
+            {
+                await Task.Run(() =>
+                {
+                    var process = Process.Start(new ProcessStartInfo(Path.Combine(installationDirectoryPath, "uninstall.bat"))
+                    {
+                        CreateNoWindow = true,
+                        WorkingDirectory = installationDirectoryPath
+                    });
+                    process.Start();
+                    process.WaitForExit();
+                });
+            }
+            catch { } // Ignore
+        }
+
         // Try close existing process
         try
         {
@@ -111,9 +137,6 @@ public sealed partial class InstallerWindow : WindowEx
             foreach (var process in existingProcess) process.Kill(true);
         }
         catch { } // Ignore
-
-        // Create the installation directory
-        var installationDirectoryPath = Utils.GetInstallationDirectoryPath(_installManifest);
 
         // Check for previous installation
         var existingUninstallManifestPath = Path.Combine(installationDirectoryPath, "uninstall.json");
