@@ -43,6 +43,7 @@ public sealed partial class InstallerWindow : WindowEx
         // Set the title
         var applicationVersion = Assembly.GetExecutingAssembly().GetName().Version;
         TbTitle.Text += $" {applicationVersion}";
+        while (TbTitle.IsTextTrimmed) TbTitle.FontSize *= 0.95;
 
         // Show loading
         GdLoading.Visibility = Visibility.Visible;
