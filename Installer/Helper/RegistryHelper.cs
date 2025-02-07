@@ -83,7 +83,8 @@ public static class RegistryHelper
         if (!string.IsNullOrWhiteSpace(uninstallManifest.ExecuteOnUninstall))
         {
             batchFileContent.AppendLine("echo Executing uninstallation script...");
-            batchFileContent.AppendLine(uninstallManifest.ExecuteOnUninstall);
+            batchFileContent.AppendLine("cd " + installationDirectoryPath);
+            batchFileContent.AppendLine("cmd /c " + uninstallManifest.ExecuteOnUninstall);
         }
 
         // Kill executable if it's running
