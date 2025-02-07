@@ -39,8 +39,6 @@ public partial class App : Application
 
     public App()
     {
-        DetoursCustomDPI.Handler.OverrideDefaltDpi(192f);
-
         Current.UnhandledException += OnUnhandledException;
         AppDomain.CurrentDomain.UnhandledException += OnAppDomainUnhandledException;
         TaskScheduler.UnobservedTaskException += OnTaskSchedulerUnobservedTaskException;
