@@ -43,7 +43,6 @@ public sealed partial class InstallerWindow : WindowEx
         // Set the title
         var applicationVersion = Assembly.GetExecutingAssembly().GetName().Version;
         TbTitle.Text += $" {applicationVersion}";
-        while (TbTitle.IsTextTrimmed) TbTitle.FontSize *= 0.95;
 
         // Show loading
         GdLoading.Visibility = Visibility.Visible;
@@ -59,6 +58,7 @@ public sealed partial class InstallerWindow : WindowEx
 
         // Set the UI: Text
         TbApplicationName.Text = installManifest.Name;
+        while (TbApplicationName.IsTextTrimmed) TbApplicationName.FontSize *= 0.95;
         TbApplicationPublisher.Text = "Publisher: " + installManifest.Publisher;
         TbApplicationVersion.Text = "Version: " + installManifest.Version.ToString();
 
@@ -278,5 +278,14 @@ public sealed partial class InstallerWindow : WindowEx
         var installationDirectoryPath = Utils.GetInstallationDirectoryPath(_installManifest);
         var isEmpty = !Directory.EnumerateDirectories(installationDirectoryPath).Any();
         if (isEmpty) Directory.Delete(installationDirectoryPath);
+    }
+
+    private void OnApplicationNameIsTextTrimmedChanged(Microsoft.UI.Xaml.Controls.TextBlock sender, Microsoft.UI.Xaml.Controls.IsTextTrimmedChangedEventArgs args)
+    {
+        while (sender.IsTextTrimmed)
+        {
+            sender.FontSize *= 0.9;
+            sender.UpdateLayout();
+        }
     }
 }

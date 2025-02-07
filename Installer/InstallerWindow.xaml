@@ -51,11 +51,11 @@
             <TextBlock
                 x:Name="TbApplicationName"
                 FontSize="30"
-                FontWeight="SemiBold"
+                FontWeight="Bold"
+                IsTextTrimmedChanged="OnApplicationNameIsTextTrimmedChanged"
                 MaxLines="1"
                 Text="AT Installer"
-                TextTrimming="CharacterEllipsis"
-                TextWrapping="Wrap" />
+                TextTrimming="CharacterEllipsis" />
             <TextBlock
                 x:Name="TbApplicationPublisher"
                 Style="{ThemeResource BodyTextBlockStyle}"
