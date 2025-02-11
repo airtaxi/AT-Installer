@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winuiex="using:WinUIEx"
     Title="AT Installer Composer"
-    Width="700"
+    Width="800"
     Height="600"
     IsMaximizable="False"
     IsResizable="False"
@@ -174,12 +174,12 @@
                         PlaceholderText="Optional: Command line in install root" />
                     <TextBox
                         x:Name="TbxApplicationExecuteAfterReinstall"
-                        Grid.Column="0"
+                        Grid.Column="1"
                         Header="Execute After Reinstall"
                         PlaceholderText="Optional: Command line in install root" />
                     <TextBox
                         x:Name="TbxApplicationExecuteOnUninstall"
-                        Grid.Column="1"
+                        Grid.Column="2"
                         Header="Execute on Uninstall"
                         PlaceholderText="Optional: Command line in install root" />
                 </Grid>
