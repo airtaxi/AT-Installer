@@ -220,7 +220,6 @@ public sealed partial class InstallerWindow : WindowEx
                         CreateNoWindow = true,
                         WorkingDirectory = Utils.GetInstallationDirectoryPath(_installManifest)
                     });
-                    process.Start();
                     process.WaitForExit();
                 });
             }
@@ -228,7 +227,7 @@ public sealed partial class InstallerWindow : WindowEx
         }
         else if (!_isFirstInstall && !string.IsNullOrWhiteSpace(_installManifest.ExecuteAfterReinstall))
         {
-            BtInstall.Content = "Running Post Installation Script...";
+            BtInstall.Content = "Running Post Reinstallation Script...";
             try
             {
                 await Task.Run(() =>
@@ -238,7 +237,6 @@ public sealed partial class InstallerWindow : WindowEx
                         CreateNoWindow = true,
                         WorkingDirectory = Utils.GetInstallationDirectoryPath(_installManifest)
                     });
-                    process.Start();
                     process.WaitForExit();
                 });
             }
