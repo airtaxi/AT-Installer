@@ -124,7 +124,6 @@ public sealed partial class InstallerWindow : WindowEx
                         CreateNoWindow = true,
                         WorkingDirectory = installationDirectoryPath
                     });
-                    process.Start();
                     process.WaitForExit();
                 });
             }
