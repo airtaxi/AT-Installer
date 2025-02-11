@@ -11,5 +11,6 @@ public class InstallerComposerConfig
     public byte[] ApplicationIconBinary { get; set; }
     public string PackageFilePath { get; set; }
     public string ExecuteAfterInstall { get; set; } // Optional
+    public string ExecuteAfterReinstall { get; set; } // Optional
     public string ExecuteOnUninstall { get; set; } // Optional
 }

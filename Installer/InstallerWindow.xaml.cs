@@ -208,7 +208,7 @@ public sealed partial class InstallerWindow : WindowEx
 
     private async void OnPostInstallation()
     {
-        if (!string.IsNullOrWhiteSpace(_installManifest.ExecuteAfterInstall))
+        if (_isFirstInstall && !string.IsNullOrWhiteSpace(_installManifest.ExecuteAfterInstall))
         {
             BtInstall.Content = "Running Post Installation Script...";
             try
@@ -216,6 +216,24 @@ public sealed partial class InstallerWindow : WindowEx
                 await Task.Run(() =>
                 {
                     var process = Process.Start(new ProcessStartInfo("cmd.exe", $"/C {_installManifest.ExecuteAfterInstall}")
+                    {
+                        CreateNoWindow = true,
+                        WorkingDirectory = Utils.GetInstallationDirectoryPath(_installManifest)
+                    });
+                    process.Start();
+                    process.WaitForExit();
+                });
+            }
+            catch { } // Ignore
+        }
+        else if (!_isFirstInstall && !string.IsNullOrWhiteSpace(_installManifest.ExecuteAfterReinstall))
+        {
+            BtInstall.Content = "Running Post Installation Script...";
+            try
+            {
+                await Task.Run(() =>
+                {
+                    var process = Process.Start(new ProcessStartInfo("cmd.exe", $"/C {_installManifest.ExecuteAfterReinstall}")
                     {
                         CreateNoWindow = true,
                         WorkingDirectory = Utils.GetInstallationDirectoryPath(_installManifest)

@@ -56,6 +56,9 @@ public sealed partial class ComposerWindow : WindowEx
 		var applicationExecuteAfterInstall = TbxApplicationExecuteAfterInstall.Text;
 		if (string.IsNullOrWhiteSpace(applicationExecuteAfterInstall)) applicationExecuteAfterInstall = null;
 
+		var applicationExecuteAfterReinstall = TbxApplicationExecuteAfterReinstall.Text;
+		if (string.IsNullOrWhiteSpace(applicationExecuteAfterReinstall)) applicationExecuteAfterReinstall = null;
+
 		var applicationExecuteOnUninstall = TbxApplicationExecuteOnUninstall.Text;
         if (string.IsNullOrWhiteSpace(applicationExecuteOnUninstall)) applicationExecuteOnUninstall = null;
 
@@ -70,7 +73,8 @@ public sealed partial class ComposerWindow : WindowEx
 			InstallationFolderName = applicationInstallationFolderName,
 			Version = applicationExecutableFileVersion,
             ExecuteAfterInstall = applicationExecuteAfterInstall,
-			ExecuteOnUninstall = applicationExecuteOnUninstall
+            ExecuteAfterReinstall = applicationExecuteAfterReinstall,
+            ExecuteOnUninstall = applicationExecuteOnUninstall
         };
 
 		// Setup the export instance directory
@@ -402,6 +406,7 @@ public sealed partial class ComposerWindow : WindowEx
         };
 
 		if (!string.IsNullOrWhiteSpace(TbxApplicationExecuteAfterInstall.Text)) settings.ExecuteAfterInstall = TbxApplicationExecuteAfterInstall.Text;
+		if (!string.IsNullOrWhiteSpace(TbxApplicationExecuteAfterReinstall.Text)) settings.ExecuteAfterReinstall = TbxApplicationExecuteAfterReinstall.Text;
 		if (!string.IsNullOrWhiteSpace(TbxApplicationExecuteOnUninstall.Text)) settings.ExecuteOnUninstall = TbxApplicationExecuteOnUninstall.Text;
 
         var settingsJson = JsonSerializer.Serialize(settings);
@@ -459,6 +464,9 @@ public sealed partial class ComposerWindow : WindowEx
 
 		if (!string.IsNullOrWhiteSpace(settings.ExecuteAfterInstall)) TbxApplicationExecuteAfterInstall.Text = settings.ExecuteAfterInstall;
 		else TbxApplicationExecuteAfterInstall.Text = string.Empty;
+
+		if (!string.IsNullOrWhiteSpace(settings.ExecuteAfterReinstall)) TbxApplicationExecuteAfterReinstall.Text = settings.ExecuteAfterReinstall;
+		else TbxApplicationExecuteAfterReinstall.Text = string.Empty;
 
         if (!string.IsNullOrWhiteSpace(settings.ExecuteOnUninstall)) TbxApplicationExecuteOnUninstall.Text = settings.ExecuteOnUninstall;
 		else TbxApplicationExecuteOnUninstall.Text = string.Empty;
