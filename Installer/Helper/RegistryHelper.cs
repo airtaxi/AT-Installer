@@ -112,6 +112,7 @@ public static class RegistryHelper
         var runAsAdminBatchFilePath = Path.Combine(installationDirectoryPath, "RunAsAdmin_Uninstall.bat");
         StringBuilder runAsAdminBatchFileContent = new StringBuilder();
         runAsAdminBatchFileContent.AppendLine("@echo off");
+        runAsAdminBatchFileContent.AppendLine("chcp 65001");
         runAsAdminBatchFileContent.AppendFormat("powershell -Command \"Start-Process '{0}' -Verb runAs\"", uninstallationBatchFilePath);
 
         // Write the run as admin batch file to disk
