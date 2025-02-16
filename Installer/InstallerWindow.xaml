@@ -64,6 +64,10 @@
                 x:Name="TbApplicationVersion"
                 Style="{ThemeResource BodyTextBlockStyle}"
                 Text="Loading..." />
+            <TextBlock
+                x:Name="TbApplicationCommitSha"
+                Style="{ThemeResource BodyTextBlockStyle}"
+                Visibility="Collapsed" />
         </StackPanel>
 
         <Frame

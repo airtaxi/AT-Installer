@@ -58,9 +58,14 @@ public sealed partial class InstallerWindow : WindowEx
 
         // Set the UI: Text
         TbApplicationName.Text = installManifest.Name;
-        while (TbApplicationName.IsTextTrimmed) TbApplicationName.FontSize *= 0.95;
         TbApplicationPublisher.Text = "Publisher: " + installManifest.Publisher;
         TbApplicationVersion.Text = "Version: " + installManifest.Version.ToString();
+
+        if(installManifest.CommitSha != null)
+        {
+            TbApplicationCommitSha.Text = "Commit SHA: " + installManifest.CommitSha;
+            TbApplicationCommitSha.Visibility = Visibility.Visible;
+        }
 
         // Set the UI: Icon
         if(installManifest.IconBinary != null)
