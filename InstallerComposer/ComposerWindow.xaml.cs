@@ -3,11 +3,11 @@ using InstallerCommons.ZipHelper;
 using InstallerComposer.DataTypes;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.Windows.Storage.Pickers;
 using System.Diagnostics;
 using System.IO.Compression;
 using System.Reflection;
 using System.Text.Json;
-using WindowsAPICodePack.Dialogs;
 using WinUIEx;
 
 namespace InstallerComposer;
@@ -284,19 +284,17 @@ public sealed partial class ComposerWindow : WindowEx
 	private async void OnBrowseIconFileButtonClicked(object sender, RoutedEventArgs e)
 	{
         // Pick a PNG file
-        var dialog = new CommonOpenFileDialog();
-        dialog.IsFolderPicker = false;
-        dialog.Filters.Add(new CommonFileDialogFilter("PNG Files", "png"));
-        dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-        dialog.EnsureFileExists = true;
+        var picker = new FileOpenPicker(AppWindow.Id);
+        picker.ViewMode = PickerViewMode.Thumbnail;
+        picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+        picker.FileTypeFilter.Add(".png");
 
+        // Get the file
+        var file = await picker.PickSingleFileAsync();
+        if (file == null) return; // User cancelled
 
-        // Get the file path
-        if (dialog.ShowDialog() != CommonFileDialogResult.Ok) return; // User cancelled
-        var filePath = dialog.FileName;
-
-		// Check if the file is a valid PNG file
-		var bytes = File.ReadAllBytes(filePath);
+        // Check if the file is a valid PNG file
+        var bytes = File.ReadAllBytes(file.Path);
 		var isValidPngFile = Utils.IsPng(bytes);
 		if (!isValidPngFile)
 		{
@@ -348,14 +346,12 @@ public sealed partial class ComposerWindow : WindowEx
 	private async void OnImportPackageInformationMenuFlyoutItemClicked(object sender, RoutedEventArgs e)
 	{
         // Pick a file
-        var dialog = new CommonOpenFileDialog();
-        dialog.IsFolderPicker = false;
-        dialog.Filters.Add(new CommonFileDialogFilter("AT Package Files", "atp"));
-        dialog.EnsureFileExists = true;
+        var picker = new FileOpenPicker(AppWindow.Id);
+        picker.FileTypeFilter.Add(".atp");
 
-        // Get the file path
-        if (dialog.ShowDialog() != CommonFileDialogResult.Ok) return; // User cancelled
-		var filePath = dialog.FileName;
+        // Get the file
+        var file = await picker.PickSingleFileAsync();
+        if (file == null) return; // User cancelled
 
         // Show the loading UI
         GdLoading.Visibility = Visibility.Visible;
@@ -365,7 +361,7 @@ public sealed partial class ComposerWindow : WindowEx
 		string manifestJson = default; // This variable will be set in the task
 		await Task.Run(() =>
 		{
-			manifestJson = ZipFileNative.ReadFileText(filePath, "manifest.json");
+			manifestJson = ZipFileNative.ReadFileText(file.Path, "manifest.json");
 		});
 
 		GdLoading.Visibility = Visibility.Collapsed; // Hide the loading UI
@@ -412,16 +408,16 @@ public sealed partial class ComposerWindow : WindowEx
         var settingsJson = JsonSerializer.Serialize(settings);
 
         // Pick a file
-        var dialog = new CommonSaveFileDialog();
-        dialog.DefaultFileName = "Package.aticconfig";
-        dialog.Filters.Add(new CommonFileDialogFilter("AT Installer Composer Config", "aticconfig"));
+        var picker = new FileSavePicker(AppWindow.Id);
+        picker.FileTypeChoices.Add("AT Installer Composer Config", [".aticconfig"]);
+        picker.SuggestedFileName = $"Package.aticconfig";
 
-        // Get the file path
-        if (dialog.ShowDialog() != CommonFileDialogResult.Ok) return; // User cancelled
-        var filePath = dialog.FileName;
+        // Get the file
+		var file = await picker.PickSaveFileAsync();
+		if (file == null) return; // User cancelled
 
         // Write the settings to the file
-        File.WriteAllText(filePath, settingsJson);
+        File.WriteAllText(file.Path, settingsJson);
 
         // Display the success message
         await Content.ShowDialogAsync("Success", "The settings have been saved successfully", "OK");
@@ -430,17 +426,15 @@ public sealed partial class ComposerWindow : WindowEx
 	private async void OnLoadSettingsMenuFlyoutItemClicked(object sender, RoutedEventArgs e)
     {
         // Pick a file
-        var dialog = new CommonOpenFileDialog();
-        dialog.IsFolderPicker = false;
-        dialog.Filters.Add(new CommonFileDialogFilter("AT Installer Composer Config", "aticconfig"));
-        dialog.EnsureFileExists = true;
+		var picker = new FileOpenPicker(AppWindow.Id);
+		picker.FileTypeFilter.Add(".aticconfig");
 
-        // Get the file path
-        if (dialog.ShowDialog() != CommonFileDialogResult.Ok) return; // User cancelled
-        var filePath = dialog.FileName;
+        // Get the file
+        var file = await picker.PickSingleFileAsync();
+		if (file == null) return; // User cancelled
 
         // Read the settings file
-        LoadSettings(filePath);
+        LoadSettings(file.Path);
 
         // Display the success message
         await Content.ShowDialogAsync("Success", "The settings have been loaded successfully", "OK");
@@ -479,16 +473,14 @@ public sealed partial class ComposerWindow : WindowEx
     private async void OnBrowseApplicationRootDirectoryRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
     {
         // Pick a folder
-        var dialog = new CommonOpenFileDialog();
-        dialog.IsFolderPicker = true;
-        dialog.EnsurePathExists = true;
+        var picker = new FolderPicker(AppWindow.Id);
 
-        // Get the folder path
-        if (dialog.ShowDialog() != CommonFileDialogResult.Ok) return; // User cancelled
-		var folderPath = dialog.FileName;
+        // Get the folder
+        var folder = await picker.PickSingleFolderAsync();
+        if (folder == null) return; // User cancelled
 
         // Check if there is any executable file
-        var files = Directory.GetFiles(folderPath).Select(filePath => new FileInfo(filePath));
+        var files = Directory.GetFiles(folder.Path).Select(filePath => new FileInfo(filePath));
         var executableFiles = files.Where(file => file.Extension == ".exe").ToList();
         if (executableFiles.Count == 0)
         {
@@ -497,22 +489,23 @@ public sealed partial class ComposerWindow : WindowEx
         }
 
 		// Setup UI
-		TbxApplicationRootDirectoryPath.Text = folderPath;
+		TbxApplicationRootDirectoryPath.Text = folder.Path;
         CbxApplicationExecutableFileName.IsEnabled = true;
         CbxApplicationExecutableFileName.ItemsSource = executableFiles.Select(file => file.Name);
     }
 
-    private void OnBrowsePackageFilePathCommandRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+    private async void OnBrowsePackageFilePathCommandRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
     {
         // Pick a file
-        var dialog = new CommonSaveFileDialog();
-        dialog.DefaultFileName = "Package.atp";
-        dialog.Filters.Add(new CommonFileDialogFilter("AT Package", "atp"));
+        var dialog = new FileSavePicker(AppWindow.Id);
+		dialog.FileTypeChoices.Add("AT Installer Package", [".atp"]);
+		dialog.SuggestedFileName = "Package.atp";
 
-        if (dialog.ShowDialog() != CommonFileDialogResult.Ok) return; // User cancelled
+        // Get the file
+		var file = await dialog.PickSaveFileAsync();
+		if (file == null) return; // User cancelled
 
-        var filePath = dialog.FileName; // Get the file path
-
-		TbxPackageFilePath.Text = filePath;
+		// Setup UI
+		TbxPackageFilePath.Text = file.Path;
     }
 }
