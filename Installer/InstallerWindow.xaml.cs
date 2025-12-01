@@ -1,8 +1,8 @@
 using Installer.Helper;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Reflection;
+using System.Text.Json;
 using WinUIEx;
 using InstallerCommons.ZipHelper;
 using InstallerCommons;
@@ -53,7 +53,7 @@ public sealed partial class InstallerWindow : WindowEx
         {
             manifestJson = ZipFileNative.ReadFileText(_packageFilePath, "manifest.json");
         });
-        var installManifest = JsonConvert.DeserializeObject<InstallManifest>(manifestJson);
+        var installManifest = JsonSerializer.Deserialize(manifestJson, SourceGenerationContext.Default.InstallManifest);
         _installManifest = installManifest;
 
         // Set the UI: Text
@@ -151,7 +151,7 @@ public sealed partial class InstallerWindow : WindowEx
             await Task.Run(() =>
             {
                 var existingUninstallManifestJson = File.ReadAllText(existingUninstallManifestPath);
-                existingUninstallManifest = JsonConvert.DeserializeObject<UninstallManifest>(existingUninstallManifestJson);
+                existingUninstallManifest = JsonSerializer.Deserialize(existingUninstallManifestJson, SourceGenerationContext.Default.UninstallManifest);
             });
         }
         PbInstallProgress.Tag = existingUninstallManifest; // Assign the existing uninstall manifest to the progress bar's tag
@@ -251,7 +251,7 @@ public sealed partial class InstallerWindow : WindowEx
         var installationDirectoryPath = Utils.GetInstallationDirectoryPath(_installManifest);
         var uninstallManifestPath = Path.Combine(installationDirectoryPath, "uninstall.json");
         var uninstallManifestJson = File.ReadAllText(uninstallManifestPath);
-        var uninstallManifest = JsonConvert.DeserializeObject<UninstallManifest>(uninstallManifestJson);
+        var uninstallManifest = JsonSerializer.Deserialize(uninstallManifestJson, SourceGenerationContext.Default.UninstallManifest);
 
         // Update the UI
         BtInstall.Content = "Registering Program...";

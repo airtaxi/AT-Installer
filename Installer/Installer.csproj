@@ -16,6 +16,10 @@
 		<ApplicationIcon>Icon.ico</ApplicationIcon>
 		<Version>1.0.6.7</Version>
 	</PropertyGroup>
+	
+	<PropertyGroup Condition="'$(Configuration)' == 'Relase'">
+		<PublishAot>true</PublishAot>
+	</PropertyGroup>
 	<ItemGroup>
 		<None Remove="Assets\Icon.png" />
 	</ItemGroup>
