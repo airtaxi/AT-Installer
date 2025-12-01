@@ -93,7 +93,7 @@ public sealed partial class ComposerWindow : WindowEx
 			await Task.Run(() =>
 			{
 				// Write the manifest file
-				File.WriteAllText(Path.Combine(instancePath, "manifest.json"), JsonSerializer.Serialize(installManifest));
+				File.WriteAllText(Path.Combine(instancePath, "manifest.json"), JsonSerializer.Serialize(installManifest, SourceGenerationContext.Default.InstallManifest));
 			});
 
 			// Generate Uninstall Manifest
@@ -109,7 +109,7 @@ public sealed partial class ComposerWindow : WindowEx
 					InstalledVersion = applicationExecutableFileVersion,
 					ExecuteOnUninstall = installManifest.ExecuteOnUninstall
 				};
-				uninstallManifestJson = JsonSerializer.Serialize(uninstallManifest);
+				uninstallManifestJson = JsonSerializer.Serialize(uninstallManifest, SourceGenerationContext.Default.UninstallManifest);
 			});
 
 			// Archive the application root directory
@@ -367,7 +367,7 @@ public sealed partial class ComposerWindow : WindowEx
 		GdLoading.Visibility = Visibility.Collapsed; // Hide the loading UI
 
 		// Deserialize the manifest
-		var installManifest = JsonSerializer.Deserialize<InstallManifest>(manifestJson);
+		var installManifest = JsonSerializer.Deserialize(manifestJson, SourceGenerationContext.Default.InstallManifest);
 
 		// Setup UI
 		TbxApplicationId.Text = installManifest.Id;
@@ -405,7 +405,7 @@ public sealed partial class ComposerWindow : WindowEx
 		if (!string.IsNullOrWhiteSpace(TbxApplicationExecuteAfterReinstall.Text)) settings.ExecuteAfterReinstall = TbxApplicationExecuteAfterReinstall.Text;
 		if (!string.IsNullOrWhiteSpace(TbxApplicationExecuteOnUninstall.Text)) settings.ExecuteOnUninstall = TbxApplicationExecuteOnUninstall.Text;
 
-        var settingsJson = JsonSerializer.Serialize(settings);
+        var settingsJson = JsonSerializer.Serialize(settings, ComposerSourceGenerationContext.Default.InstallerComposerConfig);
 
         // Pick a file
         var picker = new FileSavePicker(AppWindow.Id);
@@ -443,7 +443,7 @@ public sealed partial class ComposerWindow : WindowEx
     private void LoadSettings(string filePath)
     {
         var settingsJson = File.ReadAllText(filePath);
-        var settings = JsonSerializer.Deserialize<InstallerComposerConfig>(settingsJson);
+        var settings = JsonSerializer.Deserialize(settingsJson, ComposerSourceGenerationContext.Default.InstallerComposerConfig);
 
         // Setup UI
         TbxApplicationId.Text = settings.ApplicationId;
