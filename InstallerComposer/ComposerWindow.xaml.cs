@@ -103,11 +103,13 @@ public sealed partial class ComposerWindow : WindowEx
 			await Task.Run(() =>
 			{
 				string[] allFiles = Directory.GetFiles(applicationRootDirectoryPath, "*.*", SearchOption.AllDirectories);
+                var installedFiles = allFiles.Select(file => Path.GetRelativePath(applicationRootDirectoryPath, file)).ToList();
 				var uninstallManifest = new UninstallManifest()
 				{
 					InstallManifest = installManifest,
 					InstalledVersion = applicationExecutableFileVersion,
-					ExecuteOnUninstall = installManifest.ExecuteOnUninstall
+					ExecuteOnUninstall = installManifest.ExecuteOnUninstall,
+                    InstalledFiles = installedFiles
 				};
 				uninstallManifestJson = JsonSerializer.Serialize(uninstallManifest, SourceGenerationContext.Default.UninstallManifest);
 			});

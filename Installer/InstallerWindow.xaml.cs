@@ -152,6 +152,33 @@ public sealed partial class InstallerWindow : WindowEx
             {
                 var existingUninstallManifestJson = File.ReadAllText(existingUninstallManifestPath);
                 existingUninstallManifest = JsonSerializer.Deserialize(existingUninstallManifestJson, SourceGenerationContext.Default.UninstallManifest);
+
+                if (existingUninstallManifest.InstalledFiles != null)
+                {
+                    DispatcherQueue.TryEnqueue(() => BtInstall.Content = "Cleaning Up Previous Version...");
+                    foreach (var file in existingUninstallManifest.InstalledFiles)
+                    {
+                        var filePath = Path.Combine(installationDirectoryPath, file);
+                        if (File.Exists(filePath))
+                        {
+                            try { File.Delete(filePath); } catch { }
+                        }
+                    }
+
+                    // Clean up empty directories
+                    foreach (var file in existingUninstallManifest.InstalledFiles)
+                    {
+                        try
+                        {
+                            var directoryPath = Path.GetDirectoryName(Path.Combine(installationDirectoryPath, file));
+                            if (Directory.Exists(directoryPath) && !Directory.EnumerateFileSystemEntries(directoryPath).Any())
+                            {
+                                Directory.Delete(directoryPath);
+                            }
+                        }
+                        catch { }
+                    }
+                }
             });
         }
         PbInstallProgress.Tag = existingUninstallManifest; // Assign the existing uninstall manifest to the progress bar's tag
