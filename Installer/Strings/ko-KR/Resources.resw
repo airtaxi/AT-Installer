@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="PublisherPrefix" xml:space="preserve">
+    <value>게시자: </value>
+  </data>
+  <data name="VersionPrefix" xml:space="preserve">
+    <value>버전: </value>
+  </data>
+  <data name="CommitShaPrefix" xml:space="preserve">
+    <value>커밋 SHA: </value>
+  </data>
+  <data name="CantDowngrade" xml:space="preserve">
+    <value>다운그레이드 불가</value>
+  </data>
+  <data name="Reinstall" xml:space="preserve">
+    <value>재설치</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>업데이트</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>설치</value>
+  </data>
+  <data name="Initializing" xml:space="preserve">
+    <value>초기화 중...</value>
+  </data>
+  <data name="RunningUninstallScript" xml:space="preserve">
+    <value>제거 스크립트 실행 중...</value>
+  </data>
+  <data name="CleaningUpPreviousVersion" xml:space="preserve">
+    <value>이전 버전 정리 중...</value>
+  </data>
+  <data name="PreparingArchive" xml:space="preserve">
+    <value>아카이브 준비 중...</value>
+  </data>
+  <data name="Installing" xml:space="preserve">
+    <value>설치 중...</value>
+  </data>
+  <data name="ErrorPrefix" xml:space="preserve">
+    <value>오류: </value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>완료!</value>
+  </data>
+  <data name="CleaningUp" xml:space="preserve">
+    <value>정리 중...</value>
+  </data>
+  <data name="RunningPostInstallScript" xml:space="preserve">
+    <value>설치 후 스크립트 실행 중...</value>
+  </data>
+  <data name="RunningPostReinstallScript" xml:space="preserve">
+    <value>재설치 후 스크립트 실행 중...</value>
+  </data>
+  <data name="RegisteringProgram" xml:space="preserve">
+    <value>프로그램 등록 중...</value>
+  </data>
+  <data name="InstallCompleteExitIn" xml:space="preserve">
+    <value>설치 완료! {0}초 후 종료</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>로딩 중...</value>
+  </data>
+  <data name="AuthorPrefix" xml:space="preserve">
+    <value>작성자: </value>
+  </data>
+  <data name="BtInstall.Content" xml:space="preserve">
+    <value>설치</value>
+  </data>
+  <data name="TbApplicationVersion.Text" xml:space="preserve">
+    <value>로딩 중...</value>
+  </data>
+</root>

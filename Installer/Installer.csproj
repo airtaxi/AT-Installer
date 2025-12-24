@@ -36,6 +36,7 @@
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7175" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 		<PackageReference Include="securifybv.ShellLink" Version="0.1.0" />
+		<PackageReference Include="WinUI3Localizer" Version="2.3.0" />
 		<PackageReference Include="WinUIEx" Version="2.9.0" />
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
@@ -44,6 +45,12 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Content Update="Assets\Icon.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="Strings\**\*.resw">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>

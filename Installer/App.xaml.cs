@@ -1,11 +1,14 @@
 ﻿using System.Text;
 using WinUIEx;
+using WinUI3Localizer;
+using System.Globalization;
 
 namespace Installer;
 
 public partial class App : Application
 {
     public readonly static byte[] DefaultIconBinary;
+    private readonly static List<string> InstalledLanguages = ["en-US", "ko-KR", "ja-JP", "zh-CN"];
 
 	static App()
     {
@@ -44,6 +47,21 @@ public partial class App : Application
         TaskScheduler.UnobservedTaskException += OnTaskSchedulerUnobservedTaskException;
 
         InitializeComponent();
+        _ = InitializeLocalizerAsync();
+    }
+
+    private static async Task InitializeLocalizerAsync()
+    {
+        var stringsFolderPath = Path.Combine(AppContext.BaseDirectory, "Strings");
+
+        ILocalizer localizer = await new LocalizerBuilder()
+            .AddStringResourcesFolderForLanguageDictionaries(stringsFolderPath)
+            .SetOptions(options => options.DefaultLanguage = "en-US")
+            .Build();
+
+        var name = CultureInfo.InstalledUICulture.Name.ToLowerInvariant();
+        var systemLocale = InstalledLanguages.Contains(name) ? name : "en-US";
+        await localizer.SetLanguage(systemLocale);
     }
 
     protected override void OnLaunched(LaunchActivatedEventArgs launchActivatedEventArgs)
@@ -52,7 +70,7 @@ public partial class App : Application
 		var args = Environment.GetCommandLineArgs();
 
 #if DEBUG
-		args = ["", "C:\\Data\\Temp\\Package.atp"];
+		args = ["", "E:\\Dev\\Archive\\Archive\\Package.atp"];
 #endif
 
 		// Compose manifest from command line argument
