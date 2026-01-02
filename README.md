@@ -11,7 +11,7 @@ AT Installer is a modern, lightweight installer framework for Windows applicatio
 
 1. **Installer Composer** - A GUI tool for creating installation packages
 2. **Installer** - The runtime installer that extracts and installs applications
-022
+
 The framework uses WinUI 3 with Mica backdrop for a modern Windows 11 appearance and supports multiple languages (English, Korean, Japanese, Chinese).
 
 ## Features
