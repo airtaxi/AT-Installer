@@ -2,7 +2,8 @@
 
 한국어 | **[English](README.md)**
 
-WinUI 3로 구축된 경량 Windows 인스톨러 프레임워크
+WinUI 3로 구축된 경량 Windows 인스톨러 프레임워크<br><br>
+<img width="1178" height="589" alt="image" src="https://github.com/user-attachments/assets/e20ab765-88ab-44c0-837c-f40041b209d0" />
 
 ## 개요
 
