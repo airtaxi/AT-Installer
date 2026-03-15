@@ -60,7 +60,7 @@ public partial class App : Application
             .Build();
 
         var name = CultureInfo.InstalledUICulture.Name.ToLowerInvariant();
-        var systemLocale = InstalledLanguages.Contains(name) ? name : "en-US";
+        var systemLocale = InstalledLanguages.Contains(name, StringComparer.OrdinalIgnoreCase) ? name : "en-US";
         await localizer.SetLanguage(systemLocale);
     }
 
