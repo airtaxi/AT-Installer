@@ -2,7 +2,8 @@
 
 **[한국어](README.ko.md)** | English
 
-A lightweight Windows installer framework built with WinUI 3
+A lightweight Windows installer framework built with WinUI 3<br><br>
+<img width="1178" height="589" alt="image" src="https://github.com/user-attachments/assets/e20ab765-88ab-44c0-837c-f40041b209d0" />
 
 ## Overview
 
@@ -10,7 +11,7 @@ AT Installer is a modern, lightweight installer framework for Windows applicatio
 
 1. **Installer Composer** - A GUI tool for creating installation packages
 2. **Installer** - The runtime installer that extracts and installs applications
-022
+
 The framework uses WinUI 3 with Mica backdrop for a modern Windows 11 appearance and supports multiple languages (English, Korean, Japanese, Chinese).
 
 ## Features
