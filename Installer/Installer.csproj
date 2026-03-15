@@ -31,9 +31,9 @@
 
 	<ItemGroup>
 		<PackageReference Include="DetoursCustomDPI" Version="1.0.3" />
-		<PackageReference Include="Magick.NET-Q8-AnyCPU" Version="14.10.1" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.251106002" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7175" />
+		<PackageReference Include="Magick.NET-Q8-AnyCPU" Version="14.10.4" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260209005" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7705" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 		<PackageReference Include="securifybv.ShellLink" Version="0.1.0" />
 		<PackageReference Include="WinUI3Localizer" Version="2.3.0" />
