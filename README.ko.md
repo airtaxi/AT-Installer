@@ -197,7 +197,7 @@ createArchive-arm64.bat
 createArchive-x86.bat
 ```
 
-이렇게 하면 Release 폴더에 `Archive.7z` 또는`Archive-arm64.7z` 또는 `Archive-x86.7z`가 생성됩니다.
+이렇게 하면 Release 폴더에 `Archive.7z`,`Archive-arm64.7z` 또는 `Archive-x86.7z`가 생성됩니다.
 
 > **참고**: 이 배치 파일은 `bz.exe` (반디집 CLI) 또는 시스템에 설치된 반디집을 사용하여 7z 아카이브를 생성합니다.
 
@@ -297,7 +297,7 @@ composeInstaller.bat
 - **레지스트리**: `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall`
 - **SFX 모듈**: 7-Zip SFX (7zS.sfx)
 - **아카이브 도구**: 반디집 CLI (bz.exe) 또는 시스템에 설치된 반디집
-- **지원 아키텍처**: x64, ARM64 (x86 지원 예정)
+- **지원 아키텍처**: x64, ARM64, x86
 
 ## 저자
 
