@@ -128,8 +128,6 @@ InstallerComposer.exe "경로\구성파일.aticconfig"
 
 릴리스에는 자동 압축 해제 인스톨러를 생성하는 도구가 포함된 압축 파일(`Release.7z`)이 포함되어 있습니다.
 
-> **참고**: 현재 **x64** 및 **ARM64** 아키텍처를 지원합니다. x86 지원은 향후 릴리스에서 추가될 예정입니다. 현재 x86이 필요한 경우, Installer 프로젝트 자체는 x86을 지원하므로 소스에서 빌드하여 출력물을 사용할 수 있습니다.
-
 ## 자동 압축 해제 인스톨러 만들기
 
 Release 폴더에는 AT Installer와 `.atp` 패키지를 단일 `.exe` 파일로 번들링하는 자동 압축 해제(SFX) 인스톨러를 생성하는 도구가 포함되어 있습니다.
@@ -144,21 +142,28 @@ Release/
 ├── Archive-arm64/              # ARM64 Installer 빌드
 │   ├── Installer.exe
 │   └── (기타 런타임 파일)
+├── Archive-x86/              # x86 Installer 빌드
+│   ├── Installer.exe
+│   └── (기타 런타임 파일)
 ├── 7zS.sfx                     # 7-Zip SFX 모듈
 ├── bz.exe                      # 반디집 명령줄 도구 (선택사항)
 ├── config.txt                  # 일반 인스톨러 구성
 ├── config_silent.txt           # 자동 인스톨러 구성
 ├── createArchive.bat           # Archive 폴더에서 Archive.7z 생성
 ├── createArchive-arm64.bat     # Archive-arm64 폴더에서 Archive-arm64.7z 생성
+├── createArchive-x86.bat       # Archive-x86 폴더에서 Archive-x86.7z 생성
 ├── composeInstaller.bat        # Installer.exe 생성 (x64)
 ├── composeInstaller-arm64.bat  # Installer-arm64.exe 생성
+├── composeInstaller-x86.bat  # Installer-x86.exe 생성
 ├── composeSilentInstaller.bat  # 자동 Installer.exe 생성 (x64)
 ├── composeSilentInstaller-arm64.bat  # 자동 Installer.exe 생성 (ARM64)
+├── composeSilentInstaller-x86.bat  # 자동 Installer.exe 생성 (x86)
 ├── composeByName.bat           # 사용자 지정 이름 인스톨러 생성 (x64)
 └── composeByName-arm64.bat     # 사용자 지정 이름 인스톨러 생성 (ARM64)
+└── composeByName-x86.bat       # 사용자 지정 이름 인스톨러 생성 (x86)
 ```
 
-> **참고**: `Archive` 및 `Archive-arm64` 폴더에는 게시된 Installer 런타임만 포함되어 있습니다. InstallerComposer는 별도의 개발 도구이며 이 폴더에 포함되어 있지 않습니다.
+> **참고**: `Archive`, `Archive-arm64` 및 `Archive-x86` 폴더에는 게시된 Installer 런타임만 포함되어 있습니다. InstallerComposer는 별도의 개발 도구이며 이 폴더에 포함되어 있지 않습니다.
 
 > **팁**: 시스템에 반디집이 설치되어 있는 경우, 배치 파일이 시스템에 설치된 반디집 명령줄 도구를 사용할 수 있으므로 `bz.exe`를 삭제할 수 있습니다.
 
@@ -173,6 +178,7 @@ GitHub Releases에서 `Release.7z`를 다운로드하고 폴더에 압축 해제
 `.atp` 패키지 파일을 적절한 폴더에 배치하고 `Package.atp`로 이름 변경:
 - x64용: `Release\Archive\Package.atp`로 복사
 - ARM64용: `Release\Archive-arm64\Package.atp`로 복사
+- x86용: `Release\Archive-x86\Package.atp`로 복사
 
 > **중요**: 파일 이름은 정확히 `Package.atp`여야 합니다.
 
@@ -186,9 +192,12 @@ createArchive.bat
 
 # ARM64용
 createArchive-arm64.bat
+
+# x86용
+createArchive-x86.bat
 ```
 
-이렇게 하면 Release 폴더에 `Archive.7z` 또는 `Archive-arm64.7z`가 생성됩니다.
+이렇게 하면 Release 폴더에 `Archive.7z` 또는`Archive-arm64.7z` 또는 `Archive-x86.7z`가 생성됩니다.
 
 > **참고**: 이 배치 파일은 `bz.exe` (반디집 CLI) 또는 시스템에 설치된 반디집을 사용하여 7z 아카이브를 생성합니다.
 
@@ -203,6 +212,9 @@ composeInstaller.bat
 
 # ARM64용
 composeInstaller-arm64.bat
+
+# x86용
+composeInstaller-x86.bat
 ```
 설치 UI를 표시하는 `Installer.exe` 생성
 
@@ -213,6 +225,9 @@ composeSilentInstaller.bat
 
 # ARM64용
 composeSilentInstaller-arm64.bat
+
+# x86용
+composeSilentInstaller-x86.bat
 ```
 자동 모드로 실행되는 `Installer.exe` 생성 (UI 없음)
 
@@ -223,6 +238,9 @@ composeByName.bat
 
 # ARM64용
 composeByName-arm64.bat
+
+# x86용
+composeByName-x86.bat
 ```
 사용자 지정 파일 이름을 입력하면 `사용자이름.exe` 생성
 
