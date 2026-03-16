@@ -20,7 +20,7 @@ The framework uses WinUI 3 with Mica backdrop for a modern Windows 11 appearance
 - Multi-language Support (English, Korean, Japanese, Chinese)
 - Simple Package Format using `.atp` (AT Package) format with ZIP compression
 - Customizable scripts during install/uninstall
-- Multi-Architecture support (x64, ARM64)
+- Multi-Architecture support (x64, ARM64, x86)
 - Silent Install via command-line
 - Registry Integration for proper Windows uninstaller registration
 - Start Menu Integration with automatic shortcut creation
@@ -56,12 +56,12 @@ Shared library containing:
 
 - Windows 10 (1809) or later
 - .NET 10.0 SDK
-- Visual Studio 2022 with WinUI 3 workload
+- Visual Studio 2022 / 2026 with WinUI 3 workload
 
 ### Building from Source
 
 1. Clone the repository
-2. Open `AT Installer.sln` in Visual Studio 2022
+2. Open `AT Installer.sln` in Visual Studio 2022 / 2026
 3. Build the solution
 
 ### Creating an Installation Package
@@ -128,8 +128,6 @@ Download the latest release from the [Releases](https://github.com/airtaxi/AT-In
 
 The release includes a compressed archive (`Release.7z`) containing tools to create self-extracting installers.
 
-> **Note**: Currently supports **x64** and **ARM64** architectures. x86 support will be added in a future release. If you need x86 right now, the Installer project itself supports x86 - you can build it from source and use the output.
-
 ## Creating Self-Extracting Installers
 
 The Release folder includes tools to create self-extracting (SFX) installers that bundle the AT Installer with your `.atp` package into a single `.exe` file.
@@ -144,21 +142,28 @@ Release/
 ├── Archive-arm64/              # ARM64 Installer build
 │   ├── Installer.exe
 │   └── (other runtime files)
+├── Archive-x86/              # x86 Installer build
+│   ├── Installer.exe
+│   └── (other runtime files)
 ├── 7zS.sfx                     # 7-Zip SFX module
 ├── bz.exe                      # Bandizip command-line tool (optional)
 ├── config.txt                  # Normal installer config
 ├── config_silent.txt           # Silent installer config
 ├── createArchive.bat           # Create Archive.7z from Archive folder
 ├── createArchive-arm64.bat     # Create Archive-arm64.7z from Archive-arm64 folder
+├── createArchive-x86.bat       # Create Archive-x86.7z from Archive-x86 folder
 ├── composeInstaller.bat        # Create Installer.exe (x64)
 ├── composeInstaller-arm64.bat  # Create Installer-arm64.exe
+├── composeInstaller-x86.bat  # Create Installer-x86.exe
 ├── composeSilentInstaller.bat  # Create silent Installer.exe (x64)
 ├── composeSilentInstaller-arm64.bat  # Create silent Installer.exe (ARM64)
+├── composeSilentInstaller-x86.bat  # Create silent Installer.exe (x86)
 ├── composeByName.bat           # Create custom-named installer (x64)
-└── composeByName-arm64.bat     # Create custom-named installer (ARM64)
+├── composeByName-arm64.bat     # Create custom-named installer (ARM64)
+└── composeByName-x86.bat       # Create custom-named installer (x86)
 ```
 
-> **Note**: The `Archive` and `Archive-arm64` folders contain the published Installer runtime only. InstallerComposer is a separate development tool and not included in these folders.
+> **Note**: The `Archive`, `Archive-arm64` and `Archive-x86` folders contain the published Installer runtime only. InstallerComposer is a separate development tool and not included in these folders.
 
 > **Tip**: If you have Bandizip installed on your system, you can delete `bz.exe` as the batch files can use the system-installed Bandizip command-line tool instead.
 
@@ -173,6 +178,7 @@ Download `Release.7z` from GitHub Releases and extract it to a folder (e.g., `C:
 Place your `.atp` package file in the appropriate folder and rename it to `Package.atp`:
 - For x64: Copy to `Release\Archive\Package.atp`
 - For ARM64: Copy to `Release\Archive-arm64\Package.atp`
+- For x86: Copy to `Release\Archive-x86\Package.atp`
 
 > **Important**: The file must be named exactly `Package.atp`
 
@@ -186,9 +192,12 @@ createArchive.bat
 
 # For ARM64
 createArchive-arm64.bat
+
+# For x86
+createArchive-x86.bat
 ```
 
-This creates `Archive.7z` or `Archive-arm64.7z` in the Release folder.
+This creates `Archive.7z`, `Archive-arm64.7z` or `Archive-x86.7z` in the Release folder.
 
 > **Note**: These batch files use `bz.exe` (Bandizip CLI) or the system-installed Bandizip to create the 7z archive.
 
@@ -203,6 +212,9 @@ composeInstaller.bat
 
 # For ARM64
 composeInstaller-arm64.bat
+
+# For x86
+composeInstaller-x86.bat
 ```
 Creates `Installer.exe` that shows the installation UI.
 
@@ -213,6 +225,9 @@ composeSilentInstaller.bat
 
 # For ARM64
 composeSilentInstaller-arm64.bat
+
+# For x86
+composeSilentInstaller-x86.bat
 ```
 Creates `Installer.exe` that runs in silent mode (no UI).
 
@@ -223,6 +238,9 @@ composeByName.bat
 
 # For ARM64
 composeByName-arm64.bat
+
+# For x86
+composeByName-x86.bat
 ```
 Prompts for a custom filename and creates `YourName.exe`.
 
@@ -279,7 +297,7 @@ composeInstaller.bat
 - **Registry**: `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall`
 - **SFX Module**: 7-Zip SFX (7zS.sfx)
 - **Archive Tool**: Bandizip CLI (bz.exe) or system-installed Bandizip
-- **Supported Architectures**: x64, ARM64 (x86 support coming soon)
+- **Supported Architectures**: x64, ARM64, x86
 
 ## Author
 
