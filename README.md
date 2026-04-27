@@ -28,7 +28,7 @@ The framework uses WinUI 3 with Mica backdrop for a modern Windows 11 appearance
 
 ## Project Structure
 
-The solution contains three projects:
+The solution contains four projects:
 
 ### Installer
 Runtime installer application that handles:
@@ -43,6 +43,12 @@ Package creation tool featuring:
 - Icon embedding
 - Custom script configuration
 - Settings save/load functionality
+
+### InstallerComposerCommandLine
+NativeAOT console package creation tool for CI, Linux, and AI automation:
+- Reads `.aticconfig` files
+- Creates `.atp` packages without launching the WinUI composer
+- Resolves relative application and output paths from the config file directory
 
 ### InstallerCommons
 Shared library containing:
@@ -119,6 +125,13 @@ Automate package creation by passing the config file as a command-line argument:
 ```
 InstallerComposer.exe "path\to\config.aticconfig"
 ```
+
+For CLI or Linux automation, use the NativeAOT console composer:
+```
+InstallerComposerCommandLine "path/to/config.aticconfig"
+```
+
+`ApplicationRootDirectoryPath` and `PackageFilePath` can be relative paths. The CLI resolves them from the `.aticconfig` file directory.
 
 ## Downloads
 

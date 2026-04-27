@@ -1,6 +1,6 @@
-﻿namespace InstallerComposer.DataTypes;
+namespace InstallerCommons;
 
-public class InstallerComposerConfig
+public class InstallerComposerConfiguration
 {
     public string ApplicationId { get; set; }
     public string ApplicationName { get; set; }

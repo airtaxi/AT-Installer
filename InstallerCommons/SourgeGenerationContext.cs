@@ -1,6 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.Json.Serialization;
 
 namespace InstallerCommons;
@@ -8,4 +5,5 @@ namespace InstallerCommons;
 [JsonSourceGenerationOptions()]
 [JsonSerializable(typeof(InstallManifest))]
 [JsonSerializable(typeof(UninstallManifest))]
+[JsonSerializable(typeof(InstallerComposerConfiguration))]
 public partial class SourceGenerationContext : JsonSerializerContext;

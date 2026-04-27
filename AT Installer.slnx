@@ -24,4 +24,5 @@
     <Platform Solution="*|x86" Project="x86" />
     <Deploy />
   </Project>
+  <Project Path="InstallerComposerCommandLine/InstallerComposerCommandLine.csproj" />
 </Solution>
