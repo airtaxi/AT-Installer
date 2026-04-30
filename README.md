@@ -133,6 +133,8 @@ InstallerComposerCommandLine "path/to/config.aticconfig"
 
 `ApplicationRootDirectoryPath` and `PackageFilePath` can be relative paths. The CLI resolves them from the `.aticconfig` file directory.
 
+If you want to reduce progress log volume in automation or AI-assisted workflows, add `--minimal-log` to print only stage-level progress messages.
+
 ## Downloads
 
 Download the latest release from the [Releases](https://github.com/airtaxi/AT-Installer/releases) page.
