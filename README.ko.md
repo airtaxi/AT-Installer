@@ -133,6 +133,8 @@ InstallerComposerCommandLine "경로/구성파일.aticconfig"
 
 `ApplicationRootDirectoryPath`와 `PackageFilePath`는 상대 경로로 작성할 수 있으며, CLI는 `.aticconfig` 파일이 있는 폴더를 기준으로 해석합니다.
 
+자동화나 AI 보조 워크플로에서 진행 로그를 줄이고 싶다면 `--minimal-log` 옵션을 추가해 단계별 핵심 메시지만 출력할 수 있습니다.
+
 ## 다운로드
 
 [Releases](https://github.com/airtaxi/AT-Installer/releases) 페이지에서 최신 릴리스를 다운로드하세요.
