@@ -1,7 +1,8 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
+using Microsoft.Windows.ApplicationModel.Resources;
+using Microsoft.Windows.Globalization;
 using WinUIEx;
-using WinUI3Localizer;
-using System.Globalization;
 
 namespace Installer;
 
@@ -9,6 +10,7 @@ public partial class App : Application
 {
     public readonly static byte[] DefaultIconBinary;
     private readonly static List<string> InstalledLanguages = ["en-US", "ko-KR", "ja-JP", "zh-CN"];
+    private static ResourceLoader _resourceLoader;
 
 	static App()
     {
@@ -47,22 +49,18 @@ public partial class App : Application
         TaskScheduler.UnobservedTaskException += OnTaskSchedulerUnobservedTaskException;
 
         InitializeComponent();
-        _ = InitializeLocalizerAsync();
+        InitializeLocalizer();
     }
 
-    private static async Task InitializeLocalizerAsync()
+    private static void InitializeLocalizer()
     {
-        var stringsFolderPath = Path.Combine(AppContext.BaseDirectory, "Strings");
-
-        ILocalizer localizer = await new LocalizerBuilder()
-            .AddStringResourcesFolderForLanguageDictionaries(stringsFolderPath)
-            .SetOptions(options => options.DefaultLanguage = "en-US")
-            .Build();
-
         var name = CultureInfo.InstalledUICulture.Name.ToLowerInvariant();
         var systemLocale = InstalledLanguages.Contains(name, StringComparer.OrdinalIgnoreCase) ? name : "en-US";
-        await localizer.SetLanguage(systemLocale);
+        ApplicationLanguages.PrimaryLanguageOverride = systemLocale;
+        _resourceLoader = new ResourceLoader();
     }
+
+    public static string GetLocalizedString(string resourceKey) => _resourceLoader.GetString(resourceKey);
 
     protected override void OnLaunched(LaunchActivatedEventArgs launchActivatedEventArgs)
 	{
