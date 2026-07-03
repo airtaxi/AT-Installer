@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <winuiex:WindowEx
     x:Class="Installer.InstallerWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Installer"
-    xmlns:l="using:WinUI3Localizer"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winuiex="using:WinUIEx"
     Title="AT Installer"
@@ -63,8 +62,8 @@
                 Text="Author: Howon Lee" />
             <TextBlock
                 x:Name="TbApplicationVersion"
+                x:Uid="TbApplicationVersion"
                 Style="{ThemeResource BodyTextBlockStyle}"
-                l:Uids.Uid="TbApplicationVersion"
                 Text="Loading..." />
             <TextBlock
                 x:Name="TbApplicationCommitSha"
@@ -100,8 +99,8 @@
             Spacing="5">
             <Button
                 x:Name="BtInstall"
+                x:Uid="BtInstall"
                 Click="OnInstallButtonClicked"
-                l:Uids.Uid="BtInstall"
                 Content="Install" />
         </StackPanel>
 
