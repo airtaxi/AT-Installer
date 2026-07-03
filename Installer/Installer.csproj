@@ -14,15 +14,10 @@
 		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<ApplicationIcon>Icon.ico</ApplicationIcon>
+		<PublishAot>true</PublishAot>
 		<Version>1.0.8.2</Version>
 	</PropertyGroup>
 	
-	<PropertyGroup Condition="'$(Configuration)' == 'Relase'">
-		<PublishAot>true</PublishAot>
-	</PropertyGroup>
-	<ItemGroup>
-		<None Remove="Assets\Icon.png" />
-	</ItemGroup>
 	<ItemGroup>
 		<Content Include="Icon.ico">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -39,30 +34,8 @@
 		<PackageReference Include="WinUIEx" Version="2.9.1" />
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
+	
 	<ItemGroup>
 		<ProjectReference Include="..\InstallerCommons\InstallerCommons.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-		<Content Update="Assets\Icon.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
-	</ItemGroup>
-
-	<!-- 
-    Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution 
-    Explorer "Package and Publish" context menu entry to be enabled for this project even if 
-    the Windows App SDK Nuget package has not yet been restored.
-  -->
-	<PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-		<HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
-	</PropertyGroup>
-
-	<!-- 
-    Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
-    Tools extension to be activated for this project even if the Windows App SDK Nuget
-    package has not yet been restored.
-  -->
-	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-		<ProjectCapability Include="Msix" />
 	</ItemGroup>
 </Project>
