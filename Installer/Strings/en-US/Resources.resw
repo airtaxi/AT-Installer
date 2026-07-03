@@ -53,55 +53,64 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="PublisherPrefix" xml:space="preserve">
-    <value>Publisher: </value>
+  <data name="ApplicationVersionTextBlock.Text" xml:space="preserve">
+    <value>Loading...</value>
   </data>
-  <data name="VersionPrefix" xml:space="preserve">
-    <value>Version: </value>
-  </data>
-  <data name="CommitShaPrefix" xml:space="preserve">
-    <value>Commit SHA: </value>
+  <data name="AuthorPrefix" xml:space="preserve">
+    <value>Author: </value>
   </data>
   <data name="CantDowngrade" xml:space="preserve">
     <value>Can't Downgrade</value>
   </data>
-  <data name="Reinstall" xml:space="preserve">
-    <value>Reinstall</value>
-  </data>
-  <data name="Update" xml:space="preserve">
-    <value>Update</value>
-  </data>
-  <data name="Install" xml:space="preserve">
-    <value>Install</value>
-  </data>
-  <data name="Initializing" xml:space="preserve">
-    <value>Initializing...</value>
-  </data>
-  <data name="RunningUninstallScript" xml:space="preserve">
-    <value>Running Uninstallation Script...</value>
+  <data name="CleaningUp" xml:space="preserve">
+    <value>Cleaning Up...</value>
   </data>
   <data name="CleaningUpPreviousVersion" xml:space="preserve">
     <value>Cleaning Up Previous Version...</value>
   </data>
-  <data name="PreparingArchive" xml:space="preserve">
-    <value>Preparing Archive...</value>
-  </data>
-  <data name="Installing" xml:space="preserve">
-    <value>Installing...</value>
-  </data>
-  <data name="ErrorPrefix" xml:space="preserve">
-    <value>ERROR: </value>
+  <data name="CommitShaPrefix" xml:space="preserve">
+    <value>Commit SHA: </value>
   </data>
   <data name="Completed" xml:space="preserve">
     <value>Completed!</value>
   </data>
-  <data name="CleaningUp" xml:space="preserve">
-    <value>Cleaning Up...</value>
+  <data name="ErrorPrefix" xml:space="preserve">
+    <value>ERROR: </value>
+  </data>
+  <data name="Initializing" xml:space="preserve">
+    <value>Initializing...</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="InstallButton.Content" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="InstallCompleteExitIn" xml:space="preserve">
+    <value>Install Complete! Exit In {0} Seconds</value>
+  </data>
+  <data name="Installing" xml:space="preserve">
+    <value>Installing...</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="PreparingArchive" xml:space="preserve">
+    <value>Preparing Archive...</value>
+  </data>
+  <data name="PublisherPrefix" xml:space="preserve">
+    <value>Publisher: </value>
+  </data>
+  <data name="RegisteringProgram" xml:space="preserve">
+    <value>Registering Program...</value>
+  </data>
+  <data name="Reinstall" xml:space="preserve">
+    <value>Reinstall</value>
   </data>
   <data name="RunningPostInstallScript" xml:space="preserve">
     <value>Running Post Installation Script...</value>
@@ -109,22 +118,13 @@
   <data name="RunningPostReinstallScript" xml:space="preserve">
     <value>Running Post Reinstallation Script...</value>
   </data>
-  <data name="RegisteringProgram" xml:space="preserve">
-    <value>Registering Program...</value>
+  <data name="RunningUninstallScript" xml:space="preserve">
+    <value>Running Uninstallation Script...</value>
   </data>
-  <data name="InstallCompleteExitIn" xml:space="preserve">
-    <value>Install Complete! Exit In {0} Seconds</value>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
   </data>
-  <data name="Loading" xml:space="preserve">
-    <value>Loading...</value>
-  </data>
-  <data name="AuthorPrefix" xml:space="preserve">
-    <value>Author: </value>
-  </data>
-  <data name="BtInstall.Content" xml:space="preserve">
-    <value>Install</value>
-  </data>
-  <data name="TbApplicationVersion.Text" xml:space="preserve">
-    <value>Loading...</value>
+  <data name="VersionPrefix" xml:space="preserve">
+    <value>Version: </value>
   </data>
 </root>

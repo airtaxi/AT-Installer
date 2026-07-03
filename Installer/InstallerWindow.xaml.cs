@@ -42,10 +42,10 @@ public sealed partial class InstallerWindow : WindowEx
 
         // Set the title
         var applicationVersion = Assembly.GetExecutingAssembly().GetName().Version;
-        TbTitle.Text += $" {applicationVersion}";
+        TitleTextBlock.Text += $" {applicationVersion}";
 
         // Show loading
-        GdLoading.Visibility = Visibility.Visible;
+        LoadingGrid.Visibility = Visibility.Visible;
 
         // Read the manifest file
         string manifestJson = default; // This variable will be set in the task
@@ -57,14 +57,14 @@ public sealed partial class InstallerWindow : WindowEx
         _installManifest = installManifest;
 
         // Set the UI: Text
-        TbApplicationName.Text = installManifest.Name;
-        TbApplicationPublisher.Text = App.GetLocalizedString("PublisherPrefix") + installManifest.Publisher;
-        TbApplicationVersion.Text = App.GetLocalizedString("VersionPrefix") + installManifest.Version.ToString();
+        ApplicationNameTextBlock.Text = installManifest.Name;
+        ApplicationPublisherTextBlock.Text = App.GetLocalizedString("PublisherPrefix") + installManifest.Publisher;
+        ApplicationVersionTextBlock.Text = App.GetLocalizedString("VersionPrefix") + installManifest.Version.ToString();
 
         if(installManifest.CommitSha != null)
         {
-            TbApplicationCommitSha.Text = App.GetLocalizedString("CommitShaPrefix") + installManifest.CommitSha;
-            TbApplicationCommitSha.Visibility = Visibility.Visible;
+            ApplicationCommitShaTextBlock.Text = App.GetLocalizedString("CommitShaPrefix") + installManifest.CommitSha;
+            ApplicationCommitShaTextBlock.Visibility = Visibility.Visible;
         }
 
         // Set the UI: Icon
@@ -73,8 +73,8 @@ public sealed partial class InstallerWindow : WindowEx
             var bitmapImage = new BitmapImage();
             using var memoryStream = new MemoryStream(installManifest.IconBinary);
             bitmapImage.SetSource(memoryStream.AsRandomAccessStream());
-            ImgApplicationIcon.Source = bitmapImage;
-            SiApplicationIconFallback.Visibility = Visibility.Collapsed;
+            ApplicationIconImage.Source = bitmapImage;
+            ApplicationIconFallbackSymbolIcon.Visibility = Visibility.Collapsed;
         }
 
         // Fake loading
@@ -89,12 +89,12 @@ public sealed partial class InstallerWindow : WindowEx
             var installedApplicationExecutableFileVersion = new Version(installedApplicationVersionInfo.FileVersion);
             if (installedApplicationExecutableFileVersion > installManifest.Version)
             {
-                BtInstall.IsEnabled = false;
-                BtInstall.Content = App.GetLocalizedString("CantDowngrade");
+                InstallButton.IsEnabled = false;
+                InstallButton.Content = App.GetLocalizedString("CantDowngrade");
                 if (_isSilent) Environment.Exit(24);
             }
-            else if (installedApplicationExecutableFileVersion == installManifest.Version) BtInstall.Content = App.GetLocalizedString("Reinstall");
-            else BtInstall.Content = App.GetLocalizedString("Update");
+            else if (installedApplicationExecutableFileVersion == installManifest.Version) InstallButton.Content = App.GetLocalizedString("Reinstall");
+            else InstallButton.Content = App.GetLocalizedString("Update");
 
             _isFirstInstall = false;
         }
@@ -102,16 +102,16 @@ public sealed partial class InstallerWindow : WindowEx
         if (_isSilent) OnInstallButtonClicked(null, null);
 
         // Hide loading
-        GdLoading.Visibility = Visibility.Collapsed;
+        LoadingGrid.Visibility = Visibility.Collapsed;
     }
 
     private async void OnInstallButtonClicked(object sender, RoutedEventArgs e)
     {
         // Update the UI
-        BtInstall.IsEnabled = false;
-        BtInstall.Content = App.GetLocalizedString("Initializing");
-        PbInstallProgress.Visibility = Visibility.Visible;
-        PbInstallProgress.IsIndeterminate = true;
+        InstallButton.IsEnabled = false;
+        InstallButton.Content = App.GetLocalizedString("Initializing");
+        InstallProgressProgressBar.Visibility = Visibility.Visible;
+        InstallProgressProgressBar.IsIndeterminate = true;
 
         // Create the installation directory
         var installationDirectoryPath = Utils.GetInstallationDirectoryPath(_installManifest);
@@ -119,7 +119,7 @@ public sealed partial class InstallerWindow : WindowEx
         // Run the uninstall script if it's not the first install
         if (!_isFirstInstall && !string.IsNullOrWhiteSpace(_installManifest.ExecuteOnUninstall))
         {
-            BtInstall.Content = App.GetLocalizedString("RunningUninstallScript");
+            InstallButton.Content = App.GetLocalizedString("RunningUninstallScript");
             try
             {
                 await Task.Run(() =>
@@ -146,7 +146,7 @@ public sealed partial class InstallerWindow : WindowEx
         await Task.Run(() =>
         {
             // Update the UI
-            DispatcherQueue.TryEnqueue(() => BtInstall.Content = App.GetLocalizedString("PreparingArchive"));
+            DispatcherQueue.TryEnqueue(() => InstallButton.Content = App.GetLocalizedString("PreparingArchive"));
 
             // Extract the archive entry to a temp file
             var tempFile = Path.GetTempFileName();
@@ -183,7 +183,7 @@ public sealed partial class InstallerWindow : WindowEx
                 {
                     if (uninstallManifest.InstalledFiles != null)
                     {
-                        DispatcherQueue.TryEnqueue(() => BtInstall.Content = App.GetLocalizedString("CleaningUpPreviousVersion"));
+                        DispatcherQueue.TryEnqueue(() => InstallButton.Content = App.GetLocalizedString("CleaningUpPreviousVersion"));
                         foreach (var file in uninstallManifest.InstalledFiles)
                         {
                             var filePath = Path.Combine(installationDirectoryPath, file);
@@ -210,7 +210,7 @@ public sealed partial class InstallerWindow : WindowEx
                     else
                     {
                         // Fallback: Delete the entire installation directory
-                        DispatcherQueue.TryEnqueue(() => BtInstall.Content = App.GetLocalizedString("CleaningUpPreviousVersion"));
+                        DispatcherQueue.TryEnqueue(() => InstallButton.Content = App.GetLocalizedString("CleaningUpPreviousVersion"));
                         try
                         {
                             if (Directory.Exists(installationDirectoryPath)) Directory.Delete(installationDirectoryPath, true);
@@ -222,7 +222,7 @@ public sealed partial class InstallerWindow : WindowEx
             catch { } // Ignore errors during cleanup
 
             // Update the UI
-            DispatcherQueue.TryEnqueue(() => BtInstall.Content = App.GetLocalizedString("Installing"));
+            DispatcherQueue.TryEnqueue(() => InstallButton.Content = App.GetLocalizedString("Installing"));
 
             try { ZipFileNative.ExtractToDirectory(tempFile, installationDirectoryPath, new ActionProgress<ZipProgressStatus>(OnArchiveExtractProgress)); }
             catch (Exception exception)
@@ -232,15 +232,15 @@ public sealed partial class InstallerWindow : WindowEx
                     File.Delete(tempFile);
                     Environment.Exit(25);
                 }
-                DispatcherQueue.TryEnqueue(() => TbInstallProgress.Text = $"{App.GetLocalizedString("ErrorPrefix")}{exception.Message}");
+                DispatcherQueue.TryEnqueue(() => InstallProgressTextBlock.Text = $"{App.GetLocalizedString("ErrorPrefix")}{exception.Message}");
             }
 
             // Update the UI
             DispatcherQueue.TryEnqueue(() =>
             {
-                TbInstallProgress.Text = App.GetLocalizedString("Completed");
-                BtInstall.Content = App.GetLocalizedString("CleaningUp");
-                PbInstallProgress.IsIndeterminate = true;
+                InstallProgressTextBlock.Text = App.GetLocalizedString("Completed");
+                InstallButton.Content = App.GetLocalizedString("CleaningUp");
+                InstallProgressProgressBar.IsIndeterminate = true;
             });
 
             // Delete the temp file
@@ -258,9 +258,9 @@ public sealed partial class InstallerWindow : WindowEx
         {
             if (DateTime.UtcNow > _lastExtractionProgressUpdateTime.AddSeconds(0.13) || status.Progress == 1)
             {
-                PbInstallProgress.IsIndeterminate = false;
-                PbInstallProgress.Value = status.Progress * 100;
-                TbInstallProgress.Text = status.FileName;
+                InstallProgressProgressBar.IsIndeterminate = false;
+                InstallProgressProgressBar.Value = status.Progress * 100;
+                InstallProgressTextBlock.Text = status.FileName;
                 _lastExtractionProgressUpdateTime = DateTime.UtcNow;
             }
         });
@@ -270,7 +270,7 @@ public sealed partial class InstallerWindow : WindowEx
     {
         if (_isFirstInstall && !string.IsNullOrWhiteSpace(_installManifest.ExecuteAfterInstall))
         {
-            BtInstall.Content = App.GetLocalizedString("RunningPostInstallScript");
+            InstallButton.Content = App.GetLocalizedString("RunningPostInstallScript");
             try
             {
                 await Task.Run(() =>
@@ -287,7 +287,7 @@ public sealed partial class InstallerWindow : WindowEx
         }
         else if (!_isFirstInstall && !string.IsNullOrWhiteSpace(_installManifest.ExecuteAfterReinstall))
         {
-            BtInstall.Content = App.GetLocalizedString("RunningPostReinstallScript");
+            InstallButton.Content = App.GetLocalizedString("RunningPostReinstallScript");
             try
             {
                 await Task.Run(() =>
@@ -310,7 +310,7 @@ public sealed partial class InstallerWindow : WindowEx
         var uninstallManifest = JsonSerializer.Deserialize(uninstallManifestJson, SourceGenerationContext.Default.UninstallManifest);
 
         // Update the UI
-        BtInstall.Content = App.GetLocalizedString("RegisteringProgram");
+        InstallButton.Content = App.GetLocalizedString("RegisteringProgram");
 
         // Register the program to the registry (User)
         bool isRegistered = false;
@@ -325,25 +325,25 @@ public sealed partial class InstallerWindow : WindowEx
             catch (Exception exception)
             {
                 if (_isSilent) Environment.Exit(26);
-                TbInstallProgress.Text = $"{App.GetLocalizedString("ErrorPrefix")}{exception.Message}";
+                InstallProgressTextBlock.Text = $"{App.GetLocalizedString("ErrorPrefix")}{exception.Message}";
             }
         });
         if (!isRegistered) return;
 
         // Update the UI
-        PbInstallProgress.Visibility = Visibility.Collapsed;
+        InstallProgressProgressBar.Visibility = Visibility.Collapsed;
 
         if (_isSilent) Environment.Exit(0);
 
         // Update the UI and setup the timer for exit
         var secondsRemaining = SecondsForExitAfterInstallationComplete;
-        BtInstall.Content = string.Format(App.GetLocalizedString("InstallCompleteExitIn"), secondsRemaining);
+        InstallButton.Content = string.Format(App.GetLocalizedString("InstallCompleteExitIn"), secondsRemaining);
         var timer = new System.Timers.Timer() { Interval = 1000 };
         timer.Elapsed += (s, e) =>
         {
             secondsRemaining--;
             if (secondsRemaining < 0) Environment.Exit(0);
-            DispatcherQueue.TryEnqueue(() => BtInstall.Content = string.Format(App.GetLocalizedString("InstallCompleteExitIn"), secondsRemaining));
+            DispatcherQueue.TryEnqueue(() => InstallButton.Content = string.Format(App.GetLocalizedString("InstallCompleteExitIn"), secondsRemaining));
         };
         timer.Start();
     }

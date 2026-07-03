@@ -39,10 +39,10 @@ public sealed partial class ComposerWindow : WindowEx
     private async Task ExportPackageAsync()
 	{
 		var installerComposerConfiguration = CreateInstallerComposerConfiguration();
-		var compositionProgress = new ActionProgress<string>(message => DispatcherQueue.TryEnqueue(() => TbLoading.Text = message));
+		var compositionProgress = new ActionProgress<string>(message => DispatcherQueue.TryEnqueue(() => LoadingTextBlock.Text = message));
 
 		// Show the loading UI
-		GdLoading.Visibility = Visibility.Visible;
+		LoadingGrid.Visibility = Visibility.Visible;
 		try // Try-finally to hide the loading UI even if an exception is thrown
 		{
 			await Task.Run(() => InstallerPackageComposer.CreatePackage(installerComposerConfiguration, compositionProgress));
@@ -60,7 +60,7 @@ public sealed partial class ComposerWindow : WindowEx
 		}
 		finally
 		{
-			GdLoading.Visibility = Visibility.Collapsed; // Hide the loading UI
+			LoadingGrid.Visibility = Visibility.Collapsed; // Hide the loading UI
 		}
 	}
 
@@ -82,19 +82,19 @@ public sealed partial class ComposerWindow : WindowEx
 	{
 		var installerComposerConfiguration = new InstallerComposerConfiguration()
 		{
-			ApplicationId = TbxApplicationId.Text,
-			ApplicationName = TbxApplicationName.Text,
-			ApplicationPublisher = TbxApplicationPublisher.Text,
-			ApplicationRootDirectoryPath = TbxApplicationRootDirectoryPath.Text,
-			ApplicationExecutableFileName = CbxApplicationExecutableFileName.SelectedItem?.ToString(),
-			ApplicationInstallationFolderName = TbxApplicationInstallationFolderName.Text,
+			ApplicationId = ApplicationIdTextBox.Text,
+			ApplicationName = ApplicationNameTextBox.Text,
+			ApplicationPublisher = ApplicationPublisherTextBox.Text,
+			ApplicationRootDirectoryPath = ApplicationRootDirectoryPathTextBox.Text,
+			ApplicationExecutableFileName = ApplicationExecutableFileNameComboBox.SelectedItem?.ToString(),
+			ApplicationInstallationFolderName = ApplicationInstallationFolderNameTextBox.Text,
 			ApplicationIconBinary = _applicationIconBinary,
-			PackageFilePath = TbxPackageFilePath.Text
+			PackageFilePath = PackageFilePathTextBox.Text
 		};
 
-		if (!string.IsNullOrWhiteSpace(TbxApplicationExecuteAfterInstall.Text)) installerComposerConfiguration.ExecuteAfterInstall = TbxApplicationExecuteAfterInstall.Text;
-		if (!string.IsNullOrWhiteSpace(TbxApplicationExecuteAfterReinstall.Text)) installerComposerConfiguration.ExecuteAfterReinstall = TbxApplicationExecuteAfterReinstall.Text;
-		if (!string.IsNullOrWhiteSpace(TbxApplicationExecuteOnUninstall.Text)) installerComposerConfiguration.ExecuteOnUninstall = TbxApplicationExecuteOnUninstall.Text;
+		if (!string.IsNullOrWhiteSpace(ApplicationExecuteAfterInstallTextBox.Text)) installerComposerConfiguration.ExecuteAfterInstall = ApplicationExecuteAfterInstallTextBox.Text;
+		if (!string.IsNullOrWhiteSpace(ApplicationExecuteAfterReinstallTextBox.Text)) installerComposerConfiguration.ExecuteAfterReinstall = ApplicationExecuteAfterReinstallTextBox.Text;
+		if (!string.IsNullOrWhiteSpace(ApplicationExecuteOnUninstallTextBox.Text)) installerComposerConfiguration.ExecuteOnUninstall = ApplicationExecuteOnUninstallTextBox.Text;
 
 		return installerComposerConfiguration;
 	}
@@ -109,7 +109,7 @@ public sealed partial class ComposerWindow : WindowEx
 	private void OnGenerateApplicationIdButtonClicked(object sender, RoutedEventArgs e)
 	{
 		var applicationId = Guid.NewGuid().ToString(); // Generate a GUID
-		TbxApplicationId.Text = applicationId;
+		ApplicationIdTextBox.Text = applicationId;
 	}
 
 	private async void OnBrowseIconFileButtonClicked(object sender, RoutedEventArgs e)
@@ -145,19 +145,19 @@ public sealed partial class ComposerWindow : WindowEx
 		var bitmapImage = new BitmapImage();
 		using var memoryStream = new MemoryStream(_applicationIconBinary);
 		bitmapImage.SetSource(memoryStream.AsRandomAccessStream());
-		ImgApplicationIconThumbnail.Source = bitmapImage;
+		ApplicationIconThumbnailImage.Source = bitmapImage;
 	}
 
 	private void OnNewPackageMenuFlyoutItemClicked(object sender, RoutedEventArgs e)
 	{
 		// Reset all fields and UI
-		TbxApplicationId.Text = "";
-		TbxApplicationName.Text = "";
-		TbxApplicationPublisher.Text = "";
-		ImgApplicationIconThumbnail.Source = null;
-		TbxApplicationRootDirectoryPath.Text = "";
-		CbxApplicationExecutableFileName.IsEnabled = false;
-		CbxApplicationExecutableFileName.SelectedItem = null;
+		ApplicationIdTextBox.Text = "";
+		ApplicationNameTextBox.Text = "";
+		ApplicationPublisherTextBox.Text = "";
+		ApplicationIconThumbnailImage.Source = null;
+		ApplicationRootDirectoryPathTextBox.Text = "";
+		ApplicationExecutableFileNameComboBox.IsEnabled = false;
+		ApplicationExecutableFileNameComboBox.SelectedItem = null;
 
 		// Reset the binary field
 		_applicationIconBinary = null;
@@ -185,8 +185,8 @@ public sealed partial class ComposerWindow : WindowEx
         if (file == null) return; // User cancelled
 
         // Show the loading UI
-        GdLoading.Visibility = Visibility.Visible;
-		TbLoading.Text = "Loading Package Information..."; // Update the loading text
+        LoadingGrid.Visibility = Visibility.Visible;
+		LoadingTextBlock.Text = "Loading Package Information..."; // Update the loading text
 
 		// Read the manifest file
 		string manifestJson = default; // This variable will be set in the task
@@ -195,16 +195,16 @@ public sealed partial class ComposerWindow : WindowEx
 			manifestJson = ZipFileNative.ReadFileText(file.Path, "manifest.json");
 		});
 
-		GdLoading.Visibility = Visibility.Collapsed; // Hide the loading UI
+		LoadingGrid.Visibility = Visibility.Collapsed; // Hide the loading UI
 
 		// Deserialize the manifest
 		var installManifest = JsonSerializer.Deserialize(manifestJson, SourceGenerationContext.Default.InstallManifest);
 
 		// Setup UI
-		TbxApplicationId.Text = installManifest.Id;
-		TbxApplicationName.Text = installManifest.Name;
-		TbxApplicationPublisher.Text = installManifest.Publisher;
-		TbxApplicationInstallationFolderName.Text = installManifest.InstallationFolderName ?? installManifest.Name; // Fall back to the application name if the installation folder name is not set (for backward compatibility)
+		ApplicationIdTextBox.Text = installManifest.Id;
+		ApplicationNameTextBox.Text = installManifest.Name;
+		ApplicationPublisherTextBox.Text = installManifest.Publisher;
+		ApplicationInstallationFolderNameTextBox.Text = installManifest.InstallationFolderName ?? installManifest.Name; // Fall back to the application name if the installation folder name is not set (for backward compatibility)
 
 		// Set the binary field
 		_applicationIconBinary = installManifest.IconBinary;
@@ -260,28 +260,28 @@ public sealed partial class ComposerWindow : WindowEx
         var installerComposerConfiguration = InstallerComposerConfigurationFile.LoadConfiguration(filePath);
 
         // Setup UI
-        TbxApplicationId.Text = installerComposerConfiguration.ApplicationId;
-        TbxApplicationName.Text = installerComposerConfiguration.ApplicationName;
-        TbxApplicationPublisher.Text = installerComposerConfiguration.ApplicationPublisher;
-        TbxApplicationRootDirectoryPath.Text = installerComposerConfiguration.ApplicationRootDirectoryPath;
-        CbxApplicationExecutableFileName.IsEnabled = true;
-        CbxApplicationExecutableFileName.ItemsSource = Directory.GetFiles(installerComposerConfiguration.ApplicationRootDirectoryPath).Select(filePath => new FileInfo(filePath)).Where(file => file.Extension == ".exe").Select(file => file.Name);
-        CbxApplicationExecutableFileName.SelectedItem = installerComposerConfiguration.ApplicationExecutableFileName;
-        TbxApplicationInstallationFolderName.Text = installerComposerConfiguration.ApplicationInstallationFolderName;
-        TbxPackageFilePath.Text = installerComposerConfiguration.PackageFilePath;
+        ApplicationIdTextBox.Text = installerComposerConfiguration.ApplicationId;
+        ApplicationNameTextBox.Text = installerComposerConfiguration.ApplicationName;
+        ApplicationPublisherTextBox.Text = installerComposerConfiguration.ApplicationPublisher;
+        ApplicationRootDirectoryPathTextBox.Text = installerComposerConfiguration.ApplicationRootDirectoryPath;
+        ApplicationExecutableFileNameComboBox.IsEnabled = true;
+        ApplicationExecutableFileNameComboBox.ItemsSource = Directory.GetFiles(installerComposerConfiguration.ApplicationRootDirectoryPath).Select(filePath => new FileInfo(filePath)).Where(file => file.Extension == ".exe").Select(file => file.Name);
+        ApplicationExecutableFileNameComboBox.SelectedItem = installerComposerConfiguration.ApplicationExecutableFileName;
+        ApplicationInstallationFolderNameTextBox.Text = installerComposerConfiguration.ApplicationInstallationFolderName;
+        PackageFilePathTextBox.Text = installerComposerConfiguration.PackageFilePath;
 
-		if (!string.IsNullOrWhiteSpace(installerComposerConfiguration.ExecuteAfterInstall)) TbxApplicationExecuteAfterInstall.Text = installerComposerConfiguration.ExecuteAfterInstall;
-		else TbxApplicationExecuteAfterInstall.Text = string.Empty;
+		if (!string.IsNullOrWhiteSpace(installerComposerConfiguration.ExecuteAfterInstall)) ApplicationExecuteAfterInstallTextBox.Text = installerComposerConfiguration.ExecuteAfterInstall;
+		else ApplicationExecuteAfterInstallTextBox.Text = string.Empty;
 
-		if (!string.IsNullOrWhiteSpace(installerComposerConfiguration.ExecuteAfterReinstall)) TbxApplicationExecuteAfterReinstall.Text = installerComposerConfiguration.ExecuteAfterReinstall;
-		else TbxApplicationExecuteAfterReinstall.Text = string.Empty;
+		if (!string.IsNullOrWhiteSpace(installerComposerConfiguration.ExecuteAfterReinstall)) ApplicationExecuteAfterReinstallTextBox.Text = installerComposerConfiguration.ExecuteAfterReinstall;
+		else ApplicationExecuteAfterReinstallTextBox.Text = string.Empty;
 
-        if (!string.IsNullOrWhiteSpace(installerComposerConfiguration.ExecuteOnUninstall)) TbxApplicationExecuteOnUninstall.Text = installerComposerConfiguration.ExecuteOnUninstall;
-		else TbxApplicationExecuteOnUninstall.Text = string.Empty;
+        if (!string.IsNullOrWhiteSpace(installerComposerConfiguration.ExecuteOnUninstall)) ApplicationExecuteOnUninstallTextBox.Text = installerComposerConfiguration.ExecuteOnUninstall;
+		else ApplicationExecuteOnUninstallTextBox.Text = string.Empty;
 
         // Set the field and thumbnail
         _applicationIconBinary = installerComposerConfiguration.ApplicationIconBinary;
-        if (_applicationIconBinary == null) ImgApplicationIconThumbnail.Source = null;
+        if (_applicationIconBinary == null) ApplicationIconThumbnailImage.Source = null;
         else ApplyThumbnailFromApplicationIconBinaryField();
     }
 
@@ -304,9 +304,9 @@ public sealed partial class ComposerWindow : WindowEx
         }
 
 		// Setup UI
-		TbxApplicationRootDirectoryPath.Text = folder.Path;
-        CbxApplicationExecutableFileName.IsEnabled = true;
-        CbxApplicationExecutableFileName.ItemsSource = executableFiles.Select(file => file.Name);
+		ApplicationRootDirectoryPathTextBox.Text = folder.Path;
+        ApplicationExecutableFileNameComboBox.IsEnabled = true;
+        ApplicationExecutableFileNameComboBox.ItemsSource = executableFiles.Select(file => file.Name);
     }
 
     private async void OnBrowsePackageFilePathCommandRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
@@ -321,6 +321,6 @@ public sealed partial class ComposerWindow : WindowEx
 		if (file == null) return; // User cancelled
 
 		// Setup UI
-		TbxPackageFilePath.Text = file.Path;
+		PackageFilePathTextBox.Text = file.Path;
     }
 }

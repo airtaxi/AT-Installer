@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <winuiex:WindowEx
     x:Class="InstallerComposer.ComposerWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -14,7 +14,7 @@
     IsResizable="False"
     mc:Ignorable="d">
 
-    <Grid x:Name="GdMain" VerticalAlignment="Center">
+    <Grid x:Name="MainGrid" VerticalAlignment="Center">
         <Grid.Resources>
             <XamlUICommand x:Key="BrowseApplicationRootDirectoryCommand" ExecuteRequested="OnBrowseApplicationRootDirectoryRequested">
                 <XamlUICommand.KeyboardAccelerators>
@@ -130,7 +130,7 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <TextBox
-                        x:Name="TbxApplicationId"
+                        x:Name="ApplicationIdTextBox"
                         Grid.Column="0"
                         Header="Application ID"
                         PlaceholderText="GUID String" />
@@ -146,18 +146,18 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <TextBox
-                        x:Name="TbxApplicationName"
+                        x:Name="ApplicationNameTextBox"
                         Grid.Column="0"
                         Header="Application Name"
                         PlaceholderText="e.g. My Application" />
                     <TextBox
-                        x:Name="TbxApplicationPublisher"
+                        x:Name="ApplicationPublisherTextBox"
                         Grid.Column="1"
                         Header="Application Publisher"
                         PlaceholderText="e.g. My Company" />
                 </Grid>
                 <TextBox
-                    x:Name="TbxApplicationInstallationFolderName"
+                    x:Name="ApplicationInstallationFolderNameTextBox"
                     Margin="0,0,0,10"
                     Header="Application Installation Folder Name"
                     PlaceholderText="e.g. MyApplication" />
@@ -168,17 +168,17 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <TextBox
-                        x:Name="TbxApplicationExecuteAfterInstall"
+                        x:Name="ApplicationExecuteAfterInstallTextBox"
                         Grid.Column="0"
                         Header="Execute After Install"
                         PlaceholderText="Optional: Command line in install root" />
                     <TextBox
-                        x:Name="TbxApplicationExecuteAfterReinstall"
+                        x:Name="ApplicationExecuteAfterReinstallTextBox"
                         Grid.Column="1"
                         Header="Execute After Reinstall"
                         PlaceholderText="Optional: Command line in install root" />
                     <TextBox
-                        x:Name="TbxApplicationExecuteOnUninstall"
+                        x:Name="ApplicationExecuteOnUninstallTextBox"
                         Grid.Column="2"
                         Header="Execute on Uninstall"
                         PlaceholderText="Optional: Command line in install root" />
@@ -195,7 +195,7 @@
                             Height="100"
                             HorizontalAlignment="Left">
                             <Rectangle Fill="{ThemeResource LayerOnMicaBaseAltFillColorSecondaryBrush}" />
-                            <Image x:Name="ImgApplicationIconThumbnail" />
+                            <Image x:Name="ApplicationIconThumbnailImage" />
                             <Button
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
@@ -222,7 +222,7 @@
                     <StackPanel Grid.Column="0">
                         <TextBlock Margin="0,0,0,7.5" Text="Application Root Directory" />
                         <TextBox
-                            x:Name="TbxApplicationRootDirectoryPath"
+                            x:Name="ApplicationRootDirectoryPathTextBox"
                             IsTabStop="False"
                             PlaceholderText="Path to the application root directory" />
                     </StackPanel>
@@ -238,7 +238,7 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <ComboBox
-                        x:Name="CbxApplicationExecutableFileName"
+                        x:Name="ApplicationExecutableFileNameComboBox"
                         Grid.Column="0"
                         HorizontalAlignment="Stretch"
                         Header="Application Executable File"
@@ -254,7 +254,7 @@
                     <StackPanel Grid.Column="0">
                         <TextBlock Margin="0,0,0,7.5" Text="Package File Path" />
                         <TextBox
-                            x:Name="TbxPackageFilePath"
+                            x:Name="PackageFilePathTextBox"
                             IsTabStop="False"
                             PlaceholderText="Path to the export package file" />
                     </StackPanel>
@@ -267,7 +267,7 @@
             </StackPanel>
         </ScrollViewer>
         <Grid
-            x:Name="GdLoading"
+            x:Name="LoadingGrid"
             Grid.RowSpan="3"
             Margin="-10"
             Visibility="Collapsed">
@@ -280,7 +280,7 @@
                     Height="85"
                     IsIndeterminate="True" />
                 <TextBlock
-                    x:Name="TbLoading"
+                    x:Name="LoadingTextBlock"
                     Margin="0,10,0,0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"

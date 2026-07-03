@@ -37,7 +37,7 @@
                 VerticalAlignment="Center"
                 Source="ms-appx:///Assets/Icon.png" />
             <TextBlock
-                x:Name="TbTitle"
+                x:Name="TitleTextBlock"
                 Margin="7.5,0,0,0"
                 FontWeight="SemiBold"
                 Text="AT Installer" />
@@ -49,7 +49,7 @@
             Padding="10,10"
             BorderThickness="0,1,0,0">
             <TextBlock
-                x:Name="TbApplicationName"
+                x:Name="ApplicationNameTextBlock"
                 FontSize="30"
                 FontWeight="Bold"
                 IsTextTrimmedChanged="OnApplicationNameIsTextTrimmedChanged"
@@ -57,16 +57,16 @@
                 Text="AT Installer"
                 TextTrimming="CharacterEllipsis" />
             <TextBlock
-                x:Name="TbApplicationPublisher"
+                x:Name="ApplicationPublisherTextBlock"
                 Style="{ThemeResource BodyTextBlockStyle}"
                 Text="Author: Howon Lee" />
             <TextBlock
-                x:Name="TbApplicationVersion"
-                x:Uid="TbApplicationVersion"
+                x:Name="ApplicationVersionTextBlock"
+                x:Uid="ApplicationVersionTextBlock"
                 Style="{ThemeResource BodyTextBlockStyle}"
                 Text="Loading..." />
             <TextBlock
-                x:Name="TbApplicationCommitSha"
+                x:Name="ApplicationCommitShaTextBlock"
                 Style="{ThemeResource BodyTextBlockStyle}"
                 Visibility="Collapsed" />
         </StackPanel>
@@ -81,10 +81,10 @@
             <Viewbox>
                 <Grid>
                     <SymbolIcon
-                        x:Name="SiApplicationIconFallback"
+                        x:Name="ApplicationIconFallbackSymbolIcon"
                         Opacity="0.5"
                         Symbol="Library" />
-                    <Image x:Name="ImgApplicationIcon" />
+                    <Image x:Name="ApplicationIconImage" />
                 </Grid>
             </Viewbox>
         </Frame>
@@ -98,21 +98,21 @@
             Orientation="Horizontal"
             Spacing="5">
             <Button
-                x:Name="BtInstall"
-                x:Uid="BtInstall"
+                x:Name="InstallButton"
+                x:Uid="InstallButton"
                 Click="OnInstallButtonClicked"
                 Content="Install" />
         </StackPanel>
 
         <TextBlock
-            x:Name="TbInstallProgress"
+            x:Name="InstallProgressTextBlock"
             Grid.Row="1"
             Grid.ColumnSpan="2"
             Margin="10,0,10,60"
             VerticalAlignment="Bottom" />
 
         <ProgressBar
-            x:Name="PbInstallProgress"
+            x:Name="InstallProgressProgressBar"
             Grid.Row="1"
             Grid.ColumnSpan="2"
             Margin="10,0,10,50"
@@ -120,7 +120,7 @@
             Visibility="Collapsed" />
 
         <Grid
-            x:Name="GdLoading"
+            x:Name="LoadingGrid"
             Grid.Row="0"
             Grid.RowSpan="2"
             Grid.ColumnSpan="2"
