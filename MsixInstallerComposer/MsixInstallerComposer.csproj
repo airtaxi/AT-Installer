@@ -16,8 +16,9 @@
 		<ApplicationIcon>Assets\Icon.ico</ApplicationIcon>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-		<AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
 		<AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+		<AppxBundleAutoResourcePackageQualifiers>Scale</AppxBundleAutoResourcePackageQualifiers>
+		<AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
 		<GenerateTestArtifacts>False</GenerateTestArtifacts>
 		<AppxBundle>Always</AppxBundle>
 		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
