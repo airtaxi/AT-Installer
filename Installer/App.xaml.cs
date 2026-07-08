@@ -1,7 +1,5 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using Microsoft.Windows.ApplicationModel.Resources;
-using Microsoft.Windows.Globalization;
 using WinUIEx;
 
 namespace Installer;
@@ -9,7 +7,6 @@ namespace Installer;
 public partial class App : Application
 {
     public readonly static byte[] DefaultIconBinary;
-    private readonly static List<string> InstalledLanguages = ["en-US", "ko-KR", "ja-JP", "zh-CN"];
     private static ResourceLoader _resourceLoader;
 
 	static App()
@@ -49,14 +46,6 @@ public partial class App : Application
         TaskScheduler.UnobservedTaskException += OnTaskSchedulerUnobservedTaskException;
 
         InitializeComponent();
-        InitializeLocalizer();
-    }
-
-    private static void InitializeLocalizer()
-    {
-        var name = CultureInfo.InstalledUICulture.Name.ToLowerInvariant();
-        var systemLocale = InstalledLanguages.Contains(name, StringComparer.OrdinalIgnoreCase) ? name : "en-US";
-        ApplicationLanguages.PrimaryLanguageOverride = systemLocale;
         _resourceLoader = new ResourceLoader();
     }
 
