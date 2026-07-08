@@ -15,7 +15,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<ApplicationIcon>Icon.ico</ApplicationIcon>
 		<PublishAot>true</PublishAot>
-		<Version>1.0.8.2</Version>
+		<Version>1.0.9.0</Version>
 	</PropertyGroup>
 	
 	<ItemGroup>

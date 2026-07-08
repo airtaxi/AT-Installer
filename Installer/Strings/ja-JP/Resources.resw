@@ -100,6 +100,42 @@
   <data name="Loading" xml:space="preserve">
     <value>読み込み中...</value>
   </data>
+  <data name="MsixAbort" xml:space="preserve">
+    <value>中止</value>
+  </data>
+  <data name="MsixCertificateExtractionFailed" xml:space="preserve">
+    <value>署名証明書の抽出またはインストールに失敗しました。</value>
+  </data>
+  <data name="MsixContinue" xml:space="preserve">
+    <value>続行</value>
+  </data>
+  <data name="MsixDeveloperModeRequired" xml:space="preserve">
+    <value>開発者モードが必要です</value>
+  </data>
+  <data name="MsixDeveloperModeRequiredContent" xml:space="preserve">
+    <value>開発者モードを自動的に有効化できませんでした。Windows 設定 &gt; プライバシーとセキュリティ &gt; 開発者向けで開発者モードを有効化してから、続行をクリックしてください。</value>
+  </data>
+  <data name="MsixEnablingDeveloperMode" xml:space="preserve">
+    <value>開発者モードを有効化中...</value>
+  </data>
+  <data name="MsixExtractingCertificate" xml:space="preserve">
+    <value>証明書を抽出中...</value>
+  </data>
+  <data name="MsixReinstallContent" xml:space="preserve">
+    <value>同じバージョンが既にインストールされています。再インストールすると既存のパッケージが削除され、再度インストールされます。アプリのデータが失われる可能性があります。続行しますか？</value>
+  </data>
+  <data name="MsixReinstallNo" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="MsixReinstallTitle" xml:space="preserve">
+    <value>再インストールしますか？</value>
+  </data>
+  <data name="MsixReinstallYes" xml:space="preserve">
+    <value>再インストール</value>
+  </data>
+  <data name="MsixRemovingExistingPackage" xml:space="preserve">
+    <value>既存のパッケージを削除中...</value>
+  </data>
   <data name="PreparingArchive" xml:space="preserve">
     <value>アーカイブを準備中...</value>
   </data>

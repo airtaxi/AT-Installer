@@ -100,6 +100,42 @@
   <data name="Loading" xml:space="preserve">
     <value>Loading...</value>
   </data>
+  <data name="MsixAbort" xml:space="preserve">
+    <value>Abort</value>
+  </data>
+  <data name="MsixCertificateExtractionFailed" xml:space="preserve">
+    <value>Failed to extract or install the signing certificate.</value>
+  </data>
+  <data name="MsixContinue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="MsixDeveloperModeRequired" xml:space="preserve">
+    <value>Developer Mode Required</value>
+  </data>
+  <data name="MsixDeveloperModeRequiredContent" xml:space="preserve">
+    <value>Developer Mode could not be enabled automatically. Please enable Developer Mode in Windows Settings &gt; Privacy &amp; Security &gt; For developers, then click Continue.</value>
+  </data>
+  <data name="MsixEnablingDeveloperMode" xml:space="preserve">
+    <value>Enabling Developer Mode...</value>
+  </data>
+  <data name="MsixExtractingCertificate" xml:space="preserve">
+    <value>Extracting Certificate...</value>
+  </data>
+  <data name="MsixReinstallContent" xml:space="preserve">
+    <value>The same version is already installed. Reinstalling will remove the existing package and install it again. App data may be lost. Do you want to continue?</value>
+  </data>
+  <data name="MsixReinstallNo" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="MsixReinstallTitle" xml:space="preserve">
+    <value>Reinstall?</value>
+  </data>
+  <data name="MsixReinstallYes" xml:space="preserve">
+    <value>Reinstall</value>
+  </data>
+  <data name="MsixRemovingExistingPackage" xml:space="preserve">
+    <value>Removing Existing Package...</value>
+  </data>
   <data name="PreparingArchive" xml:space="preserve">
     <value>Preparing Archive...</value>
   </data>

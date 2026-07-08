@@ -100,6 +100,42 @@
   <data name="Loading" xml:space="preserve">
     <value>正在加载...</value>
   </data>
+  <data name="MsixAbort" xml:space="preserve">
+    <value>中止</value>
+  </data>
+  <data name="MsixCertificateExtractionFailed" xml:space="preserve">
+    <value>无法提取或安装签名证书。</value>
+  </data>
+  <data name="MsixContinue" xml:space="preserve">
+    <value>继续</value>
+  </data>
+  <data name="MsixDeveloperModeRequired" xml:space="preserve">
+    <value>需要开发者模式</value>
+  </data>
+  <data name="MsixDeveloperModeRequiredContent" xml:space="preserve">
+    <value>无法自动启用开发者模式。请在 Windows 设置 &gt; 隐私和安全性 &gt; 开发者中启用开发者模式，然后点击继续。</value>
+  </data>
+  <data name="MsixEnablingDeveloperMode" xml:space="preserve">
+    <value>正在启用开发者模式...</value>
+  </data>
+  <data name="MsixExtractingCertificate" xml:space="preserve">
+    <value>正在提取证书...</value>
+  </data>
+  <data name="MsixReinstallContent" xml:space="preserve">
+    <value>相同版本已安装。重新安装将移除现有包并重新安装。应用数据可能会丢失。要继续吗？</value>
+  </data>
+  <data name="MsixReinstallNo" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="MsixReinstallTitle" xml:space="preserve">
+    <value>要重新安装吗？</value>
+  </data>
+  <data name="MsixReinstallYes" xml:space="preserve">
+    <value>重新安装</value>
+  </data>
+  <data name="MsixRemovingExistingPackage" xml:space="preserve">
+    <value>正在移除现有包...</value>
+  </data>
   <data name="PreparingArchive" xml:space="preserve">
     <value>正在准备归档...</value>
   </data>

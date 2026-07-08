@@ -68,15 +68,19 @@ public partial class App : Application
 		var args = Environment.GetCommandLineArgs();
 
 #if DEBUG
-		args = ["", "E:\\Dev\\Archive\\Archive\\Package.atp"];
+ 		args = ["", "E:\\Dev\\Archive\\Archive\\Package.atp"];
 #endif
 
-		// Compose manifest from command line argument
-		var packageFilePath = args[1];
-		var isSilent = args.Length > 2 && args[2] == "/silent";
+ 		// Compose manifest from command line argument
+ 		var packageFilePath = args[1];
+ 		var isSilent = args.Contains("/silent", StringComparer.OrdinalIgnoreCase);
+ 		var shouldAutoInstall = args.Contains("/install", StringComparer.OrdinalIgnoreCase);
 
-        // Create window with manifest and archive file path
-        _window = new InstallerWindow(packageFilePath, isSilent);
+        // Dispatch to the appropriate window based on package file extension
+        var extension = Path.GetExtension(packageFilePath).ToLowerInvariant();
+        if (extension == ".msix" || extension == ".msixbundle") _window = new MsixInstallerWindow(packageFilePath, isSilent, shouldAutoInstall);
+        else _window = new InstallerWindow(packageFilePath, isSilent, shouldAutoInstall);
+
         if (isSilent)
         {
             _window.IsShownInSwitchers = false;

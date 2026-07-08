@@ -17,10 +17,12 @@ public sealed partial class InstallerWindow : WindowEx
     private InstallManifest _installManifest;
     private bool _isFirstInstall = true;
     private bool _isSilent;
+    private bool _shouldAutoInstall;
 
-    public InstallerWindow(string packageFilePath, bool isSlient)
+    public InstallerWindow(string packageFilePath, bool isSlient, bool shouldAutoInstall)
     {
         _isSilent = isSlient;
+        _shouldAutoInstall = shouldAutoInstall;
         _packageFilePath = packageFilePath;
 		InitializeComponent();
         AppWindow.SetIcon("Icon.ico");
@@ -49,10 +51,7 @@ public sealed partial class InstallerWindow : WindowEx
 
         // Read the manifest file
         string manifestJson = default; // This variable will be set in the task
-        await Task.Run(() =>
-        {
-            manifestJson = ZipFileNative.ReadFileText(_packageFilePath, "manifest.json");
-        });
+        await Task.Run(() => manifestJson = ZipFileNative.ReadFileText(_packageFilePath, "manifest.json"));
         var installManifest = JsonSerializer.Deserialize(manifestJson, SourceGenerationContext.Default.InstallManifest);
         _installManifest = installManifest;
 
@@ -99,7 +98,7 @@ public sealed partial class InstallerWindow : WindowEx
             _isFirstInstall = false;
         }
 
-        if (_isSilent) OnInstallButtonClicked(null, null);
+        if (_isSilent || _shouldAutoInstall) OnInstallButtonClicked(null, null);
 
         // Hide loading
         LoadingGrid.Visibility = Visibility.Collapsed;
@@ -173,10 +172,7 @@ public sealed partial class InstallerWindow : WindowEx
                 if (uninstallManifest == null)
                 {
                     var json = ZipFileNative.ReadFileText(tempFile, "uninstall.json");
-                    if (!string.IsNullOrEmpty(json))
-                    {
-                        uninstallManifest = JsonSerializer.Deserialize(json, SourceGenerationContext.Default.UninstallManifest);
-                    }
+                    if (!string.IsNullOrEmpty(json)) uninstallManifest = JsonSerializer.Deserialize(json, SourceGenerationContext.Default.UninstallManifest);
                 }
 
                 if (uninstallManifest != null)
@@ -199,10 +195,7 @@ public sealed partial class InstallerWindow : WindowEx
                             try
                             {
                                 var directoryPath = Path.GetDirectoryName(Path.Combine(installationDirectoryPath, file));
-                                if (Directory.Exists(directoryPath) && !Directory.EnumerateFileSystemEntries(directoryPath).Any())
-                                {
-                                    Directory.Delete(directoryPath);
-                                }
+                                if (Directory.Exists(directoryPath) && !Directory.EnumerateFileSystemEntries(directoryPath).Any()) Directory.Delete(directoryPath);
                             }
                             catch { }
                         }
@@ -213,7 +206,10 @@ public sealed partial class InstallerWindow : WindowEx
                         DispatcherQueue.TryEnqueue(() => InstallButton.Content = App.GetLocalizedString("CleaningUpPreviousVersion"));
                         try
                         {
-                            if (Directory.Exists(installationDirectoryPath)) Directory.Delete(installationDirectoryPath, true);
+                            if (Directory.Exists(installationDirectoryPath))
+                            {
+                                Directory.Delete(installationDirectoryPath, true);
+                            }
                         }
                         catch { }
                     }
@@ -252,19 +248,8 @@ public sealed partial class InstallerWindow : WindowEx
     }
 
     private DateTime _lastExtractionProgressUpdateTime = DateTime.MinValue;
-    private void OnArchiveExtractProgress(ZipProgressStatus status)
-    {
-        DispatcherQueue.TryEnqueue(() =>
-        {
-            if (DateTime.UtcNow > _lastExtractionProgressUpdateTime.AddSeconds(0.13) || status.Progress == 1)
-            {
-                InstallProgressProgressBar.IsIndeterminate = false;
-                InstallProgressProgressBar.Value = status.Progress * 100;
-                InstallProgressTextBlock.Text = status.FileName;
-                _lastExtractionProgressUpdateTime = DateTime.UtcNow;
-            }
-        });
-    }
+    private void OnArchiveExtractProgress(ZipProgressStatus status) =>
+        DispatcherQueue.TryEnqueue(() => { if (DateTime.UtcNow > _lastExtractionProgressUpdateTime.AddSeconds(0.13) || status.Progress == 1) { InstallProgressProgressBar.IsIndeterminate = false; InstallProgressProgressBar.Value = status.Progress * 100; InstallProgressTextBlock.Text = status.FileName; _lastExtractionProgressUpdateTime = DateTime.UtcNow; } });
 
     private async void OnPostInstallation()
     {
