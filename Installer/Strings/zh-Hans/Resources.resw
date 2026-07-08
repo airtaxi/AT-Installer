@@ -62,7 +62,7 @@
     <value>正在加载...</value>
   </data>
   <data name="AuthorPrefix" xml:space="preserve">
-    <value>作者: </value>
+    <value>作者：</value>
   </data>
   <data name="CantDowngrade" xml:space="preserve">
     <value>无法降级</value>
@@ -74,13 +74,13 @@
     <value>正在清理旧版本...</value>
   </data>
   <data name="CommitShaPrefix" xml:space="preserve">
-    <value>提交 SHA: </value>
+    <value>提交 SHA：</value>
   </data>
   <data name="Completed" xml:space="preserve">
-    <value>完成!</value>
+    <value>完成！</value>
   </data>
   <data name="ErrorPrefix" xml:space="preserve">
-    <value>错误: </value>
+    <value>错误：</value>
   </data>
   <data name="Initializing" xml:space="preserve">
     <value>正在初始化...</value>
@@ -92,7 +92,7 @@
     <value>安装</value>
   </data>
   <data name="InstallCompleteExitIn" xml:space="preserve">
-    <value>安装完成! {0}秒后退出</value>
+    <value>安装完成！{0}秒后退出</value>
   </data>
   <data name="Installing" xml:space="preserve">
     <value>正在安装...</value>
@@ -140,7 +140,7 @@
     <value>正在准备归档...</value>
   </data>
   <data name="PublisherPrefix" xml:space="preserve">
-    <value>发布者: </value>
+    <value>发布者：</value>
   </data>
   <data name="RegisteringProgram" xml:space="preserve">
     <value>正在注册程序...</value>
@@ -161,6 +161,6 @@
     <value>更新</value>
   </data>
   <data name="VersionPrefix" xml:space="preserve">
-    <value>版本: </value>
+    <value>版本：</value>
   </data>
 </root>
