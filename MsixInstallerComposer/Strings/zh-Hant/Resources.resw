@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutDialogContent" xml:space="preserve">
+    <value>版本: {0}
+作者: Howon Lee</value>
+  </data>
+  <data name="AboutDialogTitle" xml:space="preserve">
+    <value>關於</value>
+  </data>
+  <data name="AppTitleBarTitle.Title" xml:space="preserve">
+    <value>MSIX 安裝程式產生器</value>
+  </data>
+  <data name="ArchitectureArm64CheckBox.Content" xml:space="preserve">
+    <value>ARM64</value>
+  </data>
+  <data name="ArchitectureSection.Description" xml:space="preserve">
+    <value>選擇安裝程式的目標架構</value>
+  </data>
+  <data name="ArchitectureSection.Header" xml:space="preserve">
+    <value>架構</value>
+  </data>
+  <data name="ArchitectureX64CheckBox.Content" xml:space="preserve">
+    <value>x64</value>
+  </data>
+  <data name="ArchitectureX86CheckBox.Content" xml:space="preserve">
+    <value>x86</value>
+  </data>
+  <data name="DetectedArchitecturesCard.Header" xml:space="preserve">
+    <value>偵測到的架構</value>
+  </data>
+  <data name="DialogOkButton" xml:space="preserve">
+    <value>確定</value>
+  </data>
+  <data name="EnglishLanguageMenuFlyoutItem.Text" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="FileExitMenuFlyoutItem.Text" xml:space="preserve">
+    <value>結束</value>
+  </data>
+  <data name="FileLoadMsixMenuFlyoutItem.Text" xml:space="preserve">
+    <value>載入 MSIX...</value>
+  </data>
+  <data name="FileMenu.Title" xml:space="preserve">
+    <value>檔案</value>
+  </data>
+  <data name="GenerateButton.Content" xml:space="preserve">
+    <value>生成</value>
+  </data>
+  <data name="HelpAboutMenuFlyoutItem.Text" xml:space="preserve">
+    <value>關於</value>
+  </data>
+  <data name="HelpMenu.Title" xml:space="preserve">
+    <value>說明</value>
+  </data>
+  <data name="JapaneseLanguageMenuFlyoutItem.Text" xml:space="preserve">
+    <value>日本語</value>
+  </data>
+  <data name="KoreanLanguageMenuFlyoutItem.Text" xml:space="preserve">
+    <value>한국어</value>
+  </data>
+  <data name="LanguageChangeDialogContent" xml:space="preserve">
+    <value>語言變更將在重啟應用後生效。</value>
+  </data>
+  <data name="LanguageChangeDialogTitle" xml:space="preserve">
+    <value>語言變更</value>
+  </data>
+  <data name="LanguageMenu.Title" xml:space="preserve">
+    <value>語言</value>
+  </data>
+  <data name="MsixFilePathTextBox.PlaceholderText" xml:space="preserve">
+    <value>將 .msix 或 .msixbundle 檔案拖放至此處，或點擊開啟...</value>
+  </data>
+  <data name="MsixFileSection.Description" xml:space="preserve">
+    <value>選擇或拖放 .msix 或 .msixbundle 檔案</value>
+  </data>
+  <data name="MsixFileSection.Header" xml:space="preserve">
+    <value>MSIX 檔案</value>
+  </data>
+  <data name="MultipleArchitectureNotice.Message" xml:space="preserve">
+    <value>選擇兩個或更多架構時，安裝程式將打包為 ZIP 封存檔案。</value>
+  </data>
+  <data name="MultipleArchitectureNotice.Title" xml:space="preserve">
+    <value>多架構</value>
+  </data>
+  <data name="OpenButtonText.Text" xml:space="preserve">
+    <value>開啟</value>
+  </data>
+  <data name="PackageDisplayNameCard.Header" xml:space="preserve">
+    <value>顯示名稱</value>
+  </data>
+  <data name="PackageInfoSection.Description" xml:space="preserve">
+    <value>偵測到的套件中繼資料</value>
+  </data>
+  <data name="PackageInfoSection.Header" xml:space="preserve">
+    <value>套件資訊</value>
+  </data>
+  <data name="PackageNameCard.Header" xml:space="preserve">
+    <value>名稱</value>
+  </data>
+  <data name="PackagePublisherCard.Header" xml:space="preserve">
+    <value>發行者</value>
+  </data>
+  <data name="PackageVersionCard.Header" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="SimplifiedChineseLanguageMenuFlyoutItem.Text" xml:space="preserve">
+    <value>简体中文</value>
+  </data>
+  <data name="TraditionalChineseLanguageMenuFlyoutItem.Text" xml:space="preserve">
+    <value>繁體中文</value>
+  </data>
+  <data name="WindowTitle.Title" xml:space="preserve">
+    <value>MSIX 安裝程式產生器</value>
+  </data>
+</root>

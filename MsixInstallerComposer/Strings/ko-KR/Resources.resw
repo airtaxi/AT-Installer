@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutDialogContent" xml:space="preserve">
+    <value>버전: {0}
+제작자: 이호원</value>
+  </data>
+  <data name="AboutDialogTitle" xml:space="preserve">
+    <value>정보</value>
+  </data>
+  <data name="AppTitleBarTitle.Title" xml:space="preserve">
+    <value>MSIX 인스톨러 생성기</value>
+  </data>
+  <data name="ArchitectureArm64CheckBox.Content" xml:space="preserve">
+    <value>ARM64</value>
+  </data>
+  <data name="ArchitectureSection.Description" xml:space="preserve">
+    <value>설치 프로그램의 대상 아키텍처를 선택하세요</value>
+  </data>
+  <data name="ArchitectureSection.Header" xml:space="preserve">
+    <value>아키텍처</value>
+  </data>
+  <data name="ArchitectureX64CheckBox.Content" xml:space="preserve">
+    <value>x64</value>
+  </data>
+  <data name="ArchitectureX86CheckBox.Content" xml:space="preserve">
+    <value>x86</value>
+  </data>
+  <data name="DetectedArchitecturesCard.Header" xml:space="preserve">
+    <value>감지된 아키텍처</value>
+  </data>
+  <data name="DialogOkButton" xml:space="preserve">
+    <value>확인</value>
+  </data>
+  <data name="EnglishLanguageMenuFlyoutItem.Text" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="FileExitMenuFlyoutItem.Text" xml:space="preserve">
+    <value>종료</value>
+  </data>
+  <data name="FileLoadMsixMenuFlyoutItem.Text" xml:space="preserve">
+    <value>MSIX 불러오기...</value>
+  </data>
+  <data name="FileMenu.Title" xml:space="preserve">
+    <value>파일</value>
+  </data>
+  <data name="GenerateButton.Content" xml:space="preserve">
+    <value>생성</value>
+  </data>
+  <data name="HelpAboutMenuFlyoutItem.Text" xml:space="preserve">
+    <value>정보</value>
+  </data>
+  <data name="HelpMenu.Title" xml:space="preserve">
+    <value>도움말</value>
+  </data>
+  <data name="JapaneseLanguageMenuFlyoutItem.Text" xml:space="preserve">
+    <value>日本語</value>
+  </data>
+  <data name="KoreanLanguageMenuFlyoutItem.Text" xml:space="preserve">
+    <value>한국어</value>
+  </data>
+  <data name="LanguageChangeDialogContent" xml:space="preserve">
+    <value>언어 변경은 앱을 다시 시작한 뒤 적용됩니다.</value>
+  </data>
+  <data name="LanguageChangeDialogTitle" xml:space="preserve">
+    <value>언어 변경</value>
+  </data>
+  <data name="LanguageMenu.Title" xml:space="preserve">
+    <value>언어</value>
+  </data>
+  <data name="MsixFilePathTextBox.PlaceholderText" xml:space="preserve">
+    <value>.msix 또는 .msixbundle 파일을 드롭하거나 열기 버튼을 누르세요...</value>
+  </data>
+  <data name="MsixFileSection.Description" xml:space="preserve">
+    <value>.msix 또는 .msixbundle 파일을 선택하거나 드롭하세요</value>
+  </data>
+  <data name="MsixFileSection.Header" xml:space="preserve">
+    <value>MSIX 파일</value>
+  </data>
+  <data name="MultipleArchitectureNotice.Message" xml:space="preserve">
+    <value>2개 이상의 아키텍처를 선택하면 설치 프로그램들이 ZIP 아카이브로 패키징됩니다.</value>
+  </data>
+  <data name="MultipleArchitectureNotice.Title" xml:space="preserve">
+    <value>다중 아키텍처</value>
+  </data>
+  <data name="OpenButtonText.Text" xml:space="preserve">
+    <value>열기</value>
+  </data>
+  <data name="PackageDisplayNameCard.Header" xml:space="preserve">
+    <value>표시 이름</value>
+  </data>
+  <data name="PackageInfoSection.Description" xml:space="preserve">
+    <value>감지된 패키지 메타데이터</value>
+  </data>
+  <data name="PackageInfoSection.Header" xml:space="preserve">
+    <value>패키지 정보</value>
+  </data>
+  <data name="PackageNameCard.Header" xml:space="preserve">
+    <value>이름</value>
+  </data>
+  <data name="PackagePublisherCard.Header" xml:space="preserve">
+    <value>게시자</value>
+  </data>
+  <data name="PackageVersionCard.Header" xml:space="preserve">
+    <value>버전</value>
+  </data>
+  <data name="SimplifiedChineseLanguageMenuFlyoutItem.Text" xml:space="preserve">
+    <value>简体中文</value>
+  </data>
+  <data name="TraditionalChineseLanguageMenuFlyoutItem.Text" xml:space="preserve">
+    <value>繁體中文</value>
+  </data>
+  <data name="WindowTitle.Title" xml:space="preserve">
+    <value>MSIX 인스톨러 생성기</value>
+  </data>
+</root>

@@ -1,0 +1,141 @@
+﻿<Page
+    x:Class="MsixInstallerComposer.Pages.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dev="using:DevWinUI"
+    xmlns:local="using:MsixInstallerComposer.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer
+        HorizontalScrollBarVisibility="Disabled"
+        HorizontalScrollMode="Disabled"
+        VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel
+                Grid.Row="0"
+                Padding="16"
+                HorizontalAlignment="Stretch"
+                Spacing="16">
+
+                <!--  MSIX File Section  -->
+                <dev:SettingsCard x:Uid="MsixFileSection" HeaderIcon="{dev:FontIcon Glyph=&#xE7B8;}">
+                    <Grid
+                        ColumnSpacing="8"
+                        DragOver="OnMsixFileDragOver"
+                        Drop="OnMsixFileDrop">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox
+                            x:Name="MsixFilePathTextBox"
+                            x:Uid="MsixFilePathTextBox"
+                            Grid.Column="0"
+                            Width="400"
+                            IsReadOnly="True"
+                            PlaceholderText="Drop a .msix or .msixbundle file here, or click Open..."
+                            Text="{x:Bind ViewModel.MsixFilePath, Mode=OneWay}" />
+
+                        <Button
+                            Grid.Column="1"
+                            VerticalAlignment="Stretch"
+                            Click="OnOpenButtonClicked">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon Glyph="&#xE838;" />
+                                    <TextBlock x:Uid="OpenButtonText" Text="Open" />
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                    </Grid>
+                </dev:SettingsCard>
+
+                <!--  Architecture Section  -->
+                <dev:SettingsExpander
+                    x:Uid="ArchitectureSection"
+                    HorizontalContentAlignment="Stretch"
+                    HeaderIcon="{dev:FontIcon Glyph=&#xEEA1;}"
+                    IsExpanded="True">
+                    <dev:SettingsExpander.Items>
+                        <dev:SettingsCard ContentAlignment="Left">
+                            <StackPanel Margin="0,12,0,0" Spacing="12">
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox
+                                        x:Uid="ArchitectureX64CheckBox"
+                                        VerticalAlignment="Center"
+                                        Content="x64"
+                                        IsChecked="{x:Bind ViewModel.IsX64Selected, Mode=TwoWay}"
+                                        IsEnabled="{x:Bind ViewModel.IsX64Available, Mode=OneWay}" />
+
+                                    <CheckBox
+                                        x:Uid="ArchitectureX86CheckBox"
+                                        Content="x86"
+                                        IsChecked="{x:Bind ViewModel.IsX86Selected, Mode=TwoWay}"
+                                        IsEnabled="{x:Bind ViewModel.IsX86Available, Mode=OneWay}" />
+
+                                    <CheckBox
+                                        x:Uid="ArchitectureArm64CheckBox"
+                                        Content="ARM64"
+                                        IsChecked="{x:Bind ViewModel.IsArm64Selected, Mode=TwoWay}"
+                                        IsEnabled="{x:Bind ViewModel.IsArm64Available, Mode=OneWay}" />
+                                </StackPanel>
+
+                                <InfoBar
+                                    x:Uid="MultipleArchitectureNotice"
+                                    IsClosable="False"
+                                    IsOpen="{x:Bind ViewModel.IsMultipleArchitecturesSelected, Mode=OneWay}"
+                                    Severity="Informational" />
+                            </StackPanel>
+                        </dev:SettingsCard>
+                    </dev:SettingsExpander.Items>
+                </dev:SettingsExpander>
+
+                <!--  Package Info Section  -->
+                <dev:SettingsExpander
+                    x:Uid="PackageInfoSection"
+                    HeaderIcon="{dev:FontIcon Glyph=&#xE896;}"
+                    IsExpanded="True"
+                    Visibility="{x:Bind ViewModel.HasPackageInfo, Mode=OneWay}">
+                    <dev:SettingsExpander.Items>
+                        <dev:SettingsCard x:Uid="PackageNameCard" Header="Name">
+                            <TextBlock Text="{x:Bind ViewModel.PackageName, Mode=OneWay}" TextWrapping="Wrap" />
+                        </dev:SettingsCard>
+
+                        <dev:SettingsCard x:Uid="PackageDisplayNameCard" Header="Display Name">
+                            <TextBlock Text="{x:Bind ViewModel.PackageDisplayName, Mode=OneWay}" TextWrapping="Wrap" />
+                        </dev:SettingsCard>
+
+                        <dev:SettingsCard x:Uid="PackageVersionCard" Header="Version">
+                            <TextBlock Text="{x:Bind ViewModel.PackageVersion, Mode=OneWay}" />
+                        </dev:SettingsCard>
+
+                        <dev:SettingsCard x:Uid="PackagePublisherCard" Header="Publisher">
+                            <TextBlock Text="{x:Bind ViewModel.PackagePublisher, Mode=OneWay}" TextWrapping="Wrap" />
+                        </dev:SettingsCard>
+
+                        <dev:SettingsCard x:Uid="DetectedArchitecturesCard" Header="Detected Architectures">
+                            <TextBlock Text="{x:Bind ViewModel.DetectedArchitecturesText, Mode=OneWay}" />
+                        </dev:SettingsCard>
+                    </dev:SettingsExpander.Items>
+                </dev:SettingsExpander>
+
+                <!--  Generate Button  -->
+                <Button
+                    x:Uid="GenerateButton"
+                    HorizontalAlignment="Stretch"
+                    Click="OnGenerateButtonClicked"
+                    Content="Generate"
+                    IsEnabled="{x:Bind ViewModel.CanGenerate, Mode=OneWay}"
+                    Style="{StaticResource AccentButtonStyle}" />
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Page>

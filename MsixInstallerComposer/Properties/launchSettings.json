@@ -1,0 +1,10 @@
+﻿{
+  "profiles": {
+    "MsixInstallerComposer (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "MsixInstallerComposer (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

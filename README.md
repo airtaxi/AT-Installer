@@ -19,6 +19,7 @@ The framework uses WinUI 3 with Mica backdrop for a modern Windows 11 appearance
 - Modern UI with WinUI 3 interface and Mica backdrop
 - Multi-language Support (English, Korean, Japanese, Chinese)
 - Simple Package Format using `.atp` (AT Package) format with ZIP compression
+- MSIX and MSIXBundle support — generate double-click installers that simplify sideloading
 - Customizable scripts during install/uninstall
 - Multi-Architecture support (x64, ARM64, x86)
 - Silent Install via command-line
@@ -112,6 +113,14 @@ Installer.exe "path\to\package.atp" /silent
 The `.atp` package is a ZIP archive containing:
 - `manifest.json`: Installation manifest
 - `data.bin`: Compressed application files
+
+## MSIX and MSIXBundle Support
+
+While MSIX and MSIXBundle are modern Windows packaging formats, installing them outside the Microsoft Store has never been straightforward. End users often need to enable Developer Mode, run PowerShell commands, or deal with confusing certificate and dependency errors.
+
+AT Installer eliminates all of that. The [**MSIX Installer Generator**](https://apps.microsoft.com/detail/9P5GS17TCDQX) companion tool turns any `.msix` or `.msixbundle` package into a simple double-click installer — no PowerShell, no Developer Mode, no sideloading setup required.
+
+Just load your MSIX file, pick the target architectures, and generate. The output is a standalone installer executable (per-architecture) or a single ZIP archive for multi-architecture distribution. Users download and run it like any traditional Windows installer.
 
 ## Configuration Files
 
