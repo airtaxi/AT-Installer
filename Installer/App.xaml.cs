@@ -61,7 +61,7 @@ public partial class App : Application
 #endif
 
  		// Compose manifest from command line argument
- 		var packageFilePath = args[1];
+ 		var packageFilePath = Path.GetFullPath(args[1]);
  		var isSilent = args.Contains("/silent", StringComparer.OrdinalIgnoreCase);
  		var shouldAutoInstall = args.Contains("/install", StringComparer.OrdinalIgnoreCase);
 
