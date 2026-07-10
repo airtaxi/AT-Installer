@@ -90,17 +90,36 @@ public static class MsixManifestParser
 
     private static byte[] ExtractLogoFromZip(ZipArchive zip)
     {
+        var candidates = new List<(int Scale, ZipArchiveEntry Entry)>();
+
         foreach (var entry in zip.Entries)
         {
             var fullName = entry.FullName;
-            if (fullName.StartsWith("Assets/StoreLogo", StringComparison.OrdinalIgnoreCase) && fullName.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
-            {
-                using var memoryStream = new MemoryStream();
-                using (var entryStream = entry.Open()) entryStream.CopyTo(memoryStream);
-                return memoryStream.ToArray();
-            }
+            if (!fullName.StartsWith("Assets/StoreLogo", StringComparison.OrdinalIgnoreCase) || !fullName.EndsWith(".png", StringComparison.OrdinalIgnoreCase)) continue;
+
+            var scale = ParseScaleFromFileName(fullName);
+            candidates.Add((scale, entry));
         }
-        return null;
+
+        if (candidates.Count == 0) return null;
+
+        var best = candidates.OrderByDescending(candidate => candidate.Scale).First();
+        using var memoryStream = new MemoryStream();
+        using (var entryStream = best.Entry.Open()) entryStream.CopyTo(memoryStream);
+        return memoryStream.ToArray();
+    }
+
+    private static int ParseScaleFromFileName(string fileName)
+    {
+        var dotIndex = fileName.LastIndexOf('.');
+        if (dotIndex < 0) return 100;
+
+        var nameWithoutExtension = fileName[..dotIndex];
+        var scaleSeparatorIndex = nameWithoutExtension.LastIndexOf(".scale-", StringComparison.OrdinalIgnoreCase);
+        if (scaleSeparatorIndex < 0) return 100;
+
+        var scaleString = nameWithoutExtension[(scaleSeparatorIndex + ".scale-".Length)..];
+        return int.TryParse(scaleString, out var scale) ? scale : 100;
     }
 
     private static Version ParseVersion(string versionString)
