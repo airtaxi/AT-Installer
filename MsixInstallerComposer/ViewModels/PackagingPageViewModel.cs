@@ -390,9 +390,9 @@ public sealed partial class PackagingPageViewModel(LocalizationService localizat
     private static void FixAppxManifestDisplayName(string appxManifestPath, string displayName)
     {
         var content = File.ReadAllText(appxManifestPath);
-        var pattern = @"<DisplayName>.*?</DisplayName>";
         var escapedDisplayName = SecurityElement.Escape(displayName);
-        var fixedContent = Regex.Replace(content, pattern, _ => $"<DisplayName>{escapedDisplayName}</DisplayName>", RegexOptions.None);
+        var fixedContent = Regex.Replace(content, @"<DisplayName>.*?</DisplayName>", _ => $"<DisplayName>{escapedDisplayName}</DisplayName>", RegexOptions.None);
+        fixedContent = Regex.Replace(fixedContent, @"(<uap:VisualElements\b[^>]*?DisplayName="")[^""]*("")", match => $"{match.Groups[1].Value}{escapedDisplayName}{match.Groups[2].Value}", RegexOptions.Singleline);
         File.WriteAllText(appxManifestPath, fixedContent);
     }
 
