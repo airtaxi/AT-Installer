@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
-using MsixInstallerComposer.Models;
+using MsixInstallerComposer.Shared.Models;
 using MsixInstallerComposer.Services;
 using System;
 using System.IO;

@@ -1,4 +1,4 @@
-﻿namespace MsixInstallerComposer.Enums;
+﻿namespace MsixInstallerComposer.Shared.Enums;
 
 public enum ComposerProgressStage
 {

@@ -1,4 +1,4 @@
-namespace MsixInstallerComposer.Models;
+namespace MsixInstallerComposer.Shared.Models;
 
 public sealed class DeleteProgress
 {

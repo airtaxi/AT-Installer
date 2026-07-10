@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace MsixInstallerComposer.Models;
+namespace MsixInstallerComposer.Shared.Models;
 
 public sealed class AticMsixConfig
 {
@@ -19,4 +19,4 @@ public sealed class AticMsixConfig
 }
 
 [JsonSerializable(typeof(AticMsixConfig))]
-internal sealed partial class AticMsixConfigSerializerContext : JsonSerializerContext;
+public sealed partial class AticMsixConfigSerializerContext : JsonSerializerContext;

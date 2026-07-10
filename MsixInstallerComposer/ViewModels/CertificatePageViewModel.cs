@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MsixInstallerComposer.Helpers;
+using MsixInstallerComposer.Shared.Helpers;
 using MsixInstallerComposer.Services;
 using System;
 using System.IO;

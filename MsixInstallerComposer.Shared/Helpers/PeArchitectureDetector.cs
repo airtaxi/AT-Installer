@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace MsixInstallerComposer.Helpers;
+namespace MsixInstallerComposer.Shared.Helpers;
 
 public static class PeArchitectureDetector
 {

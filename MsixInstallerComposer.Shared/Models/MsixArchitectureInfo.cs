@@ -1,8 +1,8 @@
-﻿using MsixInstallerComposer.Enums;
+﻿using MsixInstallerComposer.Shared.Enums;
 using System;
 using System.Collections.Generic;
 
-namespace MsixInstallerComposer.Models;
+namespace MsixInstallerComposer.Shared.Models;
 
 public sealed class MsixArchitectureInfo
 {

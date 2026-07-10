@@ -1,11 +1,11 @@
-﻿using MsixInstallerComposer.Models;
+﻿using MsixInstallerComposer.Shared.Models;
 using System;
 using System.IO;
 using System.Linq;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
-namespace MsixInstallerComposer.Helpers;
+namespace MsixInstallerComposer.Shared.Helpers;
 
 public static class SfxTemplateDownloader
 {

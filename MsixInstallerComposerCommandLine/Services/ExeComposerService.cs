@@ -1,4 +1,4 @@
-﻿using MsixInstallerComposer.Shared.Enums;
+using MsixInstallerComposer.Shared.Enums;
 using MsixInstallerComposer.Shared.Helpers;
 using MsixInstallerComposer.Shared.Models;
 using System;
@@ -9,25 +9,26 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace MsixInstallerComposer.Services;
+namespace MsixInstallerComposerCommandLine.Services;
 
-public sealed class InstallerComposerService
+public sealed class ExeComposerService
 {
-    private const string SfxCacheFolderName = "MsixInstallerComposer";
+    private const string CacheFolderName = "MsixInstallerComposer";
     private const string SfxSubFolderName = "SFX";
     private const string TempFolderName = "MsixInstallerComposerTemp";
     private const string ZipFileName = "Release.zip";
 
-    public async Task<string> ComposeAsync(string msixFilePath, List<MsixArchitecture> selectedArchitectures, IProgress<ComposerProgress> progress = null)
+    private static string LocalAppDataPath => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+
+    public async Task<string> ComposeAsync(string msixFilePath, List<MsixArchitecture> selectedArchitectures, string outputPath, IProgress<ComposerProgress> progress = null)
     {
         progress?.Report(new ComposerProgress { Message = "Detecting architecture...", Stage = ComposerProgressStage.DetectingArchitecture });
 
         var architectureInfo = MsixArchitectureDetector.Detect(msixFilePath);
-        var targetArchitectures = selectedArchitectures.Intersect(architectureInfo.Architectures).ToList();
+        var targetArchitectures = selectedArchitectures.Count > 0 ? selectedArchitectures.Intersect(architectureInfo.Architectures).ToList() : architectureInfo.Architectures;
         if (targetArchitectures.Count == 0) throw new InvalidOperationException("No matching architectures found between the selected and the MSIX package.");
 
-        var localAppDataPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
-        var sfxRootPath = Path.Combine(localAppDataPath, SfxCacheFolderName, SfxSubFolderName);
+        var sfxRootPath = Path.Combine(LocalAppDataPath, CacheFolderName, SfxSubFolderName);
         var tempRootPath = Path.Combine(Path.GetTempPath(), TempFolderName, Guid.NewGuid().ToString());
 
         Directory.CreateDirectory(sfxRootPath);
@@ -103,29 +104,30 @@ public sealed class InstallerComposerService
                 generatedFiles.Add(tempInstallerPath);
             }
 
+            var isMultiple = generatedFiles.Count > 1;
             string finalFilePath;
 
-            if (generatedFiles.Count == 1) finalFilePath = generatedFiles[0];
-            else
+            if (isMultiple)
             {
                 progress?.Report(new ComposerProgress { Message = "Creating ZIP archive...", Stage = ComposerProgressStage.Composing });
 
-                var zipPath = Path.Combine(Path.GetTempPath(), "Installers.zip");
-                if (File.Exists(zipPath))
-                {
-                    try { File.Delete(zipPath); }
-                    catch (IOException) { zipPath = Path.Combine(Path.GetTempPath(), $"Installers-{Guid.NewGuid():N}.zip"); }
-                }
-                ZipFile.CreateFromDirectory(tempRootPath, zipPath);
+                var tempZipPath = Path.Combine(tempRootPath, Path.GetFileNameWithoutExtension(outputPath) + ".zip");
+                ZipFile.CreateFromDirectory(tempRootPath, tempZipPath);
 
                 foreach (var file in generatedFiles) File.Delete(file);
 
-                finalFilePath = zipPath;
+                finalFilePath = tempZipPath;
             }
+            else finalFilePath = generatedFiles[0];
 
-            progress?.Report(new ComposerProgress { Message = "Done.", Stage = ComposerProgressStage.Done });
+            var targetDirectory = Path.GetDirectoryName(outputPath);
+            if (!string.IsNullOrEmpty(targetDirectory)) Directory.CreateDirectory(targetDirectory);
 
-            return finalFilePath;
+            await Task.Run(() => File.Move(finalFilePath, outputPath, true));
+
+            progress?.Report(new ComposerProgress { Message = $"Installer saved to: {outputPath}", Stage = ComposerProgressStage.Done });
+
+            return outputPath;
         }
         catch
         {

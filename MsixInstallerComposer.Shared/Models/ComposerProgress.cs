@@ -1,6 +1,6 @@
-﻿using MsixInstallerComposer.Enums;
+﻿using MsixInstallerComposer.Shared.Enums;
 
-namespace MsixInstallerComposer.Models;
+namespace MsixInstallerComposer.Shared.Models;
 
 public sealed class ComposerProgress
 {

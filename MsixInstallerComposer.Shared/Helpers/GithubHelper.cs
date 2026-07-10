@@ -1,4 +1,4 @@
-using MsixInstallerComposer.Models;
+using MsixInstallerComposer.Shared.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +9,7 @@ using System.Text.Json.Nodes;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MsixInstallerComposer.Helpers;
+namespace MsixInstallerComposer.Shared.Helpers;
 
 public static class GithubHelper
 {

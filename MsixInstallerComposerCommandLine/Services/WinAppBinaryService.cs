@@ -7,53 +7,43 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace MsixInstallerComposer.Services;
+namespace MsixInstallerComposerCommandLine.Services;
 
-public sealed class WinAppService(LocalizationService localizationService, DialogService dialogService)
+public sealed class WinAppBinaryService
 {
     private const string CacheFolderName = "MsixInstallerComposer";
     private const string WinAppSubFolderName = "winapp";
     private const string ZipFileName = "cli-binaries.zip";
     private const string ExeFileName = "winapp.exe";
 
+    private static string LocalAppDataPath => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+
     public string GetWinAppBinaryPath()
     {
-        var localAppDataPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
-        var cachePath = Path.Combine(localAppDataPath, CacheFolderName);
+        var cachePath = Path.Combine(LocalAppDataPath, CacheFolderName);
         var winAppPath = Path.Combine(cachePath, WinAppSubFolderName);
         return Path.Combine(winAppPath, ExeFileName);
     }
 
-    public async Task EnsureWinAppBinaryAsync()
+    public async Task EnsureWinAppBinaryAsync(IProgress<string> progress = null)
     {
-        var localAppDataPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
-        var cachePath = Path.Combine(localAppDataPath, CacheFolderName);
+        var cachePath = Path.Combine(LocalAppDataPath, CacheFolderName);
         var winAppPath = Path.Combine(cachePath, WinAppSubFolderName);
         var zipFilePath = Path.Combine(cachePath, ZipFileName);
         var exeFilePath = Path.Combine(winAppPath, ExeFileName);
 
-        MainWindow.ShowLoading(localizationService.GetLocalizedString("WinAppService_CheckingBinaryMessage"));
+        progress?.Report("Checking winapp.exe binary...");
 
-        if (!File.Exists(zipFilePath) && File.Exists(exeFilePath))
-        {
-            MainWindow.HideLoading();
-            return;
-        }
+        if (!File.Exists(zipFilePath) && File.Exists(exeFilePath)) return;
 
-        if (RuntimeInformation.ProcessArchitecture == Architecture.X86)
-        {
-            MainWindow.HideLoading();
-            await dialogService.ShowMessageAsync(localizationService.GetLocalizedString("AppDisplayName"), localizationService.GetLocalizedString("WinAppService_UnsupportedArchitectureMessage"));
-            return;
-        }
+        if (RuntimeInformation.ProcessArchitecture == Architecture.X86) progress?.Report("Warning: x86 process architecture may not be supported by winapp.exe.");
 
-        MainWindow.ShowLoading(localizationService.GetFormattedString("WinAppService_DownloadingMessageFormat", 0));
+        progress?.Report("Downloading winapp.exe...");
 
-        var progress = new Progress<DownloadProgress>(downloadProgress => MainWindow.ShowLoading(localizationService.GetFormattedString("WinAppService_DownloadingMessageFormat", downloadProgress.Percentage)));
+        var downloadProgress = new ConsoleDownloadProgress();
+        await WinAppCliBinaryDownloader.DownloadAsync(cachePath, downloadProgress);
 
-        await WinAppCliBinaryDownloader.DownloadAsync(cachePath, progress);
-
-        MainWindow.ShowLoading(localizationService.GetLocalizedString("WinAppService_ExtractingMessage"));
+        progress?.Report("Extracting winapp.exe...");
 
         var architectureFolder = RuntimeInformation.ProcessArchitecture == Architecture.Arm64 ? "win-arm64" : "win-x64";
 
@@ -78,6 +68,6 @@ public sealed class WinAppService(LocalizationService localizationService, Dialo
 
         File.Delete(zipFilePath);
 
-        MainWindow.HideLoading();
+        progress?.Report("winapp.exe is ready.");
     }
 }

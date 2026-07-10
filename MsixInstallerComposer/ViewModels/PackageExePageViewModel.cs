@@ -1,8 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MsixInstallerComposer.Enums;
-using MsixInstallerComposer.Helpers;
-using MsixInstallerComposer.Models;
+using MsixInstallerComposer.Shared.Enums;
+using MsixInstallerComposer.Shared.Helpers;
+using MsixInstallerComposer.Shared.Models;
 using MsixInstallerComposer.Services;
 using System;
 using System.Collections.Generic;

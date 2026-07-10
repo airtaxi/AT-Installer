@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Text;
 
-namespace MsixInstallerComposer.Helpers;
+namespace MsixInstallerComposer.Shared.Helpers;
 
 public static class ProcessHelper
 {

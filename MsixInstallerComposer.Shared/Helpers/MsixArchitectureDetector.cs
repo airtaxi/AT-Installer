@@ -1,12 +1,12 @@
-﻿using MsixInstallerComposer.Enums;
-using MsixInstallerComposer.Models;
+﻿using MsixInstallerComposer.Shared.Enums;
+using MsixInstallerComposer.Shared.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Xml.Linq;
 
-namespace MsixInstallerComposer.Helpers;
+namespace MsixInstallerComposer.Shared.Helpers;
 
 public static class MsixArchitectureDetector
 {

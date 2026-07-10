@@ -1,10 +1,10 @@
-using MsixInstallerComposer.Models;
+using MsixInstallerComposer.Shared.Models;
 using System;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace MsixInstallerComposer.Helpers;
+namespace MsixInstallerComposer.Shared.Helpers;
 
 public static class WinAppCliBinaryDownloader
 {
