@@ -7,6 +7,7 @@ using MsixInstallerComposer.Messages;
 using MsixInstallerComposer.Pages;
 using MsixInstallerComposer.Services;
 using System.Globalization;
+using Windows.Globalization;
 using WinUIEx;
 using TitleBar = Microsoft.UI.Xaml.Controls.TitleBar;
 
@@ -83,6 +84,10 @@ public sealed partial class MainWindow : WindowEx
         PackageExeSelectorBarItem.Text = _localizationService.GetLocalizedString("PackageExeSelectorBarItem.Text");
         PackageMsixSelectorBarItem.Text = _localizationService.GetLocalizedString("PackageMsixSelectorBarItem.Text");
         SettingsSelectorBarItem.Text = _localizationService.GetLocalizedString("SettingsSelectorBarItem.Text");
+
+        // This method can only be called from SettingsPage.
+        // Reload the page to apply the new language setting.
+        AppFrame.Navigate(typeof(SettingsPage));
     }
 
     private void OnAppTitleBarPaneToggleRequested(TitleBar sender, object args) => WeakReferenceMessenger.Default.Send(new AppTitleBarPaneToggledMessage());
