@@ -354,10 +354,11 @@ public sealed partial class PackagingPageViewModel(LocalizationService localizat
         {
             if (!string.IsNullOrEmpty(workDirectoryPath)) await CleanupDirectoryAsync(workDirectoryPath, progress => MainWindow.ShowLoading(localizationService.GetFormattedString("PackagingPage_CleaningUpMessageFormat", progress.Percentage)));
 
+            MainWindow.HideLoading();
+
             // If success, IsGenerating is still true
             if (IsGenerating)
             {
-                MainWindow.HideLoading();
                 IsGenerating = false;
                 await dialogService.ShowMessageAsync(localizationService.GetLocalizedString("AppDisplayName"), localizationService.GetLocalizedString("PackagingPage_GenerateSuccessMessage"));
             }
