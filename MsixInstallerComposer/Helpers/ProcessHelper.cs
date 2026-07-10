@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Text;
 
 namespace MsixInstallerComposer.Helpers;
 
@@ -40,5 +41,22 @@ public static class ProcessHelper
         process.WaitForExit();
 
         return process.ExitCode;
+    }
+
+    public static string EscapeCommandLineArgument(string value)
+    {
+        if (value is null) return string.Empty;
+
+        var builder = new StringBuilder();
+        builder.Append('"');
+
+        foreach (var character in value)
+        {
+            if (character is '"' or '\\') builder.Append('\\');
+            builder.Append(character);
+        }
+
+        builder.Append('"');
+        return builder.ToString();
     }
 }
