@@ -264,11 +264,11 @@ public sealed partial class PackagingPageViewModel(LocalizationService localizat
             {
                 MainWindow.ShowLoading(localizationService.GetFormattedString("PackagingPage_GeneratingManifestMessageFormat", architecture));
 
-                var arguments = $"manifest generate \"{architectureFolder}\" --package-name \"{_manifestConfig.DisplayName}\" --version {version} --description \"{_manifestConfig.ApplicationDescription}\" --template packaged --if-exists Overwrite";
+                var arguments = $"manifest generate {ProcessHelper.EscapeCommandLineArgument(architectureFolder)} --package-name {ProcessHelper.EscapeCommandLineArgument(_manifestConfig.DisplayName)} --version {version} --description {ProcessHelper.EscapeCommandLineArgument(_manifestConfig.ApplicationDescription)} --template packaged --if-exists Overwrite";
 
-                if (publisherName is not null) arguments += $" --publisher-name \"{publisherName}\"";
+                if (publisherName is not null) arguments += $" --publisher-name {ProcessHelper.EscapeCommandLineArgument(publisherName)}";
 
-                if (logoFileName is not null) arguments += $" --logo-path \"..\\{logoFileName}\"";
+                if (logoFileName is not null) arguments += $" --logo-path {ProcessHelper.EscapeCommandLineArgument($"..\\{logoFileName}")}";
 
                 var exitCode = await Task.Run(() => ProcessHelper.RunCommand(winAppBinaryPath, arguments, architectureFolder));
 
@@ -295,15 +295,15 @@ public sealed partial class PackagingPageViewModel(LocalizationService localizat
             MainWindow.ShowLoading(localizationService.GetLocalizedString("PackagingPage_PackagingMessage"));
 
             var packArguments = "pack";
-            foreach (var(_, architectureFolder)in architectureFolders) packArguments += $" \"{Path.GetFileName(architectureFolder)}\"";
+            foreach (var(_, architectureFolder)in architectureFolders) packArguments += $" {ProcessHelper.EscapeCommandLineArgument(Path.GetFileName(architectureFolder))}";
 
-            packArguments += $" --executable \"{_manifestConfig.ExecutableFileName}\"";
+            packArguments += $" --executable {ProcessHelper.EscapeCommandLineArgument(_manifestConfig.ExecutableFileName)}";
 
             if (HasCertificate && !string.IsNullOrWhiteSpace(_certificateFilePath))
             {
-                packArguments += $" --cert \"{_certificateFilePath}\"";
+                packArguments += $" --cert {ProcessHelper.EscapeCommandLineArgument(_certificateFilePath)}";
                 var password = string.IsNullOrWhiteSpace(CertificatePassword) ? DefaultPassword : CertificatePassword;
-                packArguments += $" --cert-password \"{password}\"";
+                packArguments += $" --cert-password {ProcessHelper.EscapeCommandLineArgument(password)}";
             }
             else packArguments += " --generate-cert";
 

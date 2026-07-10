@@ -52,7 +52,7 @@ public sealed partial class CertificatePageViewModel(LocalizationService localiz
             var winAppBinaryPath = winAppService.GetWinAppBinaryPath();
             var tempPfxFilePath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid():N}.pfx");
 
-            var arguments = $"cert generate --output \"{tempPfxFilePath}\" --password \"{(string.IsNullOrWhiteSpace(Password) ? DefaultPassword : Password)}\" --valid-days {validDays} --publisher \"{Publisher}\"";
+            var arguments = $"cert generate --output {ProcessHelper.EscapeCommandLineArgument(tempPfxFilePath)} --password {ProcessHelper.EscapeCommandLineArgument(string.IsNullOrWhiteSpace(Password) ? DefaultPassword : Password)} --valid-days {validDays} --publisher {ProcessHelper.EscapeCommandLineArgument(Publisher)}";
 
             var exitCode = await Task.Run(() => ProcessHelper.RunCommand(winAppBinaryPath, arguments, Path.GetDirectoryName(winAppBinaryPath)!));
 

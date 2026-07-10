@@ -85,7 +85,7 @@ public sealed class InstallerComposerService
 
                 progress?.Report(new ComposerProgress { Message = $"Archiving {architecture} files...", Stage = ComposerProgressStage.Composing });
 
-                var createArchiveResult = ProcessHelper.RunCommand(Path.Combine(versionCachePath, bzExeName), $"c -storeroot:no \"{archiveSevenZPath}\" \"{archiveFolderPath}\"", versionCachePath, onOutput: line => progress?.Report(new ComposerProgress { Message = $"Archiving {architecture}: {line}", Stage = ComposerProgressStage.Composing }));
+                var createArchiveResult = ProcessHelper.RunCommand(Path.Combine(versionCachePath, bzExeName), $"c -storeroot:no {ProcessHelper.EscapeCommandLineArgument(archiveSevenZPath)} {ProcessHelper.EscapeCommandLineArgument(archiveFolderPath)}", versionCachePath, onOutput: line => progress?.Report(new ComposerProgress { Message = $"Archiving {architecture}: {line}", Stage = ComposerProgressStage.Composing }));
                 if (createArchiveResult != 0) throw new InvalidOperationException($"Failed to create archive for {architecture}.");
 
                 var composeConfigPath = Path.Combine(versionCachePath, configName);
@@ -93,7 +93,7 @@ public sealed class InstallerComposerService
 
                 progress?.Report(new ComposerProgress { Message = $"Composing {architecture} installer...", Stage = ComposerProgressStage.Composing });
 
-                var composeResult = ProcessHelper.RunCommand("cmd.exe", $"/c copy /b /y \"{sfxModuleName}\" + \"{configName}\" + \"{archiveFolderName}.7z\" \"{installerFileName}\"", versionCachePath);
+                var composeResult = ProcessHelper.RunCommand("cmd.exe", $"/c copy /b /y {ProcessHelper.EscapeCommandLineArgument(sfxModuleName)} + {ProcessHelper.EscapeCommandLineArgument(configName)} + {ProcessHelper.EscapeCommandLineArgument($"{archiveFolderName}.7z")} {ProcessHelper.EscapeCommandLineArgument(installerFileName)}", versionCachePath);
                 if (composeResult != 0) throw new InvalidOperationException($"Failed to compose installer for {architecture}.");
 
                 var generatedInstallerPath = Path.Combine(versionCachePath, installerFileName);
