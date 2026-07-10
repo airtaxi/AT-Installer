@@ -495,7 +495,7 @@
     <value>한국어</value>
   </data>
   <data name="SettingsPage_LanguageRestartDialogMessage" xml:space="preserve">
-    <value>重启应用以应用语言更改。</value>
+    <value>请重启应用以完全应用语言更改。</value>
   </data>
   <data name="SettingsPage_LanguageRestartDialogTitle" xml:space="preserve">
     <value>语言更改</value>
