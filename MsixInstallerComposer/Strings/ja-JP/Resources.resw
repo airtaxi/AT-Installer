@@ -199,9 +199,6 @@
   <data name="ManifestPage_LoadFailedMessageFormat" xml:space="preserve">
     <value>設定ファイルの読み込みに失敗しました: {0}</value>
   </data>
-  <data name="ManifestPage_LogoLoadedInfoMessage" xml:space="preserve">
-    <value>設定ファイルからロゴ画像が読み込まれました。ファイルパスは保存されず、画像データのみが含まれます。画像を変更するには、新しいファイルを読み込んでください。</value>
-  </data>
   <data name="ManifestPage_LogoLoadFailedMessageFormat" xml:space="preserve">
     <value>ロゴ画像の読み込みに失敗しました: {0}</value>
   </data>

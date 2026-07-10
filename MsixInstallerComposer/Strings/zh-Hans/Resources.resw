@@ -199,9 +199,6 @@
   <data name="ManifestPage_LoadFailedMessageFormat" xml:space="preserve">
     <value>加载配置文件失败: {0}</value>
   </data>
-  <data name="ManifestPage_LogoLoadedInfoMessage" xml:space="preserve">
-    <value>已从配置文件加载徽标图像。文件路径不会被保存，只有图像数据被嵌入。要更改图像，请加载新文件。</value>
-  </data>
   <data name="ManifestPage_LogoLoadFailedMessageFormat" xml:space="preserve">
     <value>加载徽标图像失败: {0}</value>
   </data>

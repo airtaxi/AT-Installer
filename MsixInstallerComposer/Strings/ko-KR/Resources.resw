@@ -199,9 +199,6 @@
   <data name="ManifestPage_LoadFailedMessageFormat" xml:space="preserve">
     <value>설정 파일 로드에 실패했습니다: {0}</value>
   </data>
-  <data name="ManifestPage_LogoLoadedInfoMessage" xml:space="preserve">
-    <value>설정 파일에서 로고 이미지가 로드되었습니다. 파일 경로는 저장되지 않으며 이미지 데이터만 포함됩니다. 이미지를 변경하려면 새로운 파일을 불러오세요.</value>
-  </data>
   <data name="ManifestPage_LogoLoadFailedMessageFormat" xml:space="preserve">
     <value>로고 이미지 로드에 실패했습니다: {0}</value>
   </data>

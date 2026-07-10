@@ -199,9 +199,6 @@
   <data name="ManifestPage_LoadFailedMessageFormat" xml:space="preserve">
     <value>載入設定檔案失敗: {0}</value>
   </data>
-  <data name="ManifestPage_LogoLoadedInfoMessage" xml:space="preserve">
-    <value>已從設定檔案載入標誌影像。檔案路徑不會被儲存，只有影像資料被嵌入。要變更影像，請載入新檔案。</value>
-  </data>
   <data name="ManifestPage_LogoLoadFailedMessageFormat" xml:space="preserve">
     <value>載入標誌影像失敗: {0}</value>
   </data>

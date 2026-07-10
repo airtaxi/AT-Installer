@@ -202,9 +202,6 @@
   <data name="ManifestPage_LoadFailedMessageFormat" xml:space="preserve">
     <value>Failed to load config file: {0}</value>
   </data>
-  <data name="ManifestPage_LogoLoadedInfoMessage" xml:space="preserve">
-    <value>A logo image was loaded from the config file. The file path is not stored — only the image data is embedded. To change the image, load a new one.</value>
-  </data>
   <data name="ManifestPage_LogoLoadFailedMessageFormat" xml:space="preserve">
     <value>Failed to load logo image: {0}</value>
   </data>

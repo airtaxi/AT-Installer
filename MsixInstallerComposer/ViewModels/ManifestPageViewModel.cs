@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using MsixInstallerComposer.Models;
@@ -183,8 +183,6 @@ public sealed partial class ManifestPageViewModel(LocalizationService localizati
             _logoFileData = config.LogoFileData;
             _logoFileExtension = config.LogoFileExtension;
             HasLogoImage = _logoFileData is not null;
-
-            if (HasLogoImage) await dialogService.ShowMessageAsync(localizationService.GetLocalizedString("AppDisplayName"), localizationService.GetLocalizedString("ManifestPage_LogoLoadedInfoMessage"));
         }
         catch (Exception exception) { await dialogService.ShowMessageAsync(localizationService.GetLocalizedString("AppDisplayName"), localizationService.GetFormattedString("ManifestPage_LoadFailedMessageFormat", exception.Message)); }
     }
