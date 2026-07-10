@@ -24,11 +24,6 @@
 		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 		<AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
 	</PropertyGroup>
-  <ItemGroup>
-	  <None Remove="Pages\PackageMsix\CertificatePage.xaml" />
-	  <None Remove="Pages\PackageMsix\ManifestPage.xaml" />
-	  <None Remove="Pages\PackageMsix\PackagingPage.xaml" />
-  </ItemGroup>
 
 	<ItemGroup>
 		<Manifest Include="$(ApplicationManifest)" />
@@ -50,18 +45,6 @@
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2270" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="2.2.0" />
 		<PackageReference Include="WinUIEx" Version="2.9.1" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Page Update="Pages\PackageMsix\CertificatePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	  <Page Update="Pages\PackageMsix\ManifestPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	  <Page Update="Pages\PackageMsix\PackagingPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
 	</ItemGroup>
 
 	<PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
