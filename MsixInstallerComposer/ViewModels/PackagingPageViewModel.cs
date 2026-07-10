@@ -337,10 +337,7 @@ public sealed partial class PackagingPageViewModel(LocalizationService localizat
         finally
         {
             // Delete temporary working directory
-            if (!string.IsNullOrEmpty(workDirectoryPath))
-            {
-                Directory.Delete(workDirectoryPath, true);
-            }
+            if (!string.IsNullOrEmpty(workDirectoryPath)) Directory.Delete(workDirectoryPath, true);
 
             // If success, IsGenerating is still true
             if (IsGenerating)
