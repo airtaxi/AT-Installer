@@ -126,7 +126,8 @@
                                 Width="120"
                                 dev:TextBoxExtensions.ValidationMode="Dynamic"
                                 dev:TextBoxExtensions.ValidationType="Number"
-                                Text="{x:Bind ViewModel.Major, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                Text="{x:Bind ViewModel.Major, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                TextChanging="OnVersionTextBoxTextChanging" />
                         </dev:SettingsCard>
                         <dev:SettingsCard x:Uid="PackagingMinorVersionCard" HorizontalContentAlignment="Stretch">
                             <TextBox
@@ -134,7 +135,8 @@
                                 Width="120"
                                 dev:TextBoxExtensions.ValidationMode="Dynamic"
                                 dev:TextBoxExtensions.ValidationType="Number"
-                                Text="{x:Bind ViewModel.Minor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                Text="{x:Bind ViewModel.Minor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                TextChanging="OnVersionTextBoxTextChanging" />
                         </dev:SettingsCard>
                         <dev:SettingsCard x:Uid="PackagingBuildVersionCard" HorizontalContentAlignment="Stretch">
                             <TextBox
@@ -142,7 +144,8 @@
                                 Width="120"
                                 dev:TextBoxExtensions.ValidationMode="Dynamic"
                                 dev:TextBoxExtensions.ValidationType="Number"
-                                Text="{x:Bind ViewModel.Build, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                Text="{x:Bind ViewModel.Build, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                TextChanging="OnVersionTextBoxTextChanging" />
                         </dev:SettingsCard>
                         <dev:SettingsCard x:Uid="PackagingRevisionVersionCard" HorizontalContentAlignment="Stretch">
                             <TextBox
@@ -150,7 +153,8 @@
                                 Width="120"
                                 dev:TextBoxExtensions.ValidationMode="Dynamic"
                                 dev:TextBoxExtensions.ValidationType="Number"
-                                Text="{x:Bind ViewModel.Revision, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                Text="{x:Bind ViewModel.Revision, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                TextChanging="OnVersionTextBoxTextChanging" />
                         </dev:SettingsCard>
                     </dev:SettingsExpander.Items>
 
