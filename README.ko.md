@@ -7,19 +7,26 @@ WinUI 3로 구축된 경량 Windows 인스톨러 프레임워크<br><br>
 
 ## 개요
 
-AT Installer는 Windows 애플리케이션을 위한 현대적이고 경량화된 인스톨러 프레임워크입니다. 두 가지 주요 구성 요소로 이루어져 있습니다:
+AT Installer는 Windows 애플리케이션을 위한 현대적이고 경량화된 인스톨러 프레임워크입니다. 단순한 EXE 패키징을 넘어, Windows에서 관리하는 샌드박싱이 적용된 인스톨러를 생성할 수 있는 **올인원 솔루션**입니다 — 모든 Windows 프로그램을 MSIX/MSIXBundle로 패키징하고, 사이드로딩을 자동으로 처리하는 더블클릭 EXE 인스톨러로 구성할 수 있습니다.
 
-1. **Installer Composer** - 설치 패키지를 생성하는 GUI 도구
-2. **Installer** - 애플리케이션을 추출하고 설치하는 런타임 인스톨러
+이 프레임워크는 세 가지 주요 구성 요소로 이루어져 있습니다:
+
+1. **Installer Composer** - `.atp` 설치 패키지를 생성하는 GUI 도구
+2. **MSIX Installer Generator** - MSIX 인증서, 매니페스트, 패키징 및 EXE SFX 구성을 위한 컴패니언 GUI 도구 ([Microsoft Store](https://apps.microsoft.com/detail/9P5GS17TCDQX)에서 다운로드)
+3. **Installer** - 애플리케이션을 추출하고 설치하는 런타임 인스톨러
 
 이 프레임워크는 Mica 배경이 적용된 WinUI 3를 사용하여 Windows 11의 현대적인 외관을 제공하며, 다국어(영어, 한국어, 일본어, 중국어)를 지원합니다.
+
+> MSIX 기반 인스톨러 생성에 대한 자세한 내용은 [MSIX.ko.md](MSIX.ko.md)를 참조하세요.
 
 ## 기능
 
 - Mica 배경이 적용된 WinUI 3 인터페이스의 현대적인 UI
 - 다국어 지원 (영어, 한국어, 일본어, 중국어)
 - ZIP 압축을 사용한 `.atp` (AT Package) 형식의 간단한 패키지 포맷
-- MSIX 및 MSIXBundle 지원 — 더블클릭 설치 프로그램으로 사이드로딩 간소화
+- MSIX 패키징 — 인증서 생성, 매니페스트 구성, 빌드 출력으로부터 MSIX/MSIXBundle 생성
+- EXE SFX 구성 — `.msix`/`.msixbundle`을 사이드로딩을 자동 처리하는 독립 실행형 더블클릭 인스톨러로 변환 (PowerShell 불필요, 개발자 모드 불필요)
+- CLI 도구 (`aticmsixgen`) — CI 및 AI 자동화를 위한 명령줄 기반 MSIX 및 EXE 패키징
 - 설치/제거 시 커스텀 스크립트 실행 가능
 - 멀티 아키텍처 지원 (x64, ARM64, x86)
 - 명령줄을 통한 자동 설치
@@ -121,6 +128,8 @@ MSIX와 MSIXBundle은 훌륭한 최신 Windows 패키징 포맷이지만, Micros
 AT Installer는 이런 불편함을 모두 없앱니다. [**MSIX 인스톨러 생성기**](https://apps.microsoft.com/detail/9P5GS17TCDQX) 도구를 사용하면 모든 `.msix` 또는 `.msixbundle` 패키지를 더블클릭 한 번으로 설치되는 설치 프로그램으로 변환할 수 있습니다 — PowerShell도, 개발자 모드도, 사이드로딩 설정도 필요 없습니다.
 
 MSIX 파일을 불러오고 대상 아키텍처를 선택한 뒤 생성하기만 하면 됩니다. 아키텍처별 독립 실행형 설치 프로그램 또는 다중 아키텍처용 ZIP 아카이브가 생성됩니다. 사용자는 기존 Windows 인스톨러처럼 다운로드하고 실행하기만 하면 됩니다.
+
+> **MSIX 기반 인스톨러 생성에 대해 자세히 알아보려면 [MSIX.ko.md](MSIX.ko.md)를 참조하세요.**
 
 ## 구성 파일
 
