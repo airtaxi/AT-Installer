@@ -58,12 +58,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AboutDialogContent" xml:space="preserve">
-    <value>バージョン: {0}
-作者: Howon Lee</value>
-  </data>
-  <data name="AboutDialogTitle" xml:space="preserve">
-    <value>バージョン情報</value>
+  <data name="AppDisplayName" xml:space="preserve">
+    <value>MSIX インストーラー生成ツール</value>
   </data>
   <data name="AppTitleBarTitle.Title" xml:space="preserve">
     <value>MSIX インストーラー生成ツール</value>
@@ -83,38 +79,53 @@
   <data name="ArchitectureX86CheckBox.Content" xml:space="preserve">
     <value>x86</value>
   </data>
+  <data name="CertificateNavItem.Content" xml:space="preserve">
+    <value>証明書</value>
+  </data>
+  <data name="CertificatePage_GenerateFailedMessageFormat" xml:space="preserve">
+    <value>証明書の生成に失敗しました: {0}</value>
+  </data>
+  <data name="CertificatePage_GenerateSuccessMessage" xml:space="preserve">
+    <value>証明書を正常にエクスポートしました。</value>
+  </data>
+  <data name="CertificatePasswordBox.Description" xml:space="preserve">
+    <value>エクスポートする PFX ファイルを保護します。空欄の場合はデフォルトパスワード "password" が使用されます。パスワードを設定すると、このツールで MSIX パッケージを作成するたびにパスワードを入力する必要があります。</value>
+  </data>
+  <data name="CertificatePasswordBox.Header" xml:space="preserve">
+    <value>パスワード</value>
+  </data>
+  <data name="CertificatePublisherCard.Description" xml:space="preserve">
+    <value>完全な X.500 識別名 (例: CN=Contoso, O=Contoso Ltd, C=US) を入力できます。単純名は自動的に CN=&lt;name&gt; としてラップされます。</value>
+  </data>
+  <data name="CertificatePublisherCard.Header" xml:space="preserve">
+    <value>発行者</value>
+  </data>
+  <data name="CertificateValidDaysCard.Description" xml:space="preserve">
+    <value>証明書が有効な日数</value>
+  </data>
+  <data name="CertificateValidDaysCard.Header" xml:space="preserve">
+    <value>有効期間(日)</value>
+  </data>
   <data name="DetectedArchitecturesCard.Header" xml:space="preserve">
     <value>検出されたアーキテクチャ</value>
+  </data>
+  <data name="DialogCancelButton" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="DialogHelper_CancelButtonText" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="DialogHelper_ConfirmButtonText" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="DialogHelper_DefaultInputTitle" xml:space="preserve">
+    <value>入力</value>
   </data>
   <data name="DialogOkButton" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="EnglishLanguageMenuFlyoutItem.Text" xml:space="preserve">
-    <value>English</value>
-  </data>
-  <data name="FileExitMenuFlyoutItem.Text" xml:space="preserve">
-    <value>終了</value>
-  </data>
-  <data name="FileLoadMsixMenuFlyoutItem.Text" xml:space="preserve">
-    <value>MSIX を読み込む...</value>
-  </data>
-  <data name="FileMenu.Title" xml:space="preserve">
-    <value>ファイル</value>
-  </data>
   <data name="GenerateButton.Content" xml:space="preserve">
     <value>生成</value>
-  </data>
-  <data name="HelpAboutMenuFlyoutItem.Text" xml:space="preserve">
-    <value>バージョン情報</value>
-  </data>
-  <data name="HelpMenu.Title" xml:space="preserve">
-    <value>ヘルプ</value>
-  </data>
-  <data name="JapaneseLanguageMenuFlyoutItem.Text" xml:space="preserve">
-    <value>日本語</value>
-  </data>
-  <data name="KoreanLanguageMenuFlyoutItem.Text" xml:space="preserve">
-    <value>한국어</value>
   </data>
   <data name="LanguageChangeDialogContent" xml:space="preserve">
     <value>言語変更はアプリを再起動後に適用されます。</value>
@@ -122,8 +133,77 @@
   <data name="LanguageChangeDialogTitle" xml:space="preserve">
     <value>言語変更</value>
   </data>
-  <data name="LanguageMenu.Title" xml:space="preserve">
-    <value>言語</value>
+  <data name="ManifestApplicationDescriptionCard.Description" xml:space="preserve">
+    <value>アプリケーションの説明です。MSIX マニフェストに含まれます。</value>
+  </data>
+  <data name="ManifestApplicationDescriptionCard.Header" xml:space="preserve">
+    <value>アプリケーションの説明</value>
+  </data>
+  <data name="ManifestApplicationDescriptionTextBox.PlaceholderText" xml:space="preserve">
+    <value>アプリケーションの説明を入力</value>
+  </data>
+  <data name="ManifestDisplayNameCard.Description" xml:space="preserve">
+    <value>MSIX パッケージの表示名です。スタートメニューと設定に表示されます。</value>
+  </data>
+  <data name="ManifestDisplayNameCard.Header" xml:space="preserve">
+    <value>表示名</value>
+  </data>
+  <data name="ManifestDisplayNameTextBox.PlaceholderText" xml:space="preserve">
+    <value>パッケージ表示名を入力</value>
+  </data>
+  <data name="ManifestExecutableFileNameCard.Description" xml:space="preserve">
+    <value>パッケージの起動時に実行される実行ファイルの名前（.exe を含む）です。このファイル名は、すべてのサブディレクトリを含む出力ディレクトリ内で一意である必要があります。</value>
+  </data>
+  <data name="ManifestExecutableFileNameCard.Header" xml:space="preserve">
+    <value>実行ファイル名</value>
+  </data>
+  <data name="ManifestExecutableFileNameTextBox.PlaceholderText" xml:space="preserve">
+    <value>例: MyApp.exe — 出力ディレクトリ内で一意である必要があります</value>
+  </data>
+  <data name="ManifestGenerateButton.Content" xml:space="preserve">
+    <value>生成</value>
+  </data>
+  <data name="ManifestLoadButton.Content" xml:space="preserve">
+    <value>読み込む</value>
+  </data>
+  <data name="ManifestLogoImageCard.Description" xml:space="preserve">
+    <value>任意です。ロゴ画像ファイル（JPG、PNG、BMP、ICO）を選択します。この画像はスタートメニューと設定に表示されるアプリケーションアイコンになります。</value>
+  </data>
+  <data name="ManifestLogoImageCard.Header" xml:space="preserve">
+    <value>ロゴ画像ファイル</value>
+  </data>
+  <data name="ManifestLogoLoadButtonText.Text" xml:space="preserve">
+    <value>読み込む</value>
+  </data>
+  <data name="ManifestLogoLoadedCard.Description" xml:space="preserve">
+    <value>ロゴ画像が読み込まれました。右側のボタンを押して削除できます。削除すると、Windows のデフォルトアイコンが使用されます。</value>
+  </data>
+  <data name="ManifestLogoLoadedCard.Header" xml:space="preserve">
+    <value>ロゴ画像ファイル</value>
+  </data>
+  <data name="ManifestLogoRemoveButtonText.Text" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="ManifestNavItem.Content" xml:space="preserve">
+    <value>マニフェスト</value>
+  </data>
+  <data name="ManifestPage_GenerateFailedMessageFormat" xml:space="preserve">
+    <value>設定ファイルの生成に失敗しました: {0}</value>
+  </data>
+  <data name="ManifestPage_GenerateSuccessMessage" xml:space="preserve">
+    <value>設定ファイルが正常に生成されました。</value>
+  </data>
+  <data name="ManifestPage_LoadFailedMessage" xml:space="preserve">
+    <value>設定ファイルの読み込みに失敗しました: 有効な設定ファイルではありません。</value>
+  </data>
+  <data name="ManifestPage_LoadFailedMessageFormat" xml:space="preserve">
+    <value>設定ファイルの読み込みに失敗しました: {0}</value>
+  </data>
+  <data name="ManifestPage_LogoLoadedInfoMessage" xml:space="preserve">
+    <value>設定ファイルからロゴ画像が読み込まれました。ファイルパスは保存されず、画像データのみが含まれます。画像を変更するには、新しいファイルを読み込んでください。</value>
+  </data>
+  <data name="ManifestPage_LogoLoadFailedMessageFormat" xml:space="preserve">
+    <value>ロゴ画像の読み込みに失敗しました: {0}</value>
   </data>
   <data name="MsixFilePathTextBox.PlaceholderText" xml:space="preserve">
     <value>.msix または .msixbundle ファイルをドロップするか、開くをクリック...</value>
@@ -140,17 +220,50 @@
   <data name="MultipleArchitectureNotice.Title" xml:space="preserve">
     <value>複数アーキテクチャ</value>
   </data>
+  <data name="Notification_OpenStoreButtonText" xml:space="preserve">
+    <value>Store を開く</value>
+  </data>
+  <data name="Notification_StoreUpdateAvailableMessageFormat" xml:space="preserve">
+    <value>Microsoft Store に {0} 個の更新があります。</value>
+  </data>
+  <data name="Notification_StoreUpdateAvailableTitle" xml:space="preserve">
+    <value>更新あり</value>
+  </data>
+  <data name="NoUpdateDialogMessageFormat" xml:space="preserve">
+    <value>アプリケーションは最新です。(現在のバージョン: {0})</value>
+  </data>
+  <data name="NoUpdateDialogTitle" xml:space="preserve">
+    <value>最新です</value>
+  </data>
   <data name="OpenButtonText.Text" xml:space="preserve">
     <value>開く</value>
   </data>
+  <data name="OpenStoreButtonText" xml:space="preserve">
+    <value>Store を開く</value>
+  </data>
   <data name="PackageDisplayNameCard.Header" xml:space="preserve">
     <value>表示名</value>
+  </data>
+  <data name="PackageExePage_GenerateFailedMessageFormat" xml:space="preserve">
+    <value>インストーラーの生成に失敗しました: {0}</value>
+  </data>
+  <data name="PackageExePage_GenerateSuccessMessage" xml:space="preserve">
+    <value>インストーラーが正常に生成されました。</value>
+  </data>
+  <data name="PackageExePage_LoadFailedMessageFormat" xml:space="preserve">
+    <value>MSIX パッケージの読み込みに失敗しました: {0}</value>
+  </data>
+  <data name="PackageExeSelectorBarItem.Text" xml:space="preserve">
+    <value>EXE パッケージング</value>
   </data>
   <data name="PackageInfoSection.Description" xml:space="preserve">
     <value>検出されたパッケージメタデータ</value>
   </data>
   <data name="PackageInfoSection.Header" xml:space="preserve">
     <value>パッケージ情報</value>
+  </data>
+  <data name="PackageMsixSelectorBarItem.Text" xml:space="preserve">
+    <value>MSIX パッケージング</value>
   </data>
   <data name="PackageNameCard.Header" xml:space="preserve">
     <value>名前</value>
@@ -161,11 +274,321 @@
   <data name="PackageVersionCard.Header" xml:space="preserve">
     <value>バージョン</value>
   </data>
-  <data name="SimplifiedChineseLanguageMenuFlyoutItem.Text" xml:space="preserve">
+  <data name="PackagingAddOutputFolderButtonText.Text" xml:space="preserve">
+    <value>追加</value>
+  </data>
+  <data name="PackagingBuildVersionCard.Header" xml:space="preserve">
+    <value>Build</value>
+  </data>
+  <data name="PackagingBuildVersionTextBox.PlaceholderText" xml:space="preserve">
+    <value>Build</value>
+  </data>
+  <data name="PackagingCertificateFileCard.Description" xml:space="preserve">
+    <value>任意です。署名に使用するPFX証明書を選択します。選択しない場合、このパッケージング用に一時証明書が生成されます。</value>
+  </data>
+  <data name="PackagingCertificateFileCard.Header" xml:space="preserve">
+    <value>証明書ファイル</value>
+  </data>
+  <data name="PackagingCertificateFilePathTextBox.PlaceholderText" xml:space="preserve">
+    <value>.pfx証明書ファイルを選択してください...</value>
+  </data>
+  <data name="PackagingCertificatePasswordBox.PlaceholderText" xml:space="preserve">
+    <value>空の場合はデフォルト「password」を使用</value>
+  </data>
+  <data name="PackagingCertificatePasswordCard.Description" xml:space="preserve">
+    <value>選択したPFX証明書のパスワードです。空の場合はデフォルトパスワード「password」が使用されます。</value>
+  </data>
+  <data name="PackagingCertificatePasswordCard.Header" xml:space="preserve">
+    <value>証明書パスワード</value>
+  </data>
+  <data name="PackagingGenerateButton.Content" xml:space="preserve">
+    <value>生成</value>
+  </data>
+  <data name="PackagingMajorVersionCard.Header" xml:space="preserve">
+    <value>Major</value>
+  </data>
+  <data name="PackagingMajorVersionTextBox.PlaceholderText" xml:space="preserve">
+    <value>Major</value>
+  </data>
+  <data name="PackagingManifestFileCard.Description" xml:space="preserve">
+    <value>必須。マニフェストページで生成されたマニフェスト(.aticmsixconfig)ファイルを選択します。マニフェストを読み込むと、下の出力フォルダ選択が有効になります。</value>
+  </data>
+  <data name="PackagingManifestFileCard.Header" xml:space="preserve">
+    <value>マニフェストファイル</value>
+  </data>
+  <data name="PackagingManifestFilePathTextBox.PlaceholderText" xml:space="preserve">
+    <value>.aticmsixconfigマニフェストファイルを選択してください...</value>
+  </data>
+  <data name="PackagingMinorVersionCard.Header" xml:space="preserve">
+    <value>Minor</value>
+  </data>
+  <data name="PackagingMinorVersionTextBox.PlaceholderText" xml:space="preserve">
+    <value>Minor</value>
+  </data>
+  <data name="PackagingNavItem.Content" xml:space="preserve">
+    <value>パッケージング</value>
+  </data>
+  <data name="PackagingOpenButtonText.Text" xml:space="preserve">
+    <value>開く</value>
+  </data>
+  <data name="PackagingOutputFolderCard.Description" xml:space="preserve">
+    <value>マニフェストで指定された実行ファイルを含むフォルダを指定します。実行ファイルはサブディレクトリを含めて再帰的に検索されます。複数アーキテクチャをサポートする場合は、アーキテクチャごとに出力フォルダを追加してください。パッケージを生成するには最低1つの出力フォルダが必要です。</value>
+  </data>
+  <data name="PackagingOutputFolderCard.Header" xml:space="preserve">
+    <value>出力フォルダ</value>
+  </data>
+  <data name="PackagingPage_AppxManifestNotFoundMessageFormat" xml:space="preserve">
+    <value>{0}の出力ディレクトリにPackage.appxmanifestが見つかりませんでした。</value>
+  </data>
+  <data name="PackagingPage_CopyingFilesMessageFormat" xml:space="preserve">
+    <value>{0}のファイルをコピー中... {1}%</value>
+  </data>
+  <data name="PackagingPage_DuplicateArchitectureMessageFormat" xml:space="preserve">
+    <value>アーキテクチャ「{0}」の出力フォルダは既に追加されています。重複アーキテクチャは許可されません。</value>
+  </data>
+  <data name="PackagingPage_DuplicateFolderPathMessage" xml:space="preserve">
+    <value>この出力フォルダは既に追加されています。</value>
+  </data>
+  <data name="PackagingPage_ExecutableFileNameMissingMessage" xml:space="preserve">
+    <value>マニフェストに実行ファイル名が指定されていません。</value>
+  </data>
+  <data name="PackagingPage_ExecutableNotFoundMessageFormat" xml:space="preserve">
+    <value>選択したフォルダまたはサブディレクトリに実行ファイル「{0}」が見つかりません:
+{1}</value>
+  </data>
+  <data name="PackagingPage_GenerateFailedMessageFormat" xml:space="preserve">
+    <value>パッケージングに失敗しました: {0}</value>
+  </data>
+  <data name="PackagingPage_GenerateSuccessMessage" xml:space="preserve">
+    <value>パッケージが正常に生成されました。</value>
+  </data>
+  <data name="PackagingPage_GeneratingManifestMessageFormat" xml:space="preserve">
+    <value>{0}のマニフェストを生成中...</value>
+  </data>
+  <data name="PackagingPage_InvalidCertificatePasswordMessage" xml:space="preserve">
+    <value>証明書のパスワードが正しくありません。</value>
+  </data>
+  <data name="PackagingPage_InvalidVersionMessage" xml:space="preserve">
+    <value>バージョンフィールドはすべて有効な整数である必要があります。</value>
+  </data>
+  <data name="PackagingPage_ManifestGenerateFailedMessageFormat" xml:space="preserve">
+    <value>{0}のマニフェスト生成に失敗しました: winapp.exe終了コード {1}</value>
+  </data>
+  <data name="PackagingPage_ManifestLoadFailedMessage" xml:space="preserve">
+    <value>マニフェストファイルの読み込みに失敗しました: 無効なマニフェストです。</value>
+  </data>
+  <data name="PackagingPage_ManifestLoadFailedMessageFormat" xml:space="preserve">
+    <value>マニフェストファイルの読み込みに失敗しました: {0}</value>
+  </data>
+  <data name="PackagingPage_PackageNotFoundMessage" xml:space="preserve">
+    <value>作業ディレクトリに.msixまたは.msixbundleファイルが見つかりませんでした。</value>
+  </data>
+  <data name="PackagingPage_PackagingMessage" xml:space="preserve">
+    <value>最終パッケージを生成中...</value>
+  </data>
+  <data name="PackagingPage_PackFailedMessageFormat" xml:space="preserve">
+    <value>パッケージの生成に失敗しました: winapp.exe終了コード {0}</value>
+  </data>
+  <data name="PackagingPage_PreparingWorkDirectoryMessage" xml:space="preserve">
+    <value>作業ディレクトリを準備中...</value>
+  </data>
+  <data name="PackagingPage_UnknownArchitectureMessage" xml:space="preserve">
+    <value>実行ファイルのアーキテクチャを特定できませんでした。</value>
+  </data>
+  <data name="PackagingRevisionVersionCard.Header" xml:space="preserve">
+    <value>Revision</value>
+  </data>
+  <data name="PackagingRevisionVersionTextBox.PlaceholderText" xml:space="preserve">
+    <value>Revision</value>
+  </data>
+  <data name="PackagingVersionCard.Description" xml:space="preserve">
+    <value>Major.Minor.Build.Revision形式のパッケージバージョンです。すべてのフィールドは必須です。</value>
+  </data>
+  <data name="PackagingVersionCard.Header" xml:space="preserve">
+    <value>バージョン</value>
+  </data>
+  <data name="PasswordBox.PlaceholderText" xml:space="preserve">
+    <value>空欄の場合はデフォルト "password"</value>
+  </data>
+  <data name="PickerService_AticMsixConfigFileType" xml:space="preserve">
+    <value>AT Installer MSIX 設定</value>
+  </data>
+  <data name="PickerService_ExecutableFileType" xml:space="preserve">
+    <value>実行可能ファイル</value>
+  </data>
+  <data name="PickerService_MsixBundleFileType" xml:space="preserve">
+    <value>MSIXバンドル</value>
+  </data>
+  <data name="PickerService_MsixFileType" xml:space="preserve">
+    <value>MSIXパッケージ</value>
+  </data>
+  <data name="PickerService_PfxFileType" xml:space="preserve">
+    <value>PFX 証明書</value>
+  </data>
+  <data name="PickerService_ZipArchiveFileType" xml:space="preserve">
+    <value>ZIP アーカイブ</value>
+  </data>
+  <data name="PublisherTextBox.PlaceholderText" xml:space="preserve">
+    <value>名前または X.500 DN</value>
+  </data>
+  <data name="SettingsPage_AboutSettingsGroup.Header" xml:space="preserve">
+    <value>バージョン情報</value>
+  </data>
+  <data name="SettingsPage_AuthorSettingsCard.Description" xml:space="preserve">
+    <value>アプリケーション作者</value>
+  </data>
+  <data name="SettingsPage_AuthorSettingsCard.Header" xml:space="preserve">
+    <value>作者</value>
+  </data>
+  <data name="SettingsPage_AuthorText" xml:space="preserve">
+    <value>Howon Lee (airtaxi)</value>
+  </data>
+  <data name="SettingsPage_AutomaticUpdateCheckSettingsCard.Description" xml:space="preserve">
+    <value>定期的に更新を確認し通知を表示します</value>
+  </data>
+  <data name="SettingsPage_AutomaticUpdateCheckSettingsCard.Header" xml:space="preserve">
+    <value>自動更新チェック</value>
+  </data>
+  <data name="SettingsPage_CheckForUpdatesButtonTextBlock.Text" xml:space="preserve">
+    <value>更新を確認</value>
+  </data>
+  <data name="SettingsPage_CheckForUpdatesLoadingMessage" xml:space="preserve">
+    <value>更新を確認しています...</value>
+  </data>
+  <data name="SettingsPage_DarkThemeComboBoxItem.Content" xml:space="preserve">
+    <value>ダーク</value>
+  </data>
+  <data name="SettingsPage_DescriptionTextBlock.Text" xml:space="preserve">
+    <value>アプリケーション設定と情報</value>
+  </data>
+  <data name="SettingsPage_EnglishLanguageComboBoxItem.Content" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="SettingsPage_GeneralSettingsGroup.Header" xml:space="preserve">
+    <value>全般</value>
+  </data>
+  <data name="SettingsPage_GitHubRepositoryButton.Content" xml:space="preserve">
+    <value>GitHubを開く</value>
+  </data>
+  <data name="SettingsPage_GitHubRepositorySettingsCard.Description" xml:space="preserve">
+    <value>ソースコードを確認できます。コントリビューションと Pull Request を歓迎します</value>
+  </data>
+  <data name="SettingsPage_GitHubRepositorySettingsCard.Header" xml:space="preserve">
+    <value>GitHub リポジトリ</value>
+  </data>
+  <data name="SettingsPage_JapaneseLanguageComboBoxItem.Content" xml:space="preserve">
+    <value>日本語</value>
+  </data>
+  <data name="SettingsPage_KoreanLanguageComboBoxItem.Content" xml:space="preserve">
+    <value>한국어</value>
+  </data>
+  <data name="SettingsPage_LanguageRestartDialogMessage" xml:space="preserve">
+    <value>言語変更を適用するにはアプリを再起動してください。</value>
+  </data>
+  <data name="SettingsPage_LanguageRestartDialogTitle" xml:space="preserve">
+    <value>言語変更</value>
+  </data>
+  <data name="SettingsPage_LanguageSettingsCard.Description" xml:space="preserve">
+    <value>アプリケーションの表示言語を選択</value>
+  </data>
+  <data name="SettingsPage_LanguageSettingsCard.Header" xml:space="preserve">
+    <value>言語</value>
+  </data>
+  <data name="SettingsPage_LightThemeComboBoxItem.Content" xml:space="preserve">
+    <value>ライト</value>
+  </data>
+  <data name="SettingsPage_NoUpdateDialogMessageFormat" xml:space="preserve">
+    <value>アプリケーションは最新です。(現在のバージョン: {0})</value>
+  </data>
+  <data name="SettingsPage_NoUpdateDialogTitle" xml:space="preserve">
+    <value>最新です</value>
+  </data>
+  <data name="SettingsPage_OpenStoreButtonText" xml:space="preserve">
+    <value>Store を開く</value>
+  </data>
+  <data name="SettingsPage_SaveSettingsFailedDialogMessage" xml:space="preserve">
+    <value>設定の保存に失敗しました。</value>
+  </data>
+  <data name="SettingsPage_SaveSettingsFailedDialogTitle" xml:space="preserve">
+    <value>保存失敗</value>
+  </data>
+  <data name="SettingsPage_SimplifiedChineseLanguageComboBoxItem.Content" xml:space="preserve">
     <value>简体中文</value>
   </data>
-  <data name="TraditionalChineseLanguageMenuFlyoutItem.Text" xml:space="preserve">
+  <data name="SettingsPage_SystemDefaultLanguageComboBoxItem.Content" xml:space="preserve">
+    <value>システム既定</value>
+  </data>
+  <data name="SettingsPage_SystemDefaultThemeComboBoxItem.Content" xml:space="preserve">
+    <value>システム既定</value>
+  </data>
+  <data name="SettingsPage_ThemeSettingsCard.Description" xml:space="preserve">
+    <value>アプリケーションのテーマを選択</value>
+  </data>
+  <data name="SettingsPage_ThemeSettingsCard.Header" xml:space="preserve">
+    <value>テーマ</value>
+  </data>
+  <data name="SettingsPage_TitleTextBlock.Text" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="SettingsPage_TraditionalChineseLanguageComboBoxItem.Content" xml:space="preserve">
     <value>繁體中文</value>
+  </data>
+  <data name="SettingsPage_UpdateAvailableDialogMessageFormat" xml:space="preserve">
+    <value>{0} 個の更新があります。(現在のバージョン: {1})</value>
+  </data>
+  <data name="SettingsPage_UpdateAvailableDialogTitle" xml:space="preserve">
+    <value>更新あり</value>
+  </data>
+  <data name="SettingsPage_UpdateCheckFailedDialogMessage" xml:space="preserve">
+    <value>更新の確認中にエラーが発生しました。</value>
+  </data>
+  <data name="SettingsPage_UpdateCheckFailedDialogTitle" xml:space="preserve">
+    <value>更新チェック失敗</value>
+  </data>
+  <data name="SettingsPage_UpdateCheckSettingsCard.Description" xml:space="preserve">
+    <value>Microsoft Store から更新を確認</value>
+  </data>
+  <data name="SettingsPage_UpdateCheckSettingsCard.Header" xml:space="preserve">
+    <value>更新チェック</value>
+  </data>
+  <data name="SettingsPage_UpdateSettingsGroup.Header" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="SettingsPage_VersionSettingsCard.Description" xml:space="preserve">
+    <value>アプリケーションバージョン</value>
+  </data>
+  <data name="SettingsPage_VersionSettingsCard.Header" xml:space="preserve">
+    <value>バージョン</value>
+  </data>
+  <data name="SettingsSelectorBarItem.Text" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="UpdateAvailableDialogMessageFormat" xml:space="preserve">
+    <value>{0} 個の更新があります。(現在のバージョン: {1})</value>
+  </data>
+  <data name="UpdateAvailableDialogTitle" xml:space="preserve">
+    <value>更新あり</value>
+  </data>
+  <data name="UpdateCheckFailedDialogMessage" xml:space="preserve">
+    <value>更新の確認中にエラーが発生しました。</value>
+  </data>
+  <data name="UpdateCheckFailedDialogTitle" xml:space="preserve">
+    <value>更新チェック失敗</value>
+  </data>
+  <data name="ValidDaysTextBox.PlaceholderText" xml:space="preserve">
+    <value>日数を入力</value>
+  </data>
+  <data name="WinAppService_CheckingBinaryMessage" xml:space="preserve">
+    <value>winapp CLI バイナリを確認しています...</value>
+  </data>
+  <data name="WinAppService_DownloadingMessageFormat" xml:space="preserve">
+    <value>winapp CLI バイナリをダウンロードしています... {0}%</value>
+  </data>
+  <data name="WinAppService_ExtractingMessage" xml:space="preserve">
+    <value>winapp CLI バイナリを展開しています...</value>
+  </data>
+  <data name="WinAppService_UnsupportedArchitectureMessage" xml:space="preserve">
+    <value>32ビット(x86)システムはサポートされていません。</value>
   </data>
   <data name="WindowTitle.Title" xml:space="preserve">
     <value>MSIX インストーラー生成ツール</value>

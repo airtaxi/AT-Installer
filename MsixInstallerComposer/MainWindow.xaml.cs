@@ -1,23 +1,12 @@
-using MsixInstallerComposer.Helpers;
-using MsixInstallerComposer.Pages;
-using MsixInstallerComposer.ViewModels;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Resources;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using MsixInstallerComposer.Messages;
+using MsixInstallerComposer.Pages;
+using MsixInstallerComposer.Services;
+using System.Globalization;
 using WinUIEx;
 using TitleBar = Microsoft.UI.Xaml.Controls.TitleBar;
 
@@ -27,7 +16,10 @@ public sealed partial class MainWindow : WindowEx
 {
     private static MainWindow s_instance;
 
-    public MainWindowViewModel ViewModel { get; } = new();
+    public static XamlRoot XamlRoot => s_instance?.Content?.XamlRoot;
+
+    private readonly ApplicationThemeService _applicationThemeService = App.Services.GetRequiredService<ApplicationThemeService>();
+    private readonly LocalizationService _localizationService = App.Services.GetRequiredService<LocalizationService>();
 
     public MainWindow()
     {
@@ -40,57 +32,82 @@ public sealed partial class MainWindow : WindowEx
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(AppTitleBar);
 
+        _applicationThemeService.ApplyThemeToWindow(this);
+        _applicationThemeService.ThemeChanged += OnApplicationThemeServiceThemeChanged;
+
         this.CenterOnScreen();
 
-        AppFrame.Navigate(typeof(MainPage));
+        AppFrame.Navigate(typeof(PackageExePage));
+
+        RefreshLocalizedText();
+        _localizationService.LanguageChanged += RefreshLocalizedText;
     }
 
-    public static void ShowLoading(string message = null) =>
-        s_instance.DispatcherQueue.TryEnqueue(() => { s_instance.AppFrame.IsEnabled = false; if (string.IsNullOrWhiteSpace(message)) s_instance.LoadingTextBlock.Visibility = Visibility.Collapsed; else { s_instance.LoadingTextBlock.Visibility = Visibility.Visible; s_instance.LoadingTextBlock.Text = message; }  s_instance.LoadingGrid.Visibility = Visibility.Visible; });
-
-    public static void HideLoading() => s_instance.DispatcherQueue.TryEnqueue(() => { s_instance.LoadingGrid.Visibility = Visibility.Collapsed; s_instance.AppFrame.IsEnabled = true; });
-
-    private void OnAppFrameNavigated(object sender, NavigationEventArgs e)
+    public static void ShowLoading(string message = null) => s_instance.DispatcherQueue.TryEnqueue(() =>
     {
-        var frame = sender as Frame;
+        if (s_instance.DispatcherQueue.HasThreadAccess) SetLoadingState(Visibility.Visible, message);
+        else s_instance.DispatcherQueue.TryEnqueue(() => SetLoadingState(Visibility.Visible, message));
+    });
 
-        AppTitleBar.IsBackButtonVisible = frame.CanGoBack;
+    public static void HideLoading()
+    {
+        if (s_instance.DispatcherQueue.HasThreadAccess) SetLoadingState(Visibility.Collapsed, null);
+        else s_instance.DispatcherQueue.TryEnqueue(() => SetLoadingState(Visibility.Collapsed, null));
     }
 
-    private void OnAppTitleBarBackRequested(TitleBar sender, object args)
+    private static void SetLoadingState(Visibility visibility, string message)
     {
-        if (AppFrame.CanGoBack)
+        s_instance.LoadingGrid.Visibility = visibility;
+        if (!string.IsNullOrEmpty(message) || visibility == Visibility.Visible)
         {
-            AppFrame.GoBack();
+            s_instance.AppTitleBar.IsEnabled = false;
+            s_instance.AppFrame.IsEnabled = false;
+            s_instance.LoadingTextBlock.Text = message;
+            s_instance.LoadingTextBlock.Visibility = Visibility.Visible;
+        }
+        else
+        {
+            s_instance.AppTitleBar.IsEnabled = true;
+            s_instance.AppFrame.IsEnabled = true;
+            s_instance.LoadingTextBlock.Visibility = Visibility.Collapsed;
+            s_instance.LoadingTextBlock.Text = "";
         }
     }
 
-    private async void OnLoadMsixMenuFlyoutItemClicked(object sender, RoutedEventArgs e)
+    private void RefreshLocalizedText()
     {
-        if (AppFrame.Content is MainPage mainPage)
+        var localizedWindowTitle = _localizationService.GetLocalizedString("WindowTitle.Title");
+        Title = localizedWindowTitle;
+        AppTitleBar.Title = localizedWindowTitle;
+
+        PackageExeSelectorBarItem.Text = _localizationService.GetLocalizedString("PackageExeSelectorBarItem.Text");
+        PackageMsixSelectorBarItem.Text = _localizationService.GetLocalizedString("PackageMsixSelectorBarItem.Text");
+        SettingsSelectorBarItem.Text = _localizationService.GetLocalizedString("SettingsSelectorBarItem.Text");
+    }
+
+    private void OnAppTitleBarPaneToggleRequested(TitleBar sender, object args) => WeakReferenceMessenger.Default.Send(new AppTitleBarPaneToggledMessage());
+
+    private void OnAppFrameNavigated(object sender, NavigationEventArgs navigationEventArguments) => AppTitleBar.IsPaneToggleButtonVisible = (sender as Frame).SourcePageType == typeof(PackageMsixPage);
+
+    private void OnPageSelectorBarSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs selectorBarSelectionChangedEventArguments)
+    {
+        var selectedTag = sender.SelectedItem?.Tag as string;
+        var targetType = selectedTag switch
         {
-            await mainPage.OpenMsixFilePickerAsync();
-        }
+            "PackageExe" => typeof(PackageExePage),
+            "PackageMsix" => typeof(PackageMsixPage),
+            "Settings" => typeof(SettingsPage),
+            _ => typeof(PackageExePage)
+        };
+
+        if (AppFrame.CurrentSourcePageType != targetType) AppFrame.Navigate(targetType);
     }
 
-    private void OnExitMenuFlyoutItemClicked(object sender, RoutedEventArgs e) => Close();
+    private void OnApplicationThemeServiceThemeChanged(ElementTheme theme) => _applicationThemeService.ApplyThemeToWindow(this);
 
-    private async void OnLanguageRadioMenuFlyoutItemClicked(object sender, RoutedEventArgs e)
+    private void OnMainWindowClosed(object sender, WindowEventArgs windowEventArguments)
     {
-        if (sender is not RadioMenuFlyoutItem selectedLanguageMenuFlyoutItem) return;
-        if (selectedLanguageMenuFlyoutItem.Tag is not string selectedLanguageTag) return;
-
-        await ViewModel.ChangeLanguageCommand.ExecuteAsync(selectedLanguageTag);
-
-        var resourceLoader = new ResourceLoader();
-        await Content.ShowDialogAsync(resourceLoader.GetString("LanguageChangeDialogContent"), resourceLoader.GetString("LanguageChangeDialogTitle"), resourceLoader.GetString("DialogOkButton"));
-    }
-
-    private async void OnAboutMenuFlyoutItemClicked(object sender, RoutedEventArgs e)
-    {
-        var localVersion = Assembly.GetExecutingAssembly().GetName().Version;
-        var resourceLoader = new ResourceLoader();
-        var aboutContent = string.Format(resourceLoader.GetString("AboutDialogContent"), localVersion);
-        await Content.ShowDialogAsync(resourceLoader.GetString("AboutDialogTitle"), aboutContent, resourceLoader.GetString("DialogOkButton"));
+        _applicationThemeService.ThemeChanged -= OnApplicationThemeServiceThemeChanged;
+        _localizationService.LanguageChanged -= RefreshLocalizedText;
     }
 }

@@ -1,16 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MsixInstallerComposer.Enums;
+using MsixInstallerComposer.Helpers;
 using MsixInstallerComposer.Models;
 using MsixInstallerComposer.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace MsixInstallerComposer.ViewModels;
 
-public sealed partial class MainPageViewModel : ObservableObject
+public sealed partial class PackageExePageViewModel(LocalizationService localizationService, DialogService dialogService, PickerService pickerService) : ObservableObject
 {
     private readonly InstallerComposerService _composerService = new();
     private MsixArchitectureInfo _architectureInfo;
@@ -63,16 +65,6 @@ public sealed partial class MainPageViewModel : ObservableObject
 
     public ObservableCollection<string> DetectedArchitectures { get; } = [];
 
-    public Func<string, string, Task<bool>> SaveFileRequested { get; set; }
-
-    public Action<string> ShowMessageRequested { get; set; }
-
-    public Action ShowLoadingRequested { get; set; }
-
-    public Action HideLoadingRequested { get; set; }
-
-    public Action<string> UpdateLoadingMessageRequested { get; set; }
-
     public bool CanGenerate => !string.IsNullOrEmpty(MsixFilePath) && !IsGenerating && (IsX64Selected || IsX86Selected || IsArm64Selected);
 
     public bool IsMultipleArchitecturesSelected => (IsX64Selected ? 1 : 0) + (IsX86Selected ? 1 : 0) + (IsArm64Selected ? 1 : 0) > 1;
@@ -97,7 +89,14 @@ public sealed partial class MainPageViewModel : ObservableObject
         OnPropertyChanged(nameof(IsMultipleArchitecturesSelected));
     }
 
-    public void LoadMsixFile(string filePath)
+    [RelayCommand]
+    private async Task OpenMsixFileAsync()
+    {
+        var filePath = await pickerService.PickOpenMsixFileAsync();
+        if (filePath is not null) await LoadMsixFileAsync(filePath);
+    }
+
+    public async Task LoadMsixFileAsync(string filePath)
     {
         MsixFilePath = filePath;
         HasPackageInfo = false;
@@ -127,7 +126,7 @@ public sealed partial class MainPageViewModel : ObservableObject
         }
         catch (Exception exception)
         {
-            ShowMessageRequested?.Invoke($"Failed to read MSIX package: {exception.Message}");
+            await dialogService.ShowMessageAsync(localizationService.GetLocalizedString("AppDisplayName"), localizationService.GetFormattedString("PackageExePage_LoadFailedMessageFormat", exception.Message));
             ResetPackageInfo();
         }
     }
@@ -145,7 +144,7 @@ public sealed partial class MainPageViewModel : ObservableObject
         if (selectedArchitectures.Count == 0) return;
 
         IsGenerating = true;
-        ShowLoadingRequested?.Invoke();
+        MainWindow.ShowLoading();
 
         try
         {
@@ -155,28 +154,31 @@ public sealed partial class MainPageViewModel : ObservableObject
 
             var isMultiple = selectedArchitectures.Count > 1;
             var suggestedFileName = isMultiple ? "Installers.zip" : $"Installer-{FormatArchitectureName(selectedArchitectures[0])}.exe";
+            var extension = isMultiple ? ".zip" : ".exe";
 
-            var saved = await (SaveFileRequested?.Invoke(generatedFilePath, suggestedFileName) ?? Task.FromResult(false));
-            if (!saved)
+            var targetFilePath = await pickerService.PickSaveFileAsync(suggestedFileName, extension);
+            if (targetFilePath is null)
             {
-                HideLoadingRequested?.Invoke();
+                MainWindow.HideLoading();
                 IsGenerating = false;
                 return;
             }
 
-            HideLoadingRequested?.Invoke();
+            await MoveFileWithRetryAsync(generatedFilePath, targetFilePath);
+
+            MainWindow.HideLoading();
             IsGenerating = false;
-            ShowMessageRequested?.Invoke("Installer generated successfully.");
+            await dialogService.ShowMessageAsync(localizationService.GetLocalizedString("AppDisplayName"), localizationService.GetLocalizedString("PackageExePage_GenerateSuccessMessage"));
         }
         catch (Exception exception)
         {
-            HideLoadingRequested?.Invoke();
+            MainWindow.HideLoading();
             IsGenerating = false;
-            ShowMessageRequested?.Invoke($"Failed to generate installer: {exception.Message}");
+            await dialogService.ShowMessageAsync(localizationService.GetLocalizedString("AppDisplayName"), localizationService.GetFormattedString("PackageExePage_GenerateFailedMessageFormat", exception.Message));
         }
     }
 
-    private void ReportProgress(ComposerProgress progress) => UpdateLoadingMessageRequested?.Invoke(progress.Message);
+    private void ReportProgress(ComposerProgress progress) => MainWindow.ShowLoading(progress.Message);
 
     private void ResetPackageInfo()
     {
@@ -201,5 +203,23 @@ public sealed partial class MainPageViewModel : ObservableObject
             MsixArchitecture.Arm64 => "ARM64",
             _ => architecture.ToString()
         };
+    }
+
+    private static async Task MoveFileWithRetryAsync(string sourceFilePath, string targetFilePath, int maxRetries = 5)
+    {
+        for (var attempt = 0; attempt < maxRetries; attempt++)
+        {
+            try
+            {
+                if (File.Exists(targetFilePath)) File.Delete(targetFilePath);
+                File.Move(sourceFilePath, targetFilePath);
+                return;
+            }
+            catch (IOException)
+            {
+                if (attempt == maxRetries - 1) throw;
+                await Task.Delay(200);
+            }
+        }
     }
 }

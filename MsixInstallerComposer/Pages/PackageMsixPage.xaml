@@ -1,0 +1,48 @@
+﻿<Page
+    x:Class="MsixInstallerComposer.Pages.PackageMsixPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dev="using:DevWinUI"
+    xmlns:local="using:MsixInstallerComposer.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{ThemeResource LayerOnMicaBaseAltFillColorDefault}"
+    mc:Ignorable="d">
+
+    <NavigationView
+        x:Name="PageNavigationView"
+        IsBackButtonVisible="Collapsed"
+        IsPaneOpen="False"
+        IsPaneToggleButtonVisible="False"
+        IsSettingsVisible="False"
+        SelectedItem="{x:Bind CertificateNavItem}"
+        SelectionChanged="OnPageNavigationViewSelectionChanged">
+        <NavigationView.MenuItems>
+            <NavigationViewItem
+                x:Name="CertificateNavItem"
+                x:Uid="CertificateNavItem"
+                Tag="Certificate">
+                <NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#xEB95;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+            <NavigationViewItem
+                x:Name="ManifestNavItem"
+                x:Uid="ManifestNavItem"
+                Tag="Manifest">
+                <NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#xF035;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+            <NavigationViewItem
+                x:Name="PackagingNavItem"
+                x:Uid="PackagingNavItem"
+                Tag="Packaging">
+                <NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#xF133;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+        </NavigationView.MenuItems>
+        <Frame x:Name="PageFrame" />
+    </NavigationView>
+</Page>

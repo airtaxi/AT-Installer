@@ -1,3 +1,4 @@
+using MsixInstallerComposer.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,7 +36,7 @@ public static class GithubHelper
         return releases?.AsArray() ?? [];
     }
 
-    public static async Task DownloadAssetAsync(string downloadUrl, string destinationFilePath, IProgress<long> progress = null, CancellationToken cancellationToken = default)
+    public static async Task DownloadAssetAsync(string downloadUrl, string destinationFilePath, IProgress<DownloadProgress> progress = null, CancellationToken cancellationToken = default)
     {
         using var response = await s_httpClient.GetAsync(downloadUrl, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
@@ -50,8 +51,8 @@ public static class GithubHelper
         {
             await fileStream.WriteAsync(buffer.AsMemory(0, bytesRead), cancellationToken).ConfigureAwait(false);
             totalRead += bytesRead;
-            if (totalBytes > 0) progress?.Report(totalRead);
+            if (totalBytes > 0) progress?.Report(new DownloadProgress { BytesReceived = totalRead, TotalBytes = totalBytes });
         }
-        if (totalBytes <= 0) progress?.Report(totalRead);
+        if (totalBytes <= 0) progress?.Report(new DownloadProgress { BytesReceived = totalRead, TotalBytes = totalRead });
     }
 }

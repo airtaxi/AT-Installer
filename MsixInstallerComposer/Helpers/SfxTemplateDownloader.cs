@@ -1,11 +1,11 @@
-﻿using MsixInstallerComposer.Helpers;
+﻿using MsixInstallerComposer.Models;
 using System;
 using System.IO;
 using System.Linq;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
-namespace MsixInstallerComposer.Services;
+namespace MsixInstallerComposer.Helpers;
 
 public static class SfxTemplateDownloader
 {
@@ -24,7 +24,7 @@ public static class SfxTemplateDownloader
         throw new InvalidOperationException("No SFX release found in the repository.");
     }
 
-    public static async Task<string> DownloadAsync(string downloadDirectoryPath, string releaseTag, IProgress<long> progress = null)
+    public static async Task<string> DownloadAsync(string downloadDirectoryPath, string releaseTag, IProgress<DownloadProgress> progress = null)
     {
         var releases = await GithubHelper.GetAllReleasesAsync(RepositoryOwner, RepositoryName);
         JsonNode matchingRelease = null;

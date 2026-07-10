@@ -52,7 +52,8 @@ public sealed class InstallerComposerService
 
                 Directory.CreateDirectory(versionCachePath);
 
-                await SfxTemplateDownloader.DownloadAsync(versionCachePath, releaseTag);
+                var downloadProgress = new Progress<DownloadProgress>(report => progress?.Report(new ComposerProgress { Message = $"Downloading SFX template... {report.Percentage}%", Stage = ComposerProgressStage.DownloadingTemplate }));
+                await SfxTemplateDownloader.DownloadAsync(versionCachePath, releaseTag, downloadProgress);
 
                 progress?.Report(new ComposerProgress { Message = "Extracting SFX template...", Stage = ComposerProgressStage.ExtractingTemplate });
 

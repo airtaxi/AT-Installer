@@ -58,12 +58,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AboutDialogContent" xml:space="preserve">
-    <value>版本: {0}
-作者: Howon Lee</value>
-  </data>
-  <data name="AboutDialogTitle" xml:space="preserve">
-    <value>关于</value>
+  <data name="AppDisplayName" xml:space="preserve">
+    <value>MSIX 安装程序生成器</value>
   </data>
   <data name="AppTitleBarTitle.Title" xml:space="preserve">
     <value>MSIX 安装程序生成器</value>
@@ -83,38 +79,53 @@
   <data name="ArchitectureX86CheckBox.Content" xml:space="preserve">
     <value>x86</value>
   </data>
+  <data name="CertificateNavItem.Content" xml:space="preserve">
+    <value>证书</value>
+  </data>
+  <data name="CertificatePage_GenerateFailedMessageFormat" xml:space="preserve">
+    <value>生成证书失败: {0}</value>
+  </data>
+  <data name="CertificatePage_GenerateSuccessMessage" xml:space="preserve">
+    <value>证书导出成功。</value>
+  </data>
+  <data name="CertificatePasswordBox.Description" xml:space="preserve">
+    <value>保护导出的 PFX 文件。留空则使用默认密码 "password"。设置密码后，使用此工具创建 MSIX 包时每次都需要输入密码。</value>
+  </data>
+  <data name="CertificatePasswordBox.Header" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="CertificatePublisherCard.Description" xml:space="preserve">
+    <value>可输入完整的 X.500 可分辨名称 (例: CN=Contoso, O=Contoso Ltd, C=US)。裸名称将自动包装为 CN=&lt;name&gt;。</value>
+  </data>
+  <data name="CertificatePublisherCard.Header" xml:space="preserve">
+    <value>发布者</value>
+  </data>
+  <data name="CertificateValidDaysCard.Description" xml:space="preserve">
+    <value>证书有效天数</value>
+  </data>
+  <data name="CertificateValidDaysCard.Header" xml:space="preserve">
+    <value>有效期(天)</value>
+  </data>
   <data name="DetectedArchitecturesCard.Header" xml:space="preserve">
     <value>检测到的体系结构</value>
+  </data>
+  <data name="DialogCancelButton" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="DialogHelper_CancelButtonText" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="DialogHelper_ConfirmButtonText" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="DialogHelper_DefaultInputTitle" xml:space="preserve">
+    <value>输入</value>
   </data>
   <data name="DialogOkButton" xml:space="preserve">
     <value>确定</value>
   </data>
-  <data name="EnglishLanguageMenuFlyoutItem.Text" xml:space="preserve">
-    <value>English</value>
-  </data>
-  <data name="FileExitMenuFlyoutItem.Text" xml:space="preserve">
-    <value>退出</value>
-  </data>
-  <data name="FileLoadMsixMenuFlyoutItem.Text" xml:space="preserve">
-    <value>加载 MSIX...</value>
-  </data>
-  <data name="FileMenu.Title" xml:space="preserve">
-    <value>文件</value>
-  </data>
   <data name="GenerateButton.Content" xml:space="preserve">
     <value>生成</value>
-  </data>
-  <data name="HelpAboutMenuFlyoutItem.Text" xml:space="preserve">
-    <value>关于</value>
-  </data>
-  <data name="HelpMenu.Title" xml:space="preserve">
-    <value>帮助</value>
-  </data>
-  <data name="JapaneseLanguageMenuFlyoutItem.Text" xml:space="preserve">
-    <value>日本語</value>
-  </data>
-  <data name="KoreanLanguageMenuFlyoutItem.Text" xml:space="preserve">
-    <value>한국어</value>
   </data>
   <data name="LanguageChangeDialogContent" xml:space="preserve">
     <value>语言更改将在重启应用后生效。</value>
@@ -122,8 +133,77 @@
   <data name="LanguageChangeDialogTitle" xml:space="preserve">
     <value>语言更改</value>
   </data>
-  <data name="LanguageMenu.Title" xml:space="preserve">
-    <value>语言</value>
+  <data name="ManifestApplicationDescriptionCard.Description" xml:space="preserve">
+    <value>应用程序的描述，包含在 MSIX 清单中。</value>
+  </data>
+  <data name="ManifestApplicationDescriptionCard.Header" xml:space="preserve">
+    <value>应用程序描述</value>
+  </data>
+  <data name="ManifestApplicationDescriptionTextBox.PlaceholderText" xml:space="preserve">
+    <value>输入应用程序描述</value>
+  </data>
+  <data name="ManifestDisplayNameCard.Description" xml:space="preserve">
+    <value>MSIX 包的显示名称，显示在开始菜单和设置中。</value>
+  </data>
+  <data name="ManifestDisplayNameCard.Header" xml:space="preserve">
+    <value>显示名称</value>
+  </data>
+  <data name="ManifestDisplayNameTextBox.PlaceholderText" xml:space="preserve">
+    <value>输入包显示名称</value>
+  </data>
+  <data name="ManifestExecutableFileNameCard.Description" xml:space="preserve">
+    <value>包启动时运行的执行文件名（包含 .exe）。此文件名在输出目录中必须唯一，包括所有子目录。</value>
+  </data>
+  <data name="ManifestExecutableFileNameCard.Header" xml:space="preserve">
+    <value>可执行文件名</value>
+  </data>
+  <data name="ManifestExecutableFileNameTextBox.PlaceholderText" xml:space="preserve">
+    <value>例如: MyApp.exe — 在输出目录中必须唯一</value>
+  </data>
+  <data name="ManifestGenerateButton.Content" xml:space="preserve">
+    <value>生成</value>
+  </data>
+  <data name="ManifestLoadButton.Content" xml:space="preserve">
+    <value>加载配置</value>
+  </data>
+  <data name="ManifestLogoImageCard.Description" xml:space="preserve">
+    <value>可选。选择徽标图像文件（JPG、PNG、BMP 或 ICO）。此图像将成为开始菜单和设置中显示的应用程序图标。</value>
+  </data>
+  <data name="ManifestLogoImageCard.Header" xml:space="preserve">
+    <value>徽标图像文件</value>
+  </data>
+  <data name="ManifestLogoLoadButtonText.Text" xml:space="preserve">
+    <value>加载</value>
+  </data>
+  <data name="ManifestLogoLoadedCard.Description" xml:space="preserve">
+    <value>已加载徽标图像。点击右侧按钮可删除。删除后将使用 Windows 默认图标。</value>
+  </data>
+  <data name="ManifestLogoLoadedCard.Header" xml:space="preserve">
+    <value>徽标图像文件</value>
+  </data>
+  <data name="ManifestLogoRemoveButtonText.Text" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="ManifestNavItem.Content" xml:space="preserve">
+    <value>清单</value>
+  </data>
+  <data name="ManifestPage_GenerateFailedMessageFormat" xml:space="preserve">
+    <value>生成配置文件失败: {0}</value>
+  </data>
+  <data name="ManifestPage_GenerateSuccessMessage" xml:space="preserve">
+    <value>配置文件已成功生成。</value>
+  </data>
+  <data name="ManifestPage_LoadFailedMessage" xml:space="preserve">
+    <value>加载配置文件失败: 不是有效的配置文件。</value>
+  </data>
+  <data name="ManifestPage_LoadFailedMessageFormat" xml:space="preserve">
+    <value>加载配置文件失败: {0}</value>
+  </data>
+  <data name="ManifestPage_LogoLoadedInfoMessage" xml:space="preserve">
+    <value>已从配置文件加载徽标图像。文件路径不会被保存，只有图像数据被嵌入。要更改图像，请加载新文件。</value>
+  </data>
+  <data name="ManifestPage_LogoLoadFailedMessageFormat" xml:space="preserve">
+    <value>加载徽标图像失败: {0}</value>
   </data>
   <data name="MsixFilePathTextBox.PlaceholderText" xml:space="preserve">
     <value>将 .msix 或 .msixbundle 文件拖放到此处，或点击打开...</value>
@@ -140,17 +220,50 @@
   <data name="MultipleArchitectureNotice.Title" xml:space="preserve">
     <value>多体系结构</value>
   </data>
+  <data name="Notification_OpenStoreButtonText" xml:space="preserve">
+    <value>打开 Store</value>
+  </data>
+  <data name="Notification_StoreUpdateAvailableMessageFormat" xml:space="preserve">
+    <value>Microsoft Store 有 {0} 个可用更新。</value>
+  </data>
+  <data name="Notification_StoreUpdateAvailableTitle" xml:space="preserve">
+    <value>有可用更新</value>
+  </data>
+  <data name="NoUpdateDialogMessageFormat" xml:space="preserve">
+    <value>应用程序已是最新版本。（当前版本：{0}）</value>
+  </data>
+  <data name="NoUpdateDialogTitle" xml:space="preserve">
+    <value>已是最新版本</value>
+  </data>
   <data name="OpenButtonText.Text" xml:space="preserve">
     <value>打开</value>
   </data>
+  <data name="OpenStoreButtonText" xml:space="preserve">
+    <value>打开 Store</value>
+  </data>
   <data name="PackageDisplayNameCard.Header" xml:space="preserve">
     <value>显示名称</value>
+  </data>
+  <data name="PackageExePage_GenerateFailedMessageFormat" xml:space="preserve">
+    <value>生成安装程序失败: {0}</value>
+  </data>
+  <data name="PackageExePage_GenerateSuccessMessage" xml:space="preserve">
+    <value>安装程序生成成功。</value>
+  </data>
+  <data name="PackageExePage_LoadFailedMessageFormat" xml:space="preserve">
+    <value>无法读取 MSIX 包: {0}</value>
+  </data>
+  <data name="PackageExeSelectorBarItem.Text" xml:space="preserve">
+    <value>EXE 打包</value>
   </data>
   <data name="PackageInfoSection.Description" xml:space="preserve">
     <value>检测到的包元数据</value>
   </data>
   <data name="PackageInfoSection.Header" xml:space="preserve">
     <value>包信息</value>
+  </data>
+  <data name="PackageMsixSelectorBarItem.Text" xml:space="preserve">
+    <value>MSIX 打包</value>
   </data>
   <data name="PackageNameCard.Header" xml:space="preserve">
     <value>名称</value>
@@ -161,11 +274,321 @@
   <data name="PackageVersionCard.Header" xml:space="preserve">
     <value>版本</value>
   </data>
-  <data name="SimplifiedChineseLanguageMenuFlyoutItem.Text" xml:space="preserve">
+  <data name="PackagingAddOutputFolderButtonText.Text" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="PackagingBuildVersionCard.Header" xml:space="preserve">
+    <value>Build</value>
+  </data>
+  <data name="PackagingBuildVersionTextBox.PlaceholderText" xml:space="preserve">
+    <value>Build</value>
+  </data>
+  <data name="PackagingCertificateFileCard.Description" xml:space="preserve">
+    <value>可选。选择用于签名的 PFX 证书。如果未选择，将为本次打包生成临时证书。</value>
+  </data>
+  <data name="PackagingCertificateFileCard.Header" xml:space="preserve">
+    <value>证书文件</value>
+  </data>
+  <data name="PackagingCertificateFilePathTextBox.PlaceholderText" xml:space="preserve">
+    <value>选择 .pfx 证书文件...</value>
+  </data>
+  <data name="PackagingCertificatePasswordBox.PlaceholderText" xml:space="preserve">
+    <value>留空则使用默认 "password"</value>
+  </data>
+  <data name="PackagingCertificatePasswordCard.Description" xml:space="preserve">
+    <value>所选 PFX 证书的密码。留空则使用默认密码 "password"。</value>
+  </data>
+  <data name="PackagingCertificatePasswordCard.Header" xml:space="preserve">
+    <value>证书密码</value>
+  </data>
+  <data name="PackagingGenerateButton.Content" xml:space="preserve">
+    <value>生成</value>
+  </data>
+  <data name="PackagingMajorVersionCard.Header" xml:space="preserve">
+    <value>Major</value>
+  </data>
+  <data name="PackagingMajorVersionTextBox.PlaceholderText" xml:space="preserve">
+    <value>Major</value>
+  </data>
+  <data name="PackagingManifestFileCard.Description" xml:space="preserve">
+    <value>必选。选择由清单页面生成的清单(.aticmsixconfig)文件。加载清单后将启用下方的输出文件夹选择。</value>
+  </data>
+  <data name="PackagingManifestFileCard.Header" xml:space="preserve">
+    <value>清单文件</value>
+  </data>
+  <data name="PackagingManifestFilePathTextBox.PlaceholderText" xml:space="preserve">
+    <value>选择 .aticmsixconfig 清单文件...</value>
+  </data>
+  <data name="PackagingMinorVersionCard.Header" xml:space="preserve">
+    <value>Minor</value>
+  </data>
+  <data name="PackagingMinorVersionTextBox.PlaceholderText" xml:space="preserve">
+    <value>Minor</value>
+  </data>
+  <data name="PackagingNavItem.Content" xml:space="preserve">
+    <value>打包</value>
+  </data>
+  <data name="PackagingOpenButtonText.Text" xml:space="preserve">
+    <value>打开</value>
+  </data>
+  <data name="PackagingOutputFolderCard.Description" xml:space="preserve">
+    <value>指定包含清单中指定的可执行文件的文件夹。可执行文件将递归搜索包括子目录。如需支持多架构，请为每个架构添加一个输出文件夹。生成包至少需要一个输出文件夹。</value>
+  </data>
+  <data name="PackagingOutputFolderCard.Header" xml:space="preserve">
+    <value>输出文件夹</value>
+  </data>
+  <data name="PackagingPage_AppxManifestNotFoundMessageFormat" xml:space="preserve">
+    <value>在 {0} 的输出目录中未找到 Package.appxmanifest。</value>
+  </data>
+  <data name="PackagingPage_CopyingFilesMessageFormat" xml:space="preserve">
+    <value>正在复制 {0} 的文件... {1}%</value>
+  </data>
+  <data name="PackagingPage_DuplicateArchitectureMessageFormat" xml:space="preserve">
+    <value>架构"{0}"的输出文件夹已添加。不允许重复架构。</value>
+  </data>
+  <data name="PackagingPage_DuplicateFolderPathMessage" xml:space="preserve">
+    <value>此输出文件夹已添加。</value>
+  </data>
+  <data name="PackagingPage_ExecutableFileNameMissingMessage" xml:space="preserve">
+    <value>清单中未指定可执行文件名。</value>
+  </data>
+  <data name="PackagingPage_ExecutableNotFoundMessageFormat" xml:space="preserve">
+    <value>在所选文件夹或其子目录中未找到可执行文件"{0}":
+{1}</value>
+  </data>
+  <data name="PackagingPage_GenerateFailedMessageFormat" xml:space="preserve">
+    <value>打包失败: {0}</value>
+  </data>
+  <data name="PackagingPage_GenerateSuccessMessage" xml:space="preserve">
+    <value>包已成功创建。</value>
+  </data>
+  <data name="PackagingPage_GeneratingManifestMessageFormat" xml:space="preserve">
+    <value>正在生成 {0} 的清单...</value>
+  </data>
+  <data name="PackagingPage_InvalidCertificatePasswordMessage" xml:space="preserve">
+    <value>证书密码不正确。</value>
+  </data>
+  <data name="PackagingPage_InvalidVersionMessage" xml:space="preserve">
+    <value>版本字段必须全部为有效整数。</value>
+  </data>
+  <data name="PackagingPage_ManifestGenerateFailedMessageFormat" xml:space="preserve">
+    <value>生成 {0} 的清单失败: winapp.exe 退出代码 {1}</value>
+  </data>
+  <data name="PackagingPage_ManifestLoadFailedMessage" xml:space="preserve">
+    <value>加载清单文件失败: 不是有效的清单。</value>
+  </data>
+  <data name="PackagingPage_ManifestLoadFailedMessageFormat" xml:space="preserve">
+    <value>加载清单文件失败: {0}</value>
+  </data>
+  <data name="PackagingPage_PackageNotFoundMessage" xml:space="preserve">
+    <value>在工作目录中未找到 .msix 或 .msixbundle 文件。</value>
+  </data>
+  <data name="PackagingPage_PackagingMessage" xml:space="preserve">
+    <value>正在创建最终包...</value>
+  </data>
+  <data name="PackagingPage_PackFailedMessageFormat" xml:space="preserve">
+    <value>创建包失败: winapp.exe 退出代码 {0}</value>
+  </data>
+  <data name="PackagingPage_PreparingWorkDirectoryMessage" xml:space="preserve">
+    <value>正在准备工作目录...</value>
+  </data>
+  <data name="PackagingPage_UnknownArchitectureMessage" xml:space="preserve">
+    <value>无法确定可执行文件的架构。</value>
+  </data>
+  <data name="PackagingRevisionVersionCard.Header" xml:space="preserve">
+    <value>Revision</value>
+  </data>
+  <data name="PackagingRevisionVersionTextBox.PlaceholderText" xml:space="preserve">
+    <value>Revision</value>
+  </data>
+  <data name="PackagingVersionCard.Description" xml:space="preserve">
+    <value>Major.Minor.Build.Revision 格式的包版本。所有字段均为必填。</value>
+  </data>
+  <data name="PackagingVersionCard.Header" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="PasswordBox.PlaceholderText" xml:space="preserve">
+    <value>留空则默认为 "password"</value>
+  </data>
+  <data name="PickerService_AticMsixConfigFileType" xml:space="preserve">
+    <value>AT Installer MSIX 配置</value>
+  </data>
+  <data name="PickerService_ExecutableFileType" xml:space="preserve">
+    <value>可执行文件</value>
+  </data>
+  <data name="PickerService_MsixBundleFileType" xml:space="preserve">
+    <value>MSIX 捆绑包</value>
+  </data>
+  <data name="PickerService_MsixFileType" xml:space="preserve">
+    <value>MSIX 包</value>
+  </data>
+  <data name="PickerService_PfxFileType" xml:space="preserve">
+    <value>PFX 证书</value>
+  </data>
+  <data name="PickerService_ZipArchiveFileType" xml:space="preserve">
+    <value>ZIP 归档</value>
+  </data>
+  <data name="PublisherTextBox.PlaceholderText" xml:space="preserve">
+    <value>名称或 X.500 DN</value>
+  </data>
+  <data name="SettingsPage_AboutSettingsGroup.Header" xml:space="preserve">
+    <value>关于</value>
+  </data>
+  <data name="SettingsPage_AuthorSettingsCard.Description" xml:space="preserve">
+    <value>应用程序作者</value>
+  </data>
+  <data name="SettingsPage_AuthorSettingsCard.Header" xml:space="preserve">
+    <value>作者</value>
+  </data>
+  <data name="SettingsPage_AuthorText" xml:space="preserve">
+    <value>Howon Lee (airtaxi)</value>
+  </data>
+  <data name="SettingsPage_AutomaticUpdateCheckSettingsCard.Description" xml:space="preserve">
+    <value>定期检查更新并显示通知</value>
+  </data>
+  <data name="SettingsPage_AutomaticUpdateCheckSettingsCard.Header" xml:space="preserve">
+    <value>自动检查更新</value>
+  </data>
+  <data name="SettingsPage_CheckForUpdatesButtonTextBlock.Text" xml:space="preserve">
+    <value>检查更新</value>
+  </data>
+  <data name="SettingsPage_CheckForUpdatesLoadingMessage" xml:space="preserve">
+    <value>正在检查更新...</value>
+  </data>
+  <data name="SettingsPage_DarkThemeComboBoxItem.Content" xml:space="preserve">
+    <value>深色</value>
+  </data>
+  <data name="SettingsPage_DescriptionTextBlock.Text" xml:space="preserve">
+    <value>应用程序设置与信息</value>
+  </data>
+  <data name="SettingsPage_EnglishLanguageComboBoxItem.Content" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="SettingsPage_GeneralSettingsGroup.Header" xml:space="preserve">
+    <value>常规</value>
+  </data>
+  <data name="SettingsPage_GitHubRepositoryButton.Content" xml:space="preserve">
+    <value>打开 GitHub</value>
+  </data>
+  <data name="SettingsPage_GitHubRepositorySettingsCard.Description" xml:space="preserve">
+    <value>可查看源代码。欢迎贡献代码和提交 Pull Request</value>
+  </data>
+  <data name="SettingsPage_GitHubRepositorySettingsCard.Header" xml:space="preserve">
+    <value>GitHub 仓库</value>
+  </data>
+  <data name="SettingsPage_JapaneseLanguageComboBoxItem.Content" xml:space="preserve">
+    <value>日本語</value>
+  </data>
+  <data name="SettingsPage_KoreanLanguageComboBoxItem.Content" xml:space="preserve">
+    <value>한국어</value>
+  </data>
+  <data name="SettingsPage_LanguageRestartDialogMessage" xml:space="preserve">
+    <value>重启应用以应用语言更改。</value>
+  </data>
+  <data name="SettingsPage_LanguageRestartDialogTitle" xml:space="preserve">
+    <value>语言更改</value>
+  </data>
+  <data name="SettingsPage_LanguageSettingsCard.Description" xml:space="preserve">
+    <value>选择应用程序的显示语言</value>
+  </data>
+  <data name="SettingsPage_LanguageSettingsCard.Header" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="SettingsPage_LightThemeComboBoxItem.Content" xml:space="preserve">
+    <value>浅色</value>
+  </data>
+  <data name="SettingsPage_NoUpdateDialogMessageFormat" xml:space="preserve">
+    <value>应用程序已是最新版本。（当前版本：{0}）</value>
+  </data>
+  <data name="SettingsPage_NoUpdateDialogTitle" xml:space="preserve">
+    <value>已是最新版本</value>
+  </data>
+  <data name="SettingsPage_OpenStoreButtonText" xml:space="preserve">
+    <value>打开 Store</value>
+  </data>
+  <data name="SettingsPage_SaveSettingsFailedDialogMessage" xml:space="preserve">
+    <value>保存设置失败。</value>
+  </data>
+  <data name="SettingsPage_SaveSettingsFailedDialogTitle" xml:space="preserve">
+    <value>保存失败</value>
+  </data>
+  <data name="SettingsPage_SimplifiedChineseLanguageComboBoxItem.Content" xml:space="preserve">
     <value>简体中文</value>
   </data>
-  <data name="TraditionalChineseLanguageMenuFlyoutItem.Text" xml:space="preserve">
+  <data name="SettingsPage_SystemDefaultLanguageComboBoxItem.Content" xml:space="preserve">
+    <value>系统默认</value>
+  </data>
+  <data name="SettingsPage_SystemDefaultThemeComboBoxItem.Content" xml:space="preserve">
+    <value>系统默认</value>
+  </data>
+  <data name="SettingsPage_ThemeSettingsCard.Description" xml:space="preserve">
+    <value>选择应用程序主题</value>
+  </data>
+  <data name="SettingsPage_ThemeSettingsCard.Header" xml:space="preserve">
+    <value>主题</value>
+  </data>
+  <data name="SettingsPage_TitleTextBlock.Text" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="SettingsPage_TraditionalChineseLanguageComboBoxItem.Content" xml:space="preserve">
     <value>繁體中文</value>
+  </data>
+  <data name="SettingsPage_UpdateAvailableDialogMessageFormat" xml:space="preserve">
+    <value>有 {0} 个可用更新。（当前版本：{1}）</value>
+  </data>
+  <data name="SettingsPage_UpdateAvailableDialogTitle" xml:space="preserve">
+    <value>有可用更新</value>
+  </data>
+  <data name="SettingsPage_UpdateCheckFailedDialogMessage" xml:space="preserve">
+    <value>检查更新时发生错误。</value>
+  </data>
+  <data name="SettingsPage_UpdateCheckFailedDialogTitle" xml:space="preserve">
+    <value>检查更新失败</value>
+  </data>
+  <data name="SettingsPage_UpdateCheckSettingsCard.Description" xml:space="preserve">
+    <value>从 Microsoft Store 检查更新</value>
+  </data>
+  <data name="SettingsPage_UpdateCheckSettingsCard.Header" xml:space="preserve">
+    <value>检查更新</value>
+  </data>
+  <data name="SettingsPage_UpdateSettingsGroup.Header" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="SettingsPage_VersionSettingsCard.Description" xml:space="preserve">
+    <value>应用程序版本</value>
+  </data>
+  <data name="SettingsPage_VersionSettingsCard.Header" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="SettingsSelectorBarItem.Text" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="UpdateAvailableDialogMessageFormat" xml:space="preserve">
+    <value>有 {0} 个可用更新。（当前版本：{1}）</value>
+  </data>
+  <data name="UpdateAvailableDialogTitle" xml:space="preserve">
+    <value>有可用更新</value>
+  </data>
+  <data name="UpdateCheckFailedDialogMessage" xml:space="preserve">
+    <value>检查更新时发生错误。</value>
+  </data>
+  <data name="UpdateCheckFailedDialogTitle" xml:space="preserve">
+    <value>检查更新失败</value>
+  </data>
+  <data name="ValidDaysTextBox.PlaceholderText" xml:space="preserve">
+    <value>输入天数</value>
+  </data>
+  <data name="WinAppService_CheckingBinaryMessage" xml:space="preserve">
+    <value>正在检查 winapp CLI 二进制文件...</value>
+  </data>
+  <data name="WinAppService_DownloadingMessageFormat" xml:space="preserve">
+    <value>正在下载 winapp CLI 二进制文件... {0}%</value>
+  </data>
+  <data name="WinAppService_ExtractingMessage" xml:space="preserve">
+    <value>正在解压 winapp CLI 二进制文件...</value>
+  </data>
+  <data name="WinAppService_UnsupportedArchitectureMessage" xml:space="preserve">
+    <value>不支持 32 位(x86)系统。</value>
   </data>
   <data name="WindowTitle.Title" xml:space="preserve">
     <value>MSIX 安装程序生成器</value>

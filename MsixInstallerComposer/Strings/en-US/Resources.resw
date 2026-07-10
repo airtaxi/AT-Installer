@@ -58,12 +58,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AboutDialogContent" xml:space="preserve">
-    <value>Version: {0}
-Author: Howon Lee</value>
-  </data>
-  <data name="AboutDialogTitle" xml:space="preserve">
-    <value>About</value>
+  <data name="AppDisplayName" xml:space="preserve">
+    <value>MSIX Installer Generator</value>
   </data>
   <data name="AppTitleBarTitle.Title" xml:space="preserve">
     <value>MSIX Installer Generator</value>
@@ -83,38 +79,56 @@ Author: Howon Lee</value>
   <data name="ArchitectureX86CheckBox.Content" xml:space="preserve">
     <value>x86</value>
   </data>
+  <data name="CertificateNavItem.Content" xml:space="preserve">
+    <value>Certificate</value>
+  </data>
+  <data name="CertificatePage_GenerateFailedMessageFormat" xml:space="preserve">
+    <value>Failed to generate certificate: {0}</value>
+  </data>
+  <data name="CertificatePage_GenerateSuccessMessage" xml:space="preserve">
+    <value>Certificate exported successfully.</value>
+  </data>
+  <data name="CertificatePasswordBox.Description" xml:space="preserve">
+    <value>Protects the exported PFX file. If left empty, the default password "password" is used. When a password is set, you must enter it every time you create an MSIX package with this tool.</value>
+  </data>
+  <data name="CertificatePasswordBox.Header" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="CertificatePublisherCard.Description" xml:space="preserve">
+    <value>Accepts a full X.500 distinguished name (e.g. CN=Contoso, O=Contoso Ltd, C=US). Bare names are automatically wrapped as CN=&lt;name&gt;.</value>
+    <comment>Publisher card description</comment>
+  </data>
+  <data name="CertificatePublisherCard.Header" xml:space="preserve">
+    <value>Publisher</value>
+    <comment>Certificate publisher input section header</comment>
+  </data>
+  <data name="CertificateValidDaysCard.Description" xml:space="preserve">
+    <value>Number of days the certificate remains valid</value>
+    <comment>Valid days card description</comment>
+  </data>
+  <data name="CertificateValidDaysCard.Header" xml:space="preserve">
+    <value>Valid Days</value>
+  </data>
   <data name="DetectedArchitecturesCard.Header" xml:space="preserve">
     <value>Detected Architectures</value>
+  </data>
+  <data name="DialogCancelButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="DialogHelper_CancelButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="DialogHelper_ConfirmButtonText" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="DialogHelper_DefaultInputTitle" xml:space="preserve">
+    <value>Input</value>
   </data>
   <data name="DialogOkButton" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="EnglishLanguageMenuFlyoutItem.Text" xml:space="preserve">
-    <value>English</value>
-  </data>
-  <data name="FileExitMenuFlyoutItem.Text" xml:space="preserve">
-    <value>Exit</value>
-  </data>
-  <data name="FileLoadMsixMenuFlyoutItem.Text" xml:space="preserve">
-    <value>Load MSIX...</value>
-  </data>
-  <data name="FileMenu.Title" xml:space="preserve">
-    <value>File</value>
-  </data>
   <data name="GenerateButton.Content" xml:space="preserve">
     <value>Generate</value>
-  </data>
-  <data name="HelpAboutMenuFlyoutItem.Text" xml:space="preserve">
-    <value>About</value>
-  </data>
-  <data name="HelpMenu.Title" xml:space="preserve">
-    <value>Help</value>
-  </data>
-  <data name="JapaneseLanguageMenuFlyoutItem.Text" xml:space="preserve">
-    <value>日本語</value>
-  </data>
-  <data name="KoreanLanguageMenuFlyoutItem.Text" xml:space="preserve">
-    <value>한국어</value>
   </data>
   <data name="LanguageChangeDialogContent" xml:space="preserve">
     <value>Restart the app to apply the language change.</value>
@@ -122,8 +136,77 @@ Author: Howon Lee</value>
   <data name="LanguageChangeDialogTitle" xml:space="preserve">
     <value>Language Change</value>
   </data>
-  <data name="LanguageMenu.Title" xml:space="preserve">
-    <value>Language</value>
+  <data name="ManifestApplicationDescriptionCard.Description" xml:space="preserve">
+    <value>A description of the application, shown in the MSIX manifest.</value>
+  </data>
+  <data name="ManifestApplicationDescriptionCard.Header" xml:space="preserve">
+    <value>Application Description</value>
+  </data>
+  <data name="ManifestApplicationDescriptionTextBox.PlaceholderText" xml:space="preserve">
+    <value>Enter application description</value>
+  </data>
+  <data name="ManifestDisplayNameCard.Description" xml:space="preserve">
+    <value>The display name of the MSIX package, shown in Start menu and Settings.</value>
+  </data>
+  <data name="ManifestDisplayNameCard.Header" xml:space="preserve">
+    <value>Display Name</value>
+  </data>
+  <data name="ManifestDisplayNameTextBox.PlaceholderText" xml:space="preserve">
+    <value>Enter package display name</value>
+  </data>
+  <data name="ManifestExecutableFileNameCard.Description" xml:space="preserve">
+    <value>The file name (including .exe) of the executable that runs when the package is launched. This file name must be unique within the output directory, including all subdirectories.</value>
+  </data>
+  <data name="ManifestExecutableFileNameCard.Header" xml:space="preserve">
+    <value>Executable File Name</value>
+  </data>
+  <data name="ManifestExecutableFileNameTextBox.PlaceholderText" xml:space="preserve">
+    <value>e.g. MyApp.exe — must be unique in output directory</value>
+  </data>
+  <data name="ManifestGenerateButton.Content" xml:space="preserve">
+    <value>Generate</value>
+  </data>
+  <data name="ManifestLoadButton.Content" xml:space="preserve">
+    <value>Load Config</value>
+  </data>
+  <data name="ManifestLogoImageCard.Description" xml:space="preserve">
+    <value>Optional. Select a logo image file (JPG, PNG, BMP, or ICO). This image becomes the application icon shown in the Start menu and Settings.</value>
+  </data>
+  <data name="ManifestLogoImageCard.Header" xml:space="preserve">
+    <value>Logo Image File</value>
+  </data>
+  <data name="ManifestLogoLoadButtonText.Text" xml:space="preserve">
+    <value>Load</value>
+  </data>
+  <data name="ManifestLogoLoadedCard.Description" xml:space="preserve">
+    <value>A logo image has been loaded. Click the button on the right to remove it. If removed, the default Windows icon will be used.</value>
+  </data>
+  <data name="ManifestLogoLoadedCard.Header" xml:space="preserve">
+    <value>Logo Image File</value>
+  </data>
+  <data name="ManifestLogoRemoveButtonText.Text" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="ManifestNavItem.Content" xml:space="preserve">
+    <value>Manifest</value>
+  </data>
+  <data name="ManifestPage_GenerateFailedMessageFormat" xml:space="preserve">
+    <value>Failed to generate config file: {0}</value>
+  </data>
+  <data name="ManifestPage_GenerateSuccessMessage" xml:space="preserve">
+    <value>Config file has been generated successfully.</value>
+  </data>
+  <data name="ManifestPage_LoadFailedMessage" xml:space="preserve">
+    <value>Failed to load config file: the file is not a valid config.</value>
+  </data>
+  <data name="ManifestPage_LoadFailedMessageFormat" xml:space="preserve">
+    <value>Failed to load config file: {0}</value>
+  </data>
+  <data name="ManifestPage_LogoLoadedInfoMessage" xml:space="preserve">
+    <value>A logo image was loaded from the config file. The file path is not stored — only the image data is embedded. To change the image, load a new one.</value>
+  </data>
+  <data name="ManifestPage_LogoLoadFailedMessageFormat" xml:space="preserve">
+    <value>Failed to load logo image: {0}</value>
   </data>
   <data name="MsixFilePathTextBox.PlaceholderText" xml:space="preserve">
     <value>Drop a .msix or .msixbundle file here, or click Open...</value>
@@ -140,17 +223,50 @@ Author: Howon Lee</value>
   <data name="MultipleArchitectureNotice.Title" xml:space="preserve">
     <value>Multiple Architectures</value>
   </data>
+  <data name="Notification_OpenStoreButtonText" xml:space="preserve">
+    <value>Open Store</value>
+  </data>
+  <data name="Notification_StoreUpdateAvailableMessageFormat" xml:space="preserve">
+    <value>{0} update(s) are available from the Microsoft Store.</value>
+  </data>
+  <data name="Notification_StoreUpdateAvailableTitle" xml:space="preserve">
+    <value>Update Available</value>
+  </data>
+  <data name="NoUpdateDialogMessageFormat" xml:space="preserve">
+    <value>The application is up to date. (Current version: {0})</value>
+  </data>
+  <data name="NoUpdateDialogTitle" xml:space="preserve">
+    <value>Up to Date</value>
+  </data>
   <data name="OpenButtonText.Text" xml:space="preserve">
     <value>Open</value>
   </data>
+  <data name="OpenStoreButtonText" xml:space="preserve">
+    <value>Open Store</value>
+  </data>
   <data name="PackageDisplayNameCard.Header" xml:space="preserve">
     <value>Display Name</value>
+  </data>
+  <data name="PackageExePage_GenerateFailedMessageFormat" xml:space="preserve">
+    <value>Failed to generate installer: {0}</value>
+  </data>
+  <data name="PackageExePage_GenerateSuccessMessage" xml:space="preserve">
+    <value>Installer generated successfully.</value>
+  </data>
+  <data name="PackageExePage_LoadFailedMessageFormat" xml:space="preserve">
+    <value>Failed to read MSIX package: {0}</value>
+  </data>
+  <data name="PackageExeSelectorBarItem.Text" xml:space="preserve">
+    <value>EXE Packaging</value>
   </data>
   <data name="PackageInfoSection.Description" xml:space="preserve">
     <value>Detected package metadata</value>
   </data>
   <data name="PackageInfoSection.Header" xml:space="preserve">
     <value>Package Info</value>
+  </data>
+  <data name="PackageMsixSelectorBarItem.Text" xml:space="preserve">
+    <value>MSIX Packaging</value>
   </data>
   <data name="PackageNameCard.Header" xml:space="preserve">
     <value>Name</value>
@@ -161,11 +277,321 @@ Author: Howon Lee</value>
   <data name="PackageVersionCard.Header" xml:space="preserve">
     <value>Version</value>
   </data>
-  <data name="SimplifiedChineseLanguageMenuFlyoutItem.Text" xml:space="preserve">
+  <data name="PackagingAddOutputFolderButtonText.Text" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="PackagingBuildVersionCard.Header" xml:space="preserve">
+    <value>Build</value>
+  </data>
+  <data name="PackagingBuildVersionTextBox.PlaceholderText" xml:space="preserve">
+    <value>Build</value>
+  </data>
+  <data name="PackagingCertificateFileCard.Description" xml:space="preserve">
+    <value>Optional. Select a PFX certificate for signing. If omitted, a temporary certificate will be generated for this packaging run.</value>
+  </data>
+  <data name="PackagingCertificateFileCard.Header" xml:space="preserve">
+    <value>Certificate File</value>
+  </data>
+  <data name="PackagingCertificateFilePathTextBox.PlaceholderText" xml:space="preserve">
+    <value>Select a .pfx certificate file...</value>
+  </data>
+  <data name="PackagingCertificatePasswordBox.PlaceholderText" xml:space="preserve">
+    <value>Leave empty to use default "password"</value>
+  </data>
+  <data name="PackagingCertificatePasswordCard.Description" xml:space="preserve">
+    <value>Password for the selected PFX certificate. If left empty, the default password "password" will be used.</value>
+  </data>
+  <data name="PackagingCertificatePasswordCard.Header" xml:space="preserve">
+    <value>Certificate Password</value>
+  </data>
+  <data name="PackagingGenerateButton.Content" xml:space="preserve">
+    <value>Generate</value>
+  </data>
+  <data name="PackagingMajorVersionCard.Header" xml:space="preserve">
+    <value>Major</value>
+  </data>
+  <data name="PackagingMajorVersionTextBox.PlaceholderText" xml:space="preserve">
+    <value>Major</value>
+  </data>
+  <data name="PackagingManifestFileCard.Description" xml:space="preserve">
+    <value>Required. Select a manifest (.aticmsixconfig) file generated by the Manifest page. Loading a manifest enables the output folder selection below.</value>
+  </data>
+  <data name="PackagingManifestFileCard.Header" xml:space="preserve">
+    <value>Manifest File</value>
+  </data>
+  <data name="PackagingManifestFilePathTextBox.PlaceholderText" xml:space="preserve">
+    <value>Select a .aticmsixconfig manifest file...</value>
+  </data>
+  <data name="PackagingMinorVersionCard.Header" xml:space="preserve">
+    <value>Minor</value>
+  </data>
+  <data name="PackagingMinorVersionTextBox.PlaceholderText" xml:space="preserve">
+    <value>Minor</value>
+  </data>
+  <data name="PackagingNavItem.Content" xml:space="preserve">
+    <value>Packaging</value>
+  </data>
+  <data name="PackagingOpenButtonText.Text" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="PackagingOutputFolderCard.Description" xml:space="preserve">
+    <value>Specify the folder(s) containing the executable file named in the manifest. The executable is searched recursively including subdirectories. For multi-architecture packages, add one output folder per architecture. At least one output folder is required to generate the package.</value>
+  </data>
+  <data name="PackagingOutputFolderCard.Header" xml:space="preserve">
+    <value>Output Folders</value>
+  </data>
+  <data name="PackagingPage_AppxManifestNotFoundMessageFormat" xml:space="preserve">
+    <value>Package.appxmanifest was not found in the output directory for {0}.</value>
+  </data>
+  <data name="PackagingPage_CopyingFilesMessageFormat" xml:space="preserve">
+    <value>Copying files for {0}... {1}%</value>
+  </data>
+  <data name="PackagingPage_DuplicateArchitectureMessageFormat" xml:space="preserve">
+    <value>An output folder for the architecture "{0}" has already been added. Duplicate architectures are not allowed.</value>
+  </data>
+  <data name="PackagingPage_DuplicateFolderPathMessage" xml:space="preserve">
+    <value>This output folder has already been added.</value>
+  </data>
+  <data name="PackagingPage_ExecutableFileNameMissingMessage" xml:space="preserve">
+    <value>The manifest does not contain an executable file name.</value>
+  </data>
+  <data name="PackagingPage_ExecutableNotFoundMessageFormat" xml:space="preserve">
+    <value>The executable file "{0}" was not found in the selected folder or its subdirectories:
+{1}</value>
+  </data>
+  <data name="PackagingPage_GenerateFailedMessageFormat" xml:space="preserve">
+    <value>Packaging failed: {0}</value>
+  </data>
+  <data name="PackagingPage_GenerateSuccessMessage" xml:space="preserve">
+    <value>The package was successfully created.</value>
+  </data>
+  <data name="PackagingPage_GeneratingManifestMessageFormat" xml:space="preserve">
+    <value>Generating manifest for {0}...</value>
+  </data>
+  <data name="PackagingPage_InvalidCertificatePasswordMessage" xml:space="preserve">
+    <value>The certificate password is incorrect.</value>
+  </data>
+  <data name="PackagingPage_InvalidVersionMessage" xml:space="preserve">
+    <value>The version fields must all be valid integers.</value>
+  </data>
+  <data name="PackagingPage_ManifestGenerateFailedMessageFormat" xml:space="preserve">
+    <value>Failed to generate manifest for {0}: winapp.exe exited with code {1}</value>
+  </data>
+  <data name="PackagingPage_ManifestLoadFailedMessage" xml:space="preserve">
+    <value>Failed to load the manifest file: not a valid manifest.</value>
+  </data>
+  <data name="PackagingPage_ManifestLoadFailedMessageFormat" xml:space="preserve">
+    <value>Failed to load the manifest file: {0}</value>
+  </data>
+  <data name="PackagingPage_PackageNotFoundMessage" xml:space="preserve">
+    <value>No .msix or .msixbundle file was found in the working directory.</value>
+  </data>
+  <data name="PackagingPage_PackagingMessage" xml:space="preserve">
+    <value>Creating final package...</value>
+  </data>
+  <data name="PackagingPage_PackFailedMessageFormat" xml:space="preserve">
+    <value>Failed to create the package: winapp.exe exited with code {0}</value>
+  </data>
+  <data name="PackagingPage_PreparingWorkDirectoryMessage" xml:space="preserve">
+    <value>Preparing working directory...</value>
+  </data>
+  <data name="PackagingPage_UnknownArchitectureMessage" xml:space="preserve">
+    <value>The executable file architecture could not be determined.</value>
+  </data>
+  <data name="PackagingRevisionVersionCard.Header" xml:space="preserve">
+    <value>Revision</value>
+  </data>
+  <data name="PackagingRevisionVersionTextBox.PlaceholderText" xml:space="preserve">
+    <value>Revision</value>
+  </data>
+  <data name="PackagingVersionCard.Description" xml:space="preserve">
+    <value>Package version in Major.Minor.Build.Revision format. All fields are required.</value>
+  </data>
+  <data name="PackagingVersionCard.Header" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="PasswordBox.PlaceholderText" xml:space="preserve">
+    <value>Defaults to "password" if empty</value>
+  </data>
+  <data name="PickerService_AticMsixConfigFileType" xml:space="preserve">
+    <value>AT Installer MSIX Config</value>
+  </data>
+  <data name="PickerService_ExecutableFileType" xml:space="preserve">
+    <value>Executable</value>
+  </data>
+  <data name="PickerService_MsixBundleFileType" xml:space="preserve">
+    <value>MSIX Bundle</value>
+  </data>
+  <data name="PickerService_MsixFileType" xml:space="preserve">
+    <value>MSIX Package</value>
+  </data>
+  <data name="PickerService_PfxFileType" xml:space="preserve">
+    <value>PFX Certificate</value>
+  </data>
+  <data name="PickerService_ZipArchiveFileType" xml:space="preserve">
+    <value>ZIP Archive</value>
+  </data>
+  <data name="PublisherTextBox.PlaceholderText" xml:space="preserve">
+    <value>Name or X.500 DN</value>
+  </data>
+  <data name="SettingsPage_AboutSettingsGroup.Header" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="SettingsPage_AuthorSettingsCard.Description" xml:space="preserve">
+    <value>Application author</value>
+  </data>
+  <data name="SettingsPage_AuthorSettingsCard.Header" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="SettingsPage_AuthorText" xml:space="preserve">
+    <value>Howon Lee (airtaxi)</value>
+  </data>
+  <data name="SettingsPage_AutomaticUpdateCheckSettingsCard.Description" xml:space="preserve">
+    <value>Periodically check for updates and show notifications</value>
+  </data>
+  <data name="SettingsPage_AutomaticUpdateCheckSettingsCard.Header" xml:space="preserve">
+    <value>Automatic Update Check</value>
+  </data>
+  <data name="SettingsPage_CheckForUpdatesButtonTextBlock.Text" xml:space="preserve">
+    <value>Check for Updates</value>
+  </data>
+  <data name="SettingsPage_CheckForUpdatesLoadingMessage" xml:space="preserve">
+    <value>Checking for updates...</value>
+  </data>
+  <data name="SettingsPage_DarkThemeComboBoxItem.Content" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="SettingsPage_DescriptionTextBlock.Text" xml:space="preserve">
+    <value>Application settings and information</value>
+  </data>
+  <data name="SettingsPage_EnglishLanguageComboBoxItem.Content" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="SettingsPage_GeneralSettingsGroup.Header" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SettingsPage_GitHubRepositoryButton.Content" xml:space="preserve">
+    <value>Open GitHub</value>
+  </data>
+  <data name="SettingsPage_GitHubRepositorySettingsCard.Description" xml:space="preserve">
+    <value>View the source code — contributions and pull requests welcome</value>
+  </data>
+  <data name="SettingsPage_GitHubRepositorySettingsCard.Header" xml:space="preserve">
+    <value>GitHub Repository</value>
+  </data>
+  <data name="SettingsPage_JapaneseLanguageComboBoxItem.Content" xml:space="preserve">
+    <value>日本語</value>
+  </data>
+  <data name="SettingsPage_KoreanLanguageComboBoxItem.Content" xml:space="preserve">
+    <value>한국어</value>
+  </data>
+  <data name="SettingsPage_LanguageRestartDialogMessage" xml:space="preserve">
+    <value>Restart the app to apply the language change.</value>
+  </data>
+  <data name="SettingsPage_LanguageRestartDialogTitle" xml:space="preserve">
+    <value>Language Change</value>
+  </data>
+  <data name="SettingsPage_LanguageSettingsCard.Description" xml:space="preserve">
+    <value>Select the display language for the application</value>
+  </data>
+  <data name="SettingsPage_LanguageSettingsCard.Header" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="SettingsPage_LightThemeComboBoxItem.Content" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="SettingsPage_NoUpdateDialogMessageFormat" xml:space="preserve">
+    <value>The application is up to date. (Current version: {0})</value>
+  </data>
+  <data name="SettingsPage_NoUpdateDialogTitle" xml:space="preserve">
+    <value>Up to Date</value>
+  </data>
+  <data name="SettingsPage_OpenStoreButtonText" xml:space="preserve">
+    <value>Open Store</value>
+  </data>
+  <data name="SettingsPage_SaveSettingsFailedDialogMessage" xml:space="preserve">
+    <value>Failed to save settings.</value>
+  </data>
+  <data name="SettingsPage_SaveSettingsFailedDialogTitle" xml:space="preserve">
+    <value>Save Failed</value>
+  </data>
+  <data name="SettingsPage_SimplifiedChineseLanguageComboBoxItem.Content" xml:space="preserve">
     <value>简体中文</value>
   </data>
-  <data name="TraditionalChineseLanguageMenuFlyoutItem.Text" xml:space="preserve">
+  <data name="SettingsPage_SystemDefaultLanguageComboBoxItem.Content" xml:space="preserve">
+    <value>System Default</value>
+  </data>
+  <data name="SettingsPage_SystemDefaultThemeComboBoxItem.Content" xml:space="preserve">
+    <value>System Default</value>
+  </data>
+  <data name="SettingsPage_ThemeSettingsCard.Description" xml:space="preserve">
+    <value>Select the application theme</value>
+  </data>
+  <data name="SettingsPage_ThemeSettingsCard.Header" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="SettingsPage_TitleTextBlock.Text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="SettingsPage_TraditionalChineseLanguageComboBoxItem.Content" xml:space="preserve">
     <value>繁體中文</value>
+  </data>
+  <data name="SettingsPage_UpdateAvailableDialogMessageFormat" xml:space="preserve">
+    <value>{0} update(s) are available. (Current version: {1})</value>
+  </data>
+  <data name="SettingsPage_UpdateAvailableDialogTitle" xml:space="preserve">
+    <value>Update Available</value>
+  </data>
+  <data name="SettingsPage_UpdateCheckFailedDialogMessage" xml:space="preserve">
+    <value>An error occurred while checking for updates.</value>
+  </data>
+  <data name="SettingsPage_UpdateCheckFailedDialogTitle" xml:space="preserve">
+    <value>Update Check Failed</value>
+  </data>
+  <data name="SettingsPage_UpdateCheckSettingsCard.Description" xml:space="preserve">
+    <value>Check for updates from the Microsoft Store</value>
+  </data>
+  <data name="SettingsPage_UpdateCheckSettingsCard.Header" xml:space="preserve">
+    <value>Check for Updates</value>
+  </data>
+  <data name="SettingsPage_UpdateSettingsGroup.Header" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="SettingsPage_VersionSettingsCard.Description" xml:space="preserve">
+    <value>Application version</value>
+  </data>
+  <data name="SettingsPage_VersionSettingsCard.Header" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="SettingsSelectorBarItem.Text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="UpdateAvailableDialogMessageFormat" xml:space="preserve">
+    <value>{0} update(s) are available. (Current version: {1})</value>
+  </data>
+  <data name="UpdateAvailableDialogTitle" xml:space="preserve">
+    <value>Update Available</value>
+  </data>
+  <data name="UpdateCheckFailedDialogMessage" xml:space="preserve">
+    <value>An error occurred while checking for updates.</value>
+  </data>
+  <data name="UpdateCheckFailedDialogTitle" xml:space="preserve">
+    <value>Update Check Failed</value>
+  </data>
+  <data name="ValidDaysTextBox.PlaceholderText" xml:space="preserve">
+    <value>Enter number of days</value>
+  </data>
+  <data name="WinAppService_CheckingBinaryMessage" xml:space="preserve">
+    <value>Checking winapp CLI binaries...</value>
+  </data>
+  <data name="WinAppService_DownloadingMessageFormat" xml:space="preserve">
+    <value>Downloading winapp CLI binaries... {0}%</value>
+  </data>
+  <data name="WinAppService_ExtractingMessage" xml:space="preserve">
+    <value>Extracting winapp CLI binaries...</value>
+  </data>
+  <data name="WinAppService_UnsupportedArchitectureMessage" xml:space="preserve">
+    <value>32-bit (x86) systems are not supported.</value>
   </data>
   <data name="WindowTitle.Title" xml:space="preserve">
     <value>MSIX Installer Generator</value>

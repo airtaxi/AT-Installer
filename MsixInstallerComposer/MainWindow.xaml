@@ -12,6 +12,7 @@
     Width="900"
     Height="500"
     MinWidth="800"
+    Closed="OnMainWindowClosed"
     mc:Ignorable="d">
 
     <Window.SystemBackdrop>
@@ -21,99 +22,61 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <TitleBar
             x:Name="AppTitleBar"
             x:Uid="AppTitleBarTitle"
             Grid.Row="0"
-            BackRequested="OnAppTitleBarBackRequested"
             IsBackButtonVisible="False"
-            IsPaneToggleButtonVisible="False">
+            IsPaneToggleButtonVisible="False"
+            PaneToggleRequested="OnAppTitleBarPaneToggleRequested">
             <TitleBar.IconSource>
                 <ImageIconSource ImageSource="ms-appx:///Assets/Icon.png" />
             </TitleBar.IconSource>
+            <TitleBar.Content>
+                <dev:SelectorBarSegmented
+                    x:Name="PageSelectorBar"
+                    SelectedItem="{x:Bind PackageExeSelectorBarItem}"
+                    SelectionChanged="OnPageSelectorBarSelectionChanged">
+                    <SelectorBarItem
+                        x:Name="PackageExeSelectorBarItem"
+                        x:Uid="PackageExeSelectorBarItem"
+                        Tag="PackageExe">
+                        <SelectorBarItem.Icon>
+                            <FontIcon Glyph="&#xEB3B;" />
+                        </SelectorBarItem.Icon>
+                    </SelectorBarItem>
+                    <SelectorBarItem
+                        x:Name="PackageMsixSelectorBarItem"
+                        x:Uid="PackageMsixSelectorBarItem"
+                        Tag="PackageMsix">
+                        <SelectorBarItem.Icon>
+                            <FontIcon Glyph="&#xE7B8;" />
+                        </SelectorBarItem.Icon>
+                    </SelectorBarItem>
+                    <SelectorBarItem
+                        x:Name="SettingsSelectorBarItem"
+                        x:Uid="SettingsSelectorBarItem"
+                        Tag="Settings">
+                        <SelectorBarItem.Icon>
+                            <FontIcon Glyph="&#xE713;" />
+                        </SelectorBarItem.Icon>
+                    </SelectorBarItem>
+                </dev:SelectorBarSegmented>
+            </TitleBar.Content>
         </TitleBar>
-
-        <MenuBar Grid.Row="1" Background="Transparent">
-            <MenuBarItem x:Uid="FileMenu" AccessKey="F">
-                <MenuFlyoutItem
-                    x:Uid="FileLoadMsixMenuFlyoutItem"
-                    AccessKey="L"
-                    Click="OnLoadMsixMenuFlyoutItemClicked">
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xF89A;" />
-                    </MenuFlyoutItem.Icon>
-                    <MenuFlyoutItem.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="O" Modifiers="Control" />
-                    </MenuFlyoutItem.KeyboardAccelerators>
-                </MenuFlyoutItem>
-                <MenuFlyoutSeparator />
-                <MenuFlyoutItem
-                    x:Uid="FileExitMenuFlyoutItem"
-                    AccessKey="X"
-                    Click="OnExitMenuFlyoutItemClicked">
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xE7E8;" />
-                    </MenuFlyoutItem.Icon>
-                </MenuFlyoutItem>
-            </MenuBarItem>
-            <MenuBarItem x:Uid="LanguageMenu" AccessKey="L">
-                <RadioMenuFlyoutItem
-                    x:Uid="EnglishLanguageMenuFlyoutItem"
-                    Click="OnLanguageRadioMenuFlyoutItemClicked"
-                    GroupName="ApplicationLanguage"
-                    IsChecked="{x:Bind ViewModel.IsEnglishLanguageChecked, Mode=OneWay}"
-                    Tag="en-US" />
-                <RadioMenuFlyoutItem
-                    x:Uid="KoreanLanguageMenuFlyoutItem"
-                    Click="OnLanguageRadioMenuFlyoutItemClicked"
-                    GroupName="ApplicationLanguage"
-                    IsChecked="{x:Bind ViewModel.IsKoreanLanguageChecked, Mode=OneWay}"
-                    Tag="ko-KR" />
-                <RadioMenuFlyoutItem
-                    x:Uid="JapaneseLanguageMenuFlyoutItem"
-                    Click="OnLanguageRadioMenuFlyoutItemClicked"
-                    GroupName="ApplicationLanguage"
-                    IsChecked="{x:Bind ViewModel.IsJapaneseLanguageChecked, Mode=OneWay}"
-                    Tag="ja-JP" />
-                <RadioMenuFlyoutItem
-                    x:Uid="SimplifiedChineseLanguageMenuFlyoutItem"
-                    Click="OnLanguageRadioMenuFlyoutItemClicked"
-                    GroupName="ApplicationLanguage"
-                    IsChecked="{x:Bind ViewModel.IsSimplifiedChineseLanguageChecked, Mode=OneWay}"
-                    Tag="zh-Hans" />
-                <RadioMenuFlyoutItem
-                    x:Uid="TraditionalChineseLanguageMenuFlyoutItem"
-                    Click="OnLanguageRadioMenuFlyoutItemClicked"
-                    GroupName="ApplicationLanguage"
-                    IsChecked="{x:Bind ViewModel.IsTraditionalChineseLanguageChecked, Mode=OneWay}"
-                    Tag="zh-Hant" />
-            </MenuBarItem>
-            <MenuBarItem x:Uid="HelpMenu" AccessKey="H">
-                <MenuFlyoutItem
-                    x:Uid="HelpAboutMenuFlyoutItem"
-                    AccessKey="A"
-                    Click="OnAboutMenuFlyoutItemClicked">
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xE946;" />
-                    </MenuFlyoutItem.Icon>
-                </MenuFlyoutItem>
-            </MenuBarItem>
-        </MenuBar>
 
         <Frame
             x:Name="AppFrame"
-            Grid.Row="2"
+            Grid.Row="1"
             Navigated="OnAppFrameNavigated" />
 
         <Grid
             x:Name="LoadingGrid"
             Grid.Row="0"
-            Grid.RowSpan="4"
+            Grid.RowSpan="2"
             Visibility="Collapsed">
 
             <Rectangle Fill="{ThemeResource ThemeColor}" Opacity="0.3" />
@@ -131,7 +94,8 @@
                 <TextBlock
                     x:Name="LoadingTextBlock"
                     HorizontalAlignment="Center"
-                    FontWeight="Bold" />
+                    FontWeight="Bold"
+                    HorizontalTextAlignment="Center" />
             </StackPanel>
         </Grid>
     </Grid>

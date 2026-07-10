@@ -24,6 +24,11 @@
 		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 		<AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
 	</PropertyGroup>
+  <ItemGroup>
+	  <None Remove="Pages\PackageMsix\CertificatePage.xaml" />
+	  <None Remove="Pages\PackageMsix\ManifestPage.xaml" />
+	  <None Remove="Pages\PackageMsix\PackagingPage.xaml" />
+  </ItemGroup>
 
 	<ItemGroup>
 		<Manifest Include="$(ApplicationManifest)" />
@@ -37,9 +42,22 @@
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
 		<PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.2.251219" />
 		<PackageReference Include="DevWinUI" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.9" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2270" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="2.2.0" />
 		<PackageReference Include="WinUIEx" Version="2.9.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Pages\PackageMsix\CertificatePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Update="Pages\PackageMsix\ManifestPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Update="Pages\PackageMsix\PackagingPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
 	</ItemGroup>
 
 	<PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">

@@ -6,7 +6,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Xml.Linq;
 
-namespace MsixInstallerComposer.Services;
+namespace MsixInstallerComposer.Helpers;
 
 public static class MsixArchitectureDetector
 {
