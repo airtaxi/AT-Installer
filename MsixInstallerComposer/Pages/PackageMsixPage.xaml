@@ -11,6 +11,7 @@
 
     <NavigationView
         x:Name="PageNavigationView"
+        ExpandedModeThresholdWidth="1400"
         IsBackButtonVisible="Collapsed"
         IsPaneOpen="False"
         IsPaneToggleButtonVisible="False"
