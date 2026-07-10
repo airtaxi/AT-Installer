@@ -340,6 +340,12 @@
   <data name="PackagingPage_AppxManifestNotFoundMessageFormat" xml:space="preserve">
     <value>在 {0} 的輸出目錄中未找到 Package.appxmanifest。</value>
   </data>
+  <data name="PackagingPage_CleaningUpMessage" xml:space="preserve">
+    <value>正在清理臨時檔案...</value>
+  </data>
+  <data name="PackagingPage_CleaningUpMessageFormat" xml:space="preserve">
+    <value>正在清理臨時檔案... {0}%</value>
+  </data>
   <data name="PackagingPage_CopyingFilesMessageFormat" xml:space="preserve">
     <value>正在複製 {0} 的檔案... {1}%</value>
   </data>
@@ -394,6 +400,9 @@
   </data>
   <data name="PackagingPage_PreparingWorkDirectoryMessage" xml:space="preserve">
     <value>正在準備工作目錄...</value>
+  </data>
+  <data name="PackagingPage_SavingPackageMessage" xml:space="preserve">
+    <value>正在將套件儲存到所選位置。如果防毒軟體掃描檔案，可能需要更長時間。</value>
   </data>
   <data name="PackagingPage_UnknownArchitectureMessage" xml:space="preserve">
     <value>無法確定可執行檔的架構。</value>

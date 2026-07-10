@@ -8,8 +8,11 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MsixInstallerComposer.ViewModels;
@@ -242,7 +245,7 @@ public sealed partial class PackagingPageViewModel(LocalizationService localizat
 
             var architectureFolders = new System.Collections.Generic.List<(string Architecture, string FolderPath)>();
 
-            Parallel.ForEach(outputFoldersList, folder =>
+            await Parallel.ForEachAsync(outputFoldersList, (folder, token) =>
             {
                 var architectureFolder = Path.Combine(workDirectoryPath, folder.Architecture);
                 Directory.CreateDirectory(architectureFolder);
@@ -253,6 +256,8 @@ public sealed partial class PackagingPageViewModel(LocalizationService localizat
                     MainWindow.ShowLoading(localizationService.GetFormattedString("PackagingPage_CopyingFilesMessageFormat", folder.Architecture, percentage));
                 });
                 architectureFolders.Add((folder.Architecture, architectureFolder));
+
+                return ValueTask.CompletedTask;
             });
 
             foreach (var (architecture, architectureFolder) in architectureFolders)
@@ -283,6 +288,8 @@ public sealed partial class PackagingPageViewModel(LocalizationService localizat
                     IsGenerating = false;
                     return;
                 }
+
+                FixAppxManifestDisplayName(appxManifestPath, _manifestConfig.DisplayName);
             }
 
             MainWindow.ShowLoading(localizationService.GetLocalizedString("PackagingPage_PackagingMessage"));
@@ -333,8 +340,8 @@ public sealed partial class PackagingPageViewModel(LocalizationService localizat
                 return;
             }
 
-            MainWindow.HideLoading();
-            File.Move(generatedPackagePath, targetFilePath);
+            MainWindow.ShowLoading(localizationService.GetLocalizedString("PackagingPage_SavingPackageMessage"));
+            await Task.Run(() => File.Move(generatedPackagePath, targetFilePath, true));
         }
         catch (Exception exception)
         {
@@ -345,16 +352,47 @@ public sealed partial class PackagingPageViewModel(LocalizationService localizat
         }
         finally
         {
-            // Delete temporary working directory
-            if (!string.IsNullOrEmpty(workDirectoryPath)) Directory.Delete(workDirectoryPath, true);
+            if (!string.IsNullOrEmpty(workDirectoryPath)) await CleanupDirectoryAsync(workDirectoryPath, progress => MainWindow.ShowLoading(localizationService.GetFormattedString("PackagingPage_CleaningUpMessageFormat", progress.Percentage)));
 
             // If success, IsGenerating is still true
             if (IsGenerating)
             {
+                MainWindow.HideLoading();
                 IsGenerating = false;
                 await dialogService.ShowMessageAsync(localizationService.GetLocalizedString("AppDisplayName"), localizationService.GetLocalizedString("PackagingPage_GenerateSuccessMessage"));
             }
         }
+    }
+
+    private static async Task CleanupDirectoryAsync(string directoryPath, Action<DeleteProgress> progress = null)
+    {
+        try
+        {
+            var files = Directory.GetFiles(directoryPath, "*", SearchOption.AllDirectories);
+            var totalFiles = files.Length;
+            var deletedFiles = 0;
+
+            await Parallel.ForEachAsync(files, async (file, _) =>
+            {
+                try { File.Delete(file); }
+                catch { }
+                Interlocked.Increment(ref deletedFiles);
+                progress?.Invoke(new DeleteProgress { DeletedFiles = deletedFiles, TotalFiles = totalFiles });
+                await ValueTask.CompletedTask;
+            });
+
+            Directory.Delete(directoryPath, recursive: true);
+        }
+        catch { }
+    }
+
+    private static void FixAppxManifestDisplayName(string appxManifestPath, string displayName)
+    {
+        var content = File.ReadAllText(appxManifestPath);
+        var pattern = @"<DisplayName>.*?</DisplayName>";
+        var escapedDisplayName = SecurityElement.Escape(displayName);
+        var fixedContent = Regex.Replace(content, pattern, _ => $"<DisplayName>{escapedDisplayName}</DisplayName>", RegexOptions.None);
+        File.WriteAllText(appxManifestPath, fixedContent);
     }
 
     private static string FindFileRecursive(string directoryPath, string fileName)

@@ -343,6 +343,12 @@
   <data name="PackagingPage_AppxManifestNotFoundMessageFormat" xml:space="preserve">
     <value>Package.appxmanifest was not found in the output directory for {0}.</value>
   </data>
+  <data name="PackagingPage_CleaningUpMessage" xml:space="preserve">
+    <value>Cleaning up temporary files...</value>
+  </data>
+  <data name="PackagingPage_CleaningUpMessageFormat" xml:space="preserve">
+    <value>Cleaning up temporary files... {0}%</value>
+  </data>
   <data name="PackagingPage_CopyingFilesMessageFormat" xml:space="preserve">
     <value>Copying files for {0}... {1}%</value>
   </data>
@@ -397,6 +403,9 @@
   </data>
   <data name="PackagingPage_PreparingWorkDirectoryMessage" xml:space="preserve">
     <value>Preparing working directory...</value>
+  </data>
+  <data name="PackagingPage_SavingPackageMessage" xml:space="preserve">
+    <value>Saving the package to the selected location. This may take longer if antivirus software scans the file.</value>
   </data>
   <data name="PackagingPage_UnknownArchitectureMessage" xml:space="preserve">
     <value>The executable file architecture could not be determined.</value>

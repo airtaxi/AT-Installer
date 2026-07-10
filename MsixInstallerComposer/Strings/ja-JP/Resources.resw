@@ -340,6 +340,12 @@
   <data name="PackagingPage_AppxManifestNotFoundMessageFormat" xml:space="preserve">
     <value>{0}の出力ディレクトリにPackage.appxmanifestが見つかりませんでした。</value>
   </data>
+  <data name="PackagingPage_CleaningUpMessage" xml:space="preserve">
+    <value>一時ファイルをクリーンアップ中...</value>
+  </data>
+  <data name="PackagingPage_CleaningUpMessageFormat" xml:space="preserve">
+    <value>一時ファイルをクリーンアップ中... {0}%</value>
+  </data>
   <data name="PackagingPage_CopyingFilesMessageFormat" xml:space="preserve">
     <value>{0}のファイルをコピー中... {1}%</value>
   </data>
@@ -394,6 +400,9 @@
   </data>
   <data name="PackagingPage_PreparingWorkDirectoryMessage" xml:space="preserve">
     <value>作業ディレクトリを準備中...</value>
+  </data>
+  <data name="PackagingPage_SavingPackageMessage" xml:space="preserve">
+    <value>選択した場所にパッケージを保存しています。アンチウイルスソフトがファイルをスキャンする場合、時間がかかる場合があります。</value>
   </data>
   <data name="PackagingPage_UnknownArchitectureMessage" xml:space="preserve">
     <value>実行ファイルのアーキテクチャを特定できませんでした。</value>
