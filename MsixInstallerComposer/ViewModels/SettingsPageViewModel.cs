@@ -5,8 +5,8 @@ using Microsoft.UI.Xaml.Controls;
 using MsixInstallerComposer.Models;
 using MsixInstallerComposer.Services;
 using System;
-using System.Reflection;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.System;
 
 namespace MsixInstallerComposer.ViewModels;
@@ -136,7 +136,7 @@ public sealed partial class SettingsPageViewModel(ApplicationSettings applicatio
 
     private static ElementTheme GetThemeFromSelectedIndex(int selectedIndex) => selectedIndex switch { LightThemeSelectedIndex => ElementTheme.Light, DarkThemeSelectedIndex => ElementTheme.Dark, _ => ElementTheme.Default };
 
-    private static string GetCurrentApplicationVersion() => FormatCurrentApplicationVersion(Assembly.GetExecutingAssembly().GetName().Version);
+    private static string GetCurrentApplicationVersion() => FormatCurrentApplicationVersion(Package.Current.Id.Version);
 
-    private static string FormatCurrentApplicationVersion(Version packageVersion) => $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}";
+    private static string FormatCurrentApplicationVersion(PackageVersion packageVersion) => $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}.{packageVersion.Revision}";
 }
