@@ -368,6 +368,9 @@
   <data name="PackagingPage_InvalidCertificatePasswordMessage" xml:space="preserve">
     <value>인증서 비밀번호가 올바르지 않습니다.</value>
   </data>
+  <data name="PackagingPage_InvalidVersionFormatMessage" xml:space="preserve">
+    <value>버전 문자열이 올바른 Major.Minor.Build.Revision 형식이 아닙니다.</value>
+  </data>
   <data name="PackagingPage_InvalidVersionMessage" xml:space="preserve">
     <value>버전 필드는 모두 유효한 정수여야 합니다.</value>
   </data>

@@ -371,6 +371,9 @@
   <data name="PackagingPage_InvalidCertificatePasswordMessage" xml:space="preserve">
     <value>The certificate password is incorrect.</value>
   </data>
+  <data name="PackagingPage_InvalidVersionFormatMessage" xml:space="preserve">
+    <value>The version string is not in a valid Major.Minor.Build.Revision format.</value>
+  </data>
   <data name="PackagingPage_InvalidVersionMessage" xml:space="preserve">
     <value>The version fields must all be valid integers.</value>
   </data>

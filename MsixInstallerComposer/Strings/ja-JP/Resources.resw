@@ -368,6 +368,9 @@
   <data name="PackagingPage_InvalidCertificatePasswordMessage" xml:space="preserve">
     <value>証明書のパスワードが正しくありません。</value>
   </data>
+  <data name="PackagingPage_InvalidVersionFormatMessage" xml:space="preserve">
+    <value>バージョン文字列が有効なMajor.Minor.Build.Revision形式ではありません。</value>
+  </data>
   <data name="PackagingPage_InvalidVersionMessage" xml:space="preserve">
     <value>バージョンフィールドはすべて有効な整数である必要があります。</value>
   </data>

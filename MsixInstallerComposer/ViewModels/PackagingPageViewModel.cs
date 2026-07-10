@@ -224,6 +224,15 @@ public sealed partial class PackagingPageViewModel(LocalizationService localizat
             }
 
             var version = DefaultVersion;
+            var isVersionValid = Version.TryParse(version, out var _);
+            if (!isVersionValid)
+            {
+                MainWindow.HideLoading();
+                IsGenerating = false;
+                await dialogService.ShowMessageAsync(localizationService.GetLocalizedString("AppDisplayName"), localizationService.GetLocalizedString("PackagingPage_InvalidVersionFormatMessage"));
+                return;
+            }
+
             var outputFoldersList = OutputFolders.ToList();
 
             var totalFiles = 0;

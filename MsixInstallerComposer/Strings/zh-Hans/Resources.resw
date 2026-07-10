@@ -368,6 +368,9 @@
   <data name="PackagingPage_InvalidCertificatePasswordMessage" xml:space="preserve">
     <value>证书密码不正确。</value>
   </data>
+  <data name="PackagingPage_InvalidVersionFormatMessage" xml:space="preserve">
+    <value>版本字符串不是有效的 Major.Minor.Build.Revision 格式。</value>
+  </data>
   <data name="PackagingPage_InvalidVersionMessage" xml:space="preserve">
     <value>版本字段必须全部为有效整数。</value>
   </data>
