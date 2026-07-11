@@ -360,3 +360,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# NuGet tool package readme (generated from ../MSIX.md by CopyPackageReadme target)
+MsixInstallerComposerCommandLine/README.md
