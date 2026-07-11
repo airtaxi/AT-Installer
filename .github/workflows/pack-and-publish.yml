@@ -1,0 +1,212 @@
+name: Pack and Publish NuGet
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish the current package to NuGet.org.
+        required: true
+        default: false
+        type: boolean
+  push:
+    branches:
+      - master
+    paths:
+      - .github/workflows/pack-and-publish.yml
+      - MsixInstallerComposerCommandLine/MsixInstallerComposerCommandLine.csproj
+
+permissions:
+  contents: read
+
+concurrency:
+  group: aticmsixgen-pack-and-publish
+  cancel-in-progress: false
+
+jobs:
+  pack-and-publish:
+    name: Pack and Publish NuGet
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve publish mode
+        id: version
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+
+          $projectPath = "MsixInstallerComposerCommandLine/MsixInstallerComposerCommandLine.csproj"
+          [xml]$currentProject = Get-Content -LiteralPath $projectPath -Raw
+          $currentVersion = $null
+          foreach ($propertyGroup in @($currentProject.Project.PropertyGroup)) {
+            foreach ($propertyName in @("VersionPrefix", "PackageVersion", "Version")) {
+              $propertyNode = $propertyGroup.SelectSingleNode($propertyName)
+              if ($null -ne $propertyNode -and -not [string]::IsNullOrWhiteSpace($propertyNode.InnerText)) {
+                $currentVersion = $propertyNode.InnerText.Trim()
+                break
+              }
+            }
+            if ($null -ne $currentVersion) { break }
+          }
+          if ([string]::IsNullOrWhiteSpace($currentVersion)) { throw "Current Version was not found in $projectPath." }
+
+          $eventName = "${{ github.event_name }}"
+          if ($eventName -eq "workflow_dispatch") {
+            $shouldPublish = "${{ inputs.publish }}" -eq "true"
+            "run=true" >> $env:GITHUB_OUTPUT
+            "publish=$($shouldPublish.ToString().ToLowerInvariant())" >> $env:GITHUB_OUTPUT
+            "current=$currentVersion" >> $env:GITHUB_OUTPUT
+            "previous=" >> $env:GITHUB_OUTPUT
+
+            if ($shouldPublish) {
+              "Manual run requested NuGet publishing for version $currentVersion."
+            }
+            else {
+              "Manual run will pack version $currentVersion without publishing."
+            }
+
+            exit 0
+          }
+
+          $previousCommit = "${{ github.event.before }}"
+          if ([string]::IsNullOrWhiteSpace($previousCommit) -or $previousCommit -match "^0+$") {
+            "run=false" >> $env:GITHUB_OUTPUT
+            "publish=false" >> $env:GITHUB_OUTPUT
+            "current=$currentVersion" >> $env:GITHUB_OUTPUT
+            "previous=" >> $env:GITHUB_OUTPUT
+            "No previous commit was available, so NuGet publishing is skipped."
+            exit 0
+          }
+
+          $previousProjectText = & git show "$previousCommit`:$projectPath"
+          if ($LASTEXITCODE -ne 0) { throw "Previous project file was not found at $previousCommit`:$projectPath." }
+
+          $previousProjectXml = ($previousProjectText -join "`n") -replace "^\uFEFF", ""
+          [xml]$previousProject = $previousProjectXml
+          $previousVersion = $null
+          foreach ($propertyGroup in @($previousProject.Project.PropertyGroup)) {
+            foreach ($propertyName in @("VersionPrefix", "PackageVersion", "Version")) {
+              $propertyNode = $propertyGroup.SelectSingleNode($propertyName)
+              if ($null -ne $propertyNode -and -not [string]::IsNullOrWhiteSpace($propertyNode.InnerText)) {
+                $previousVersion = $propertyNode.InnerText.Trim()
+                break
+              }
+            }
+            if ($null -ne $previousVersion) { break }
+          }
+          if ([string]::IsNullOrWhiteSpace($previousVersion)) { throw "Previous Version was not found in $projectPath." }
+
+          $currentSemanticVersion = [System.Version]::Parse($currentVersion)
+          $previousSemanticVersion = [System.Version]::Parse($previousVersion)
+          $shouldPublish = $currentSemanticVersion -gt $previousSemanticVersion
+
+          "run=$($shouldPublish.ToString().ToLowerInvariant())" >> $env:GITHUB_OUTPUT
+          "publish=$($shouldPublish.ToString().ToLowerInvariant())" >> $env:GITHUB_OUTPUT
+          "current=$currentVersion" >> $env:GITHUB_OUTPUT
+          "previous=$previousVersion" >> $env:GITHUB_OUTPUT
+
+          if ($shouldPublish) {
+            "Version increased from $previousVersion to $currentVersion. NuGet publishing will continue."
+          }
+          else {
+            "Version did not increase. Previous=$previousVersion Current=$currentVersion. NuGet publishing is skipped."
+          }
+
+      - name: Setup .NET
+        if: steps.version.outputs.run == 'true'
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Pack base package
+        if: steps.version.outputs.run == 'true'
+        run: dotnet pack MsixInstallerComposerCommandLine/MsixInstallerComposerCommandLine.csproj -c Release "-p:ContinuousIntegrationBuild=true" --output artifacts/packages
+
+      - name: Pack RID packages
+        if: steps.version.outputs.run == 'true'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $projectPath = "MsixInstallerComposerCommandLine/MsixInstallerComposerCommandLine.csproj"
+          $packagesDirectory = Join-Path $env:GITHUB_WORKSPACE "artifacts/packages"
+          $platforms = @("x86", "x64", "ARM64")
+
+          $packJobs = foreach ($platform in $platforms) {
+            Start-Job -Name "pack-$platform" -ArgumentList $platform, $projectPath, $packagesDirectory -ScriptBlock {
+              param($platform, $projectPath, $packagesDirectory)
+              $ErrorActionPreference = "Stop"
+              & dotnet pack $projectPath -c Release "-p:Platform=$platform" "-p:ContinuousIntegrationBuild=true" "--output" $packagesDirectory
+              if ($LASTEXITCODE -ne 0) { throw "dotnet pack failed for $platform." }
+            }
+          }
+
+          $packJobs | Wait-Job | Out-Null
+          $failedPlatforms = @()
+          foreach ($packJob in $packJobs) {
+            Receive-Job -Job $packJob -ErrorAction Continue
+            if ($packJob.State -ne "Completed") {
+              $failedPlatforms += $packJob.Name.Replace("pack-", "")
+            }
+          }
+
+          $packJobs | Remove-Job
+          if ($failedPlatforms.Count -gt 0) {
+            throw "dotnet pack failed for: $($failedPlatforms -join ', ')"
+          }
+
+      - name: Validate packages
+        if: steps.version.outputs.run == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="${{ steps.version.outputs.current }}"
+          packages="
+          artifacts/packages/aticmsixgen.${version}.nupkg
+          artifacts/packages/aticmsixgen.win-x86.${version}.nupkg
+          artifacts/packages/aticmsixgen.win-x64.${version}.nupkg
+          artifacts/packages/aticmsixgen.win-arm64.${version}.nupkg
+          "
+          for package in $packages; do
+            if [ ! -f "$package" ]; then
+              echo "Missing expected package: $package" >&2
+              exit 1
+            fi
+          done
+
+      - name: Publish packages to NuGet.org
+        if: steps.version.outputs.publish == 'true'
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ -z "${NUGET_API_KEY:-}" ]; then
+            echo "NUGET_API_KEY secret is not configured." >&2
+            exit 1
+          fi
+
+          version="${{ steps.version.outputs.current }}"
+          packages="
+          artifacts/packages/aticmsixgen.${version}.nupkg
+          artifacts/packages/aticmsixgen.win-x86.${version}.nupkg
+          artifacts/packages/aticmsixgen.win-x64.${version}.nupkg
+          artifacts/packages/aticmsixgen.win-arm64.${version}.nupkg
+          "
+
+          for package in $packages; do
+            if [ ! -f "$package" ]; then
+              echo "Missing expected package: $package" >&2
+              exit 1
+            fi
+          done
+
+          for package in $packages; do
+            dotnet nuget push "$package" \
+              --api-key "$NUGET_API_KEY" \
+              --source "https://api.nuget.org/v3/index.json" \
+              --skip-duplicate
+          done
