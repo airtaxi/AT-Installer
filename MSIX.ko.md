@@ -3,7 +3,7 @@
 한국어 | **[English](MSIX.md)**
 
 모든 애플리케이션으로부터 Windows 샌드박싱이 적용된 인스톨러를 생성하는 올인원 솔루션<br><br>
-<img width="1178" height="589" alt="image" src="https://github.com/user-attachments/assets/e20ab765-88ab-44c0-837c-f40041b209d0" />
+<img width="1178" height="589" alt="MSIX Installer Generator" src=".github/msix_ko.png" />
 
 ## 왜 MSIX인가?
 

@@ -3,7 +3,7 @@
 **[한국어](MSIX.ko.md)** | English
 
 An all-in-one solution for creating Windows sandboxed installers from any application.<br><br>
-<img width="1178" height="589" alt="image" src="https://github.com/user-attachments/assets/e20ab765-88ab-44c0-837c-f40041b209d0" />
+<img width="1178" height="589" alt="MSIX Installer Generator" src=".github/msix_en.png" />
 
 ## Why MSIX?
 
