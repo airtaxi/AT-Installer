@@ -8,6 +8,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Diagnostics;
 using System.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
@@ -170,6 +171,8 @@ public sealed partial class PackagingPageViewModel(LocalizationService localizat
             await dialogService.ShowMessageAsync(localizationService.GetLocalizedString("AppDisplayName"), localizationService.GetFormattedString("PackagingPage_DuplicateArchitectureMessageFormat", architecture));
             return;
         }
+
+        if (OutputFolders.Count == 0) AutoFillVersionFromExecutable(foundExecutablePath);
 
         OutputFolders.Add(new OutputFolderItemViewModel(OutputFolders, architecture, folderPath));
         if (!IsOutputFolderExpanded) IsOutputFolderExpanded = true;
@@ -394,6 +397,22 @@ public sealed partial class PackagingPageViewModel(LocalizationService localizat
         var fixedContent = Regex.Replace(content, @"<DisplayName>.*?</DisplayName>", _ => $"<DisplayName>{escapedDisplayName}</DisplayName>", RegexOptions.None);
         fixedContent = Regex.Replace(fixedContent, @"(<uap:VisualElements\b[^>]*?DisplayName="")[^""]*("")", match => $"{match.Groups[1].Value}{escapedDisplayName}{match.Groups[2].Value}", RegexOptions.Singleline);
         File.WriteAllText(appxManifestPath, fixedContent);
+    }
+
+    private void AutoFillVersionFromExecutable(string executablePath)
+    {
+        try
+        {
+            var info = FileVersionInfo.GetVersionInfo(executablePath);
+            if (string.IsNullOrWhiteSpace(info.FileVersion)) return;
+            if (!Version.TryParse(info.FileVersion, out var version)) return;
+
+            Major = version.Major.ToString();
+            Minor = version.Minor.ToString();
+            Build = (version.Build >= 0 ? version.Build : 0).ToString();
+            Revision = (version.Revision >= 0 ? version.Revision : 0).ToString();
+        }
+        catch { }
     }
 
     private static string FindFileRecursive(string directoryPath, string fileName)
