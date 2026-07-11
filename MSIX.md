@@ -2,6 +2,9 @@
 
 **[한국어](MSIX.ko.md)** | English
 
+[![NuGet](https://img.shields.io/nuget/v/aticmsixgen)](https://www.nuget.org/packages/aticmsixgen)
+[![CI](https://github.com/airtaxi/AT-Installer/actions/workflows/pack-and-publish.yml/badge.svg)](https://github.com/airtaxi/AT-Installer/actions/workflows/pack-and-publish.yml)
+
 An all-in-one solution for creating Windows sandboxed installers from any application.<br><br>
 <img width="1178" height="589" alt="MSIX Installer Generator" src=".github/msix_en.png" />
 

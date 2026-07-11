@@ -2,6 +2,9 @@
 
 **[한국어](README.ko.md)** | English
 
+[![NuGet](https://img.shields.io/nuget/v/aticmsixgen)](https://www.nuget.org/packages/aticmsixgen)
+[![CI](https://github.com/airtaxi/AT-Installer/actions/workflows/pack-and-publish.yml/badge.svg)](https://github.com/airtaxi/AT-Installer/actions/workflows/pack-and-publish.yml)
+
 A lightweight Windows installer framework built with WinUI 3<br><br>
 <img width="1178" height="589" alt="image" src="https://github.com/user-attachments/assets/e20ab765-88ab-44c0-837c-f40041b209d0" />
 

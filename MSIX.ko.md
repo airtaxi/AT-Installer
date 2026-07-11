@@ -2,6 +2,9 @@
 
 한국어 | **[English](MSIX.md)**
 
+[![NuGet](https://img.shields.io/nuget/v/aticmsixgen)](https://www.nuget.org/packages/aticmsixgen)
+[![CI](https://github.com/airtaxi/AT-Installer/actions/workflows/pack-and-publish.yml/badge.svg)](https://github.com/airtaxi/AT-Installer/actions/workflows/pack-and-publish.yml)
+
 모든 애플리케이션으로부터 Windows 샌드박싱이 적용된 인스톨러를 생성하는 올인원 솔루션<br><br>
 <img width="1178" height="589" alt="MSIX Installer Generator" src=".github/msix_ko.png" />
 
