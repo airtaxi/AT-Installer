@@ -85,6 +85,26 @@ MSIX alone is not a good distribution format for end users. As noted in the [REA
 
 For AI-assisted workflows or CI automation, the **MSIX Installer Generator CLI** (`aticmsixgen`) provides every feature of the GUI tool from the command line. It is a NativeAOT single executable with no runtime dependencies.
 
+### Installation
+
+Install as a [.NET global tool](https://learn.microsoft.com/dotnet/core/tools/global-tools) from NuGet:
+
+```
+dotnet tool install --global aticmsixgen
+```
+
+Update to the latest version:
+
+```
+dotnet tool update --global aticmsixgen
+```
+
+Uninstall:
+
+```
+dotnet tool uninstall --global aticmsixgen
+```
+
 ### Commands
 
 | Command | Summary |
