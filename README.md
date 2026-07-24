@@ -10,7 +10,7 @@ A lightweight Windows installer framework built with WinUI 3<br><br>
 
 ## Overview
 
-AT Installer is a modern, lightweight installer framework for Windows applications. Beyond simple EXE packaging, it is an **all-in-one solution** for generating Windows sandboxed installers — any Windows application can be packaged into an MSIX/MSIXBundle and then composed into a double-click EXE installer that handles sideloading automatically.
+AT Installer is a lightweight installer framework for Windows applications. It packages any Windows application into an MSIX/MSIXBundle and composes it into a double-click EXE installer that handles sideloading automatically.
 
 The framework consists of three main components:
 
@@ -18,7 +18,7 @@ The framework consists of three main components:
 2. **MSIX Installer Generator** - A companion GUI tool for MSIX certificate, manifest, and packaging, plus EXE SFX composition (available on the [Microsoft Store](https://apps.microsoft.com/detail/9P5GS17TCDQX))
 3. **Installer** - The runtime installer that extracts and installs applications
 
-The framework uses WinUI 3 with Mica backdrop for a modern Windows 11 appearance and supports multiple languages (English, Korean, Japanese, Chinese).
+The framework uses WinUI 3 with Mica backdrop and supports English, Korean, Japanese, and Chinese.
 
 > For more about MSIX-based installer generation, see [MSIX.md](MSIX.md).
 
@@ -27,9 +27,9 @@ The framework uses WinUI 3 with Mica backdrop for a modern Windows 11 appearance
 - Modern UI with WinUI 3 interface and Mica backdrop
 - Multi-language Support (English, Korean, Japanese, Chinese)
 - Simple Package Format using `.atp` (AT Package) format with ZIP compression
-- MSIX Packaging — certificate generation, manifest configuration, and MSIX/MSIXBundle creation from any build output
-- EXE SFX Composition — turn any `.msix`/`.msixbundle` into a standalone double-click installer that handles sideloading automatically (no PowerShell, no Developer Mode)
-- CLI Tool (`aticmsixgen`) — full MSIX and EXE packaging from the command line for CI and AI automation
+- MSIX Packaging: certificate generation, manifest configuration, and MSIX/MSIXBundle creation from any build output
+- EXE SFX Composition: turn any `.msix`/`.msixbundle` into a standalone double-click installer that handles sideloading automatically, without PowerShell or Developer Mode
+- CLI Tool (`aticmsixgen`): full MSIX and EXE packaging from the command line for CI and AI automation
 - Customizable scripts during install/uninstall
 - Multi-Architecture support (x64, ARM64, x86)
 - Silent Install via command-line
@@ -126,9 +126,9 @@ The `.atp` package is a ZIP archive containing:
 
 ## MSIX and MSIXBundle Support
 
-While MSIX and MSIXBundle are modern Windows packaging formats, installing them outside the Microsoft Store has never been straightforward. End users often need to enable Developer Mode, run PowerShell commands, or deal with confusing certificate and dependency errors.
+MSIX and MSIXBundle are Windows packaging formats, but installing them outside the Microsoft Store is not straightforward. End users often need to enable Developer Mode, run PowerShell commands, or deal with certificate and dependency errors.
 
-AT Installer eliminates all of that. The [**MSIX Installer Generator**](https://apps.microsoft.com/detail/9P5GS17TCDQX) companion tool turns any `.msix` or `.msixbundle` package into a simple double-click installer — no PowerShell, no Developer Mode, no sideloading setup required.
+AT Installer handles this. The [MSIX Installer Generator](https://apps.microsoft.com/detail/9P5GS17TCDQX) companion tool turns any `.msix` or `.msixbundle` package into a double-click installer, so users don't need PowerShell, Developer Mode, or sideloading setup.
 
 Just load your MSIX file, pick the target architectures, and generate. The output is a standalone installer executable (per-architecture) or a single ZIP archive for multi-architecture distribution. Users download and run it like any traditional Windows installer.
 
