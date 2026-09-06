@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System.Linq;
 
 namespace MsixInstallerComposer.ThirdParty.SelectorBarSegmented;
 
