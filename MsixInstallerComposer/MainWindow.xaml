@@ -7,6 +7,7 @@
     xmlns:dev="using:DevWinUI"
     xmlns:local="using:MsixInstallerComposer"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:seg="using:MsixInstallerComposer.ThirdParty.SelectorBarSegmented"
     xmlns:winuiex="using:WinUIEx"
     x:Uid="WindowTitle"
     Width="1100"
@@ -36,7 +37,7 @@
                 <ImageIconSource ImageSource="ms-appx:///Assets/Icon.png" />
             </TitleBar.IconSource>
             <TitleBar.Content>
-                <dev:SelectorBarSegmented
+                <seg:SelectorBarSegmented
                     x:Name="PageSelectorBar"
                     SelectedItem="{x:Bind PackageExeSelectorBarItem}"
                     SelectionChanged="OnPageSelectorBarSelectionChanged">
@@ -64,7 +65,7 @@
                             <FontIcon Glyph="&#xE713;" />
                         </SelectorBarItem.Icon>
                     </SelectorBarItem>
-                </dev:SelectorBarSegmented>
+                </seg:SelectorBarSegmented>
             </TitleBar.Content>
         </TitleBar>
 
