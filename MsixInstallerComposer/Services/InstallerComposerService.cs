@@ -18,6 +18,8 @@ public sealed class InstallerComposerService
     private const string TempFolderName = "MsixInstallerComposerTemp";
     private const string ZipFileName = "Release.zip";
 
+    private static readonly string[] s_packageFileNames = ["Package.msix", "Package.msixbundle"];
+
     public async Task<string> ComposeAsync(string msixFilePath, List<MsixArchitecture> selectedArchitectures, IProgress<ComposerProgress> progress = null)
     {
         progress?.Report(new ComposerProgress { Message = "Detecting architecture...", Stage = ComposerProgressStage.DetectingArchitecture });
@@ -77,11 +79,12 @@ public sealed class InstallerComposerService
 
                 var archiveFolderPath = Path.Combine(versionCachePath, archiveFolderName);
                 var targetPackagePath = Path.Combine(archiveFolderPath, packageFileName);
+                var archiveSevenZPath = Path.Combine(versionCachePath, $"{archiveFolderName}.7z");
+
+                // The SFX template folder is cached and reused, so packages and archives left by previous runs must not leak into this archive.
+                DeleteArchiveArtifacts(archiveFolderPath, archiveSevenZPath);
 
                 File.Copy(msixFilePath, targetPackagePath, overwrite: true);
-
-                var archiveSevenZPath = Path.Combine(versionCachePath, $"{archiveFolderName}.7z");
-                if (File.Exists(archiveSevenZPath)) File.Delete(archiveSevenZPath);
 
                 progress?.Report(new ComposerProgress { Message = $"Archiving {architecture} files...", Stage = ComposerProgressStage.Composing });
 
@@ -99,6 +102,8 @@ public sealed class InstallerComposerService
                 var generatedInstallerPath = Path.Combine(versionCachePath, installerFileName);
                 var tempInstallerPath = Path.Combine(tempRootPath, installerFileName);
                 File.Move(generatedInstallerPath, tempInstallerPath, overwrite: true);
+
+                DeleteArchiveArtifacts(archiveFolderPath, archiveSevenZPath);
 
                 generatedFiles.Add(tempInstallerPath);
             }
@@ -145,6 +150,12 @@ public sealed class InstallerComposerService
             MsixArchitecture.Arm64 => ("Archive-arm64", "Installer-arm64.exe", "7zS-arm64.sfx", "config_arm64.txt"),
             _ => throw new ArgumentOutOfRangeException(nameof(architecture))
         };
+    }
+
+    private static void DeleteArchiveArtifacts(string archiveFolderPath, string archiveSevenZPath)
+    {
+        foreach (var packageFileName in s_packageFileNames) File.Delete(Path.Combine(archiveFolderPath, packageFileName));
+        File.Delete(archiveSevenZPath);
     }
 
     private static void CleanupDirectory(string path)
