@@ -25,6 +25,14 @@ public sealed partial class PackageMsixPage : Page, IRecipient<AppTitleBarPaneTo
         WeakReferenceMessenger.Default.Register(this);
     }
 
+    protected override void OnNavigatedFrom(NavigationEventArgs e)
+    {
+        base.OnNavigatedFrom(e);
+
+        // Pages navigated away from are released by the frame; a stale registration would throw on the next message.
+        WeakReferenceMessenger.Default.Unregister<AppTitleBarPaneToggledMessage>(this);
+    }
+
     private void OnPageNavigationViewSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
     {
         var selectedTag = (args.SelectedItem as NavigationViewItem)?.Tag as string;
