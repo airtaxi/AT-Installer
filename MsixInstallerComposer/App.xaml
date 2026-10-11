@@ -4,15 +4,12 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
-    xmlns:local="using:MsixInstallerComposer"
-    xmlns:seg="using:MsixInstallerComposer.ThirdParty.SelectorBarSegmented">
+    xmlns:local="using:MsixInstallerComposer">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <ResourceDictionary Source="ms-appx:///DevWinUI/Themes/Generic.xaml" />
-
-                <seg:SelectorBarSegmentedDictionary />
             </ResourceDictionary.MergedDictionaries>
 
             <ResourceDictionary.ThemeDictionaries>
