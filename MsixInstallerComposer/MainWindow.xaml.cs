@@ -41,7 +41,7 @@ public sealed partial class MainWindow : WindowEx
         AppFrame.Navigate(typeof(PackageExePage));
 
         RefreshLocalizedText();
-        _localizationService.LanguageChanged += RefreshLocalizedText;
+        _localizationService.LanguageChanged += OnLocalizationServiceLanguageChanged;
     }
 
     public static void ShowLoading(string message = null) => s_instance.DispatcherQueue.TryEnqueue(() =>
@@ -84,8 +84,13 @@ public sealed partial class MainWindow : WindowEx
         PackageExeSelectorBarItem.Text = _localizationService.GetLocalizedString("PackageExeSelectorBarItem.Text");
         PackageMsixSelectorBarItem.Text = _localizationService.GetLocalizedString("PackageMsixSelectorBarItem.Text");
         SettingsSelectorBarItem.Text = _localizationService.GetLocalizedString("SettingsSelectorBarItem.Text");
+    }
 
-        // This method can only be called from SettingsPage.
+    private void OnLocalizationServiceLanguageChanged()
+    {
+        RefreshLocalizedText();
+
+        // The language can only be changed from SettingsPage.
         // Reload the page to apply the new language setting.
         AppFrame.Navigate(typeof(SettingsPage));
     }
@@ -113,6 +118,6 @@ public sealed partial class MainWindow : WindowEx
     private void OnMainWindowClosed(object sender, WindowEventArgs windowEventArguments)
     {
         _applicationThemeService.ThemeChanged -= OnApplicationThemeServiceThemeChanged;
-        _localizationService.LanguageChanged -= RefreshLocalizedText;
+        _localizationService.LanguageChanged -= OnLocalizationServiceLanguageChanged;
     }
 }
