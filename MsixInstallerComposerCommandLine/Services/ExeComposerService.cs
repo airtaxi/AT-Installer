@@ -116,7 +116,8 @@ public sealed class ExeComposerService
             {
                 progress?.Report(new ComposerProgress { Message = "Creating ZIP archive...", Stage = ComposerProgressStage.Composing });
 
-                var tempZipPath = Path.Combine(tempRootPath, Path.GetFileNameWithoutExtension(outputPath) + ".zip");
+                // The ZIP must live outside the folder being archived, otherwise ZipFile tries to add the half-written ZIP to itself.
+                var tempZipPath = $"{tempRootPath}.zip";
                 ZipFile.CreateFromDirectory(tempRootPath, tempZipPath);
 
                 foreach (var file in generatedFiles) File.Delete(file);
@@ -129,6 +130,7 @@ public sealed class ExeComposerService
             if (!string.IsNullOrEmpty(targetDirectory)) Directory.CreateDirectory(targetDirectory);
 
             await Task.Run(() => File.Move(finalFilePath, outputPath, true));
+            CleanupDirectory(tempRootPath);
 
             progress?.Report(new ComposerProgress { Message = $"Installer saved to: {outputPath}", Stage = ComposerProgressStage.Done });
 
@@ -137,6 +139,8 @@ public sealed class ExeComposerService
         catch
         {
             CleanupDirectory(tempRootPath);
+            try { File.Delete($"{tempRootPath}.zip"); }
+            catch { }
             throw;
         }
     }

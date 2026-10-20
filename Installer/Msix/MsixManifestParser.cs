@@ -14,7 +14,7 @@ public static class MsixManifestParser
         var bundleManifestEntry = zip.GetEntry("AppxMetadata/AppxBundleManifest.xml");
         if (bundleManifestEntry != null)
         {
-            ParseBundleManifest(bundleManifestEntry, metadata);
+            var bundleVersion = ParseBundleManifest(bundleManifestEntry, metadata);
             var firstApplicationPackageFileName = GetFirstApplicationPackageFileName(bundleManifestEntry);
             if (firstApplicationPackageFileName != null)
             {
@@ -27,6 +27,9 @@ public static class MsixManifestParser
                     metadata.IconBinary = ExtractLogoFromZip(innerZip);
                 }
             }
+
+            // The installed package reports the application package version, which can differ from the bundle version that bundling tools generate on their own.
+            metadata.Version ??= bundleVersion;
         }
         else
         {
@@ -41,16 +44,16 @@ public static class MsixManifestParser
         return metadata;
     }
 
-    private static void ParseBundleManifest(ZipArchiveEntry entry, MsixPackageMetadata metadata)
+    private static Version ParseBundleManifest(ZipArchiveEntry entry, MsixPackageMetadata metadata)
     {
         using var streamReader = new StreamReader(entry.Open());
         var document = XDocument.Parse(streamReader.ReadToEnd());
         var defaultNamespace = document.Root.GetDefaultNamespace();
         var identityElement = document.Root.Element(defaultNamespace + "Identity");
-        if (identityElement == null) return;
+        if (identityElement == null) return null;
         metadata.Name = identityElement.Attribute("Name")?.Value;
         metadata.Publisher = identityElement.Attribute("Publisher")?.Value;
-        metadata.Version = ParseVersion(identityElement.Attribute("Version")?.Value);
+        return ParseVersion(identityElement.Attribute("Version")?.Value);
     }
 
     private static string GetFirstApplicationPackageFileName(ZipArchiveEntry bundleManifestEntry)

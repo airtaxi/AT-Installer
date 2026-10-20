@@ -43,6 +43,9 @@ public static class MsixArchitectureDetector
                 var typeAttribute = packageElement.Attribute("Type");
                 if (typeAttribute != null && typeAttribute.Value != "application") continue;
 
+                // The installed package reports the application package version, which can differ from the bundle version that bundling tools generate on their own.
+                version = ParseVersion(packageElement.Attribute("Version")?.Value) ?? version;
+
                 var architectureAttribute = packageElement.Attribute("Architecture")?.Value;
                 if (architectureAttribute == null) continue;
 

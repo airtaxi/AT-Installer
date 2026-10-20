@@ -25,6 +25,9 @@ public sealed class MsixPackagingService(WinAppBinaryService winAppBinaryService
 
         if (!string.IsNullOrWhiteSpace(certificateFilePath))
         {
+            // winapp.exe runs from a temporary work directory, so a relative path would no longer point at the caller's file.
+            certificateFilePath = Path.GetFullPath(certificateFilePath);
+
             try
             {
                 var password = string.IsNullOrWhiteSpace(certificatePassword) ? DefaultPassword : certificatePassword;
@@ -104,7 +107,7 @@ public sealed class MsixPackagingService(WinAppBinaryService winAppBinaryService
         progress?.Report("Packaging MSIX...");
 
         var packArguments = "pack";
-        foreach (var(_, architectureFolder)in architectureFolders) packArguments += $" {ProcessHelper.EscapeCommandLineArgument(Path.GetFileName(architectureFolder))}";
+        foreach (var (_, architectureFolder) in architectureFolders) packArguments += $" {ProcessHelper.EscapeCommandLineArgument(Path.GetFileName(architectureFolder))}";
 
         packArguments += $" --executable {ProcessHelper.EscapeCommandLineArgument(manifestConfig.ExecutableFileName)}";
 
