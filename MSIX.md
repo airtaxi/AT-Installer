@@ -10,15 +10,15 @@ A tool for creating Windows sandboxed installers from any application.<br><br>
 
 ## Why MSIX?
 
-MSIX is a Windows packaging format with benefits for both developers and end users:
+MSIX is a Windows packaging format with clear benefits for both developers and end users:
 
-- **Sandboxed by design**: Windows automatically manages the registry keys, file associations, and other system changes your program makes, all inside an isolated environment.
-- **Clean uninstall**: when the user removes the application, nothing is left behind. No orphaned registry entries or leftover AppData folders.
-- **Multi-architecture in one package**: the MSIXBundle format lets you ship x64, x86, and ARM64 builds inside a single `.msixbundle` file. Users download once and Windows installs the right architecture automatically.
+- **Sandboxed by design**: Windows manages the registry keys, file associations, and other system changes your program makes inside an isolated environment.
+- **Clean uninstall**: When the user removes the application, nothing is left behind, with no orphaned registry entries or leftover AppData folders.
+- **Multi-architecture in one package**: The MSIXBundle format lets you ship x64, x86, and ARM64 builds inside a single `.msixbundle` file. Users download once and Windows installs the right architecture automatically.
 
-But MSIX on its own is hard to distribute. End users must enable Developer Mode, run PowerShell commands, trust certificates, and deal with confusing dependency errors before they can even install.
+On its own, however, MSIX is hard to distribute outside the Microsoft Store. End users must enable Developer Mode, run PowerShell commands, trust certificates, and deal with confusing dependency errors before they can install.
 
-AT Installer and MSIX Installer Generator handle this. You get the sandboxing, clean uninstalls, and multi-architecture packaging of MSIX, combined with the simplicity of a double-click EXE installer.
+AT Installer and MSIX Installer Generator handle the sideloading setup for you, combining MSIX sandboxing, clean uninstalls, and multi-architecture packaging with a double-click EXE installer.
 
 ## Getting Started
 
@@ -34,7 +34,7 @@ AT Installer and MSIX Installer Generator handle this. You get the sandboxing, c
 
 ## MSIX Packaging
 
-When your application framework (e.g. Electron, Tauri, WPF) does not provide native MSIX packaging, MSIX Installer Generator makes it easy. The tool uses the [WinApp CLI](https://github.com/microsoft/WinAppCli) to handle MSIX packaging, so you don't have to.
+When your application framework (e.g. Electron, Tauri, WPF) does not provide native MSIX packaging, MSIX Installer Generator handles it using the [WinApp CLI](https://github.com/microsoft/WinAppCli).
 
 > Already have a packaged MSIX application? Jump straight to the [EXE Packaging](#exe-packaging) section.
 
@@ -42,15 +42,15 @@ MSIX packaging is divided into three steps: **Certificate**, **Manifest**, and *
 
 ### Certificate
 
-A certificate is not strictly required for distribution, but it is **strongly recommended**. MSIX requires users to trust the certificate before sideloading, so if you sign every release with a temporary certificate, users end up adding a new certificate to their system on every update.
+A certificate is not strictly required for distribution, but it is recommended. MSIX requires users to trust the certificate before sideloading, so if you sign every release with a temporary certificate, users have to add a new certificate to their system on every update.
 
 To avoid this, generate a dedicated certificate once and reuse it across releases.
 
-Three inputs are needed:
+You need three inputs:
 
-- **Publisher**: This is an X.500 distinguished name field. If you're unfamiliar with X.500, just enter your publisher name and it will be automatically mapped to the X.500 Common Name (CN). Use the name of the entity distributing the application.
-- **Validity (days)**: Once the validity period expires, you can no longer create new signatures with this certificate. However, signatures made while the certificate was valid remain valid even after expiry, so choose an appropriate period. The default is **5 years (1825 days)**.
-- **Password**: The default is `password`. This password is required when generating an MSIX package, and the packaging menu auto-fills the default password for you. If you want stronger security, you can set a more robust password.
+- **Publisher**: This is an X.500 distinguished name field. If you are unfamiliar with X.500, entering your publisher name maps it to the X.500 Common Name (CN) automatically. Use the name of the entity distributing the application.
+- **Validity (days)**: Once the validity period expires, you can no longer create new signatures with this certificate. Signatures made while the certificate was valid remain valid after expiry, so choose an appropriate period. The default is 5 years (1825 days).
+- **Password**: The default is `password`. This password is required when generating an MSIX package, and the packaging menu auto-fills the default password for you. Set a stronger password if you need tighter security.
 
 ### Manifest
 
@@ -65,9 +65,9 @@ A manifest (`.aticmsixconfig`) consolidates all the information MSIX needs (exce
 
 ### Packaging
 
-With a manifest, certificate, version, and one or more build output directories, you're ready to package.
+Once you have a manifest, certificate, version, and at least one build output directory, you can package your app.
 
-Because MSIX supports the **MSIXBundle** format, which lets multiple architectures live in a single package, you can add a separate output folder for each architecture (e.g. one for x64, one for ARM64). The tool detects each folder's architecture automatically from the executable and produces a single `.msix` (one architecture) or `.msixbundle` (multiple architectures).
+Because MSIX supports the **MSIXBundle** format, which bundles multiple architectures into a single package, you can add a separate output folder for each architecture (e.g. one for x64, one for ARM64). The tool detects each folder's architecture automatically from the executable and produces a single `.msix` (one architecture) or `.msixbundle` (multiple architectures).
 
 #### Architecture-neutral builds (AnyCPU)
 
@@ -84,9 +84,9 @@ If **Prefer 32-bit** is enabled on an AnyCPU build, the executable runs as a 32-
 
 > The EXE Packaging menu takes a pre-packaged MSIX or an MSIX produced by MSIX Installer Generator and turns it into a standalone installer EXE.
 
-MSIX alone is not a good distribution format for end users. As noted in the [README](README.md), sideloading an MSIX requires enabling Developer Mode, running PowerShell commands, and trusting certificates, which average users should not have to deal with.
+MSIX alone is not a practical distribution format for end users. As noted in the [README](README.md), sideloading an MSIX requires enabling Developer Mode, running PowerShell commands, and trusting certificates.
 
-**EXE Packaging automates the sideloading process.** The output is a single self-extracting EXE installer (per architecture) or a single ZIP archive containing per-architecture installers. Users download and run it like any Windows installer, without PowerShell, Developer Mode, or certificate prompts.
+EXE Packaging automates the sideloading process. It outputs a single self-extracting EXE installer per architecture, or a ZIP archive containing installers for multiple architectures. Users can download and run it like any Windows installer without PowerShell, Developer Mode, or certificate prompts.
 
 ---
 

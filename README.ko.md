@@ -5,64 +5,64 @@
 [![NuGet](https://img.shields.io/nuget/v/aticmsixgen)](https://www.nuget.org/packages/aticmsixgen)
 [![CI](https://github.com/airtaxi/AT-Installer/actions/workflows/pack-and-publish.yml/badge.svg)](https://github.com/airtaxi/AT-Installer/actions/workflows/pack-and-publish.yml)
 
-WinUI 3로 구축된 경량 Windows 인스톨러 프레임워크<br><br>
+WinUI 3 기반의 경량 Windows 인스톨러 프레임워크<br><br>
 <img width="1178" height="589" alt="image" src="https://github.com/user-attachments/assets/e20ab765-88ab-44c0-837c-f40041b209d0" />
 
 ## 개요
 
-AT Installer는 Windows 애플리케이션을 위한 현대적이고 경량화된 인스톨러 프레임워크입니다. 단순한 EXE 패키징을 넘어, Windows에서 관리하는 샌드박싱이 적용된 인스톨러를 생성할 수 있는 **올인원 솔루션**입니다 — 모든 Windows 프로그램을 MSIX/MSIXBundle로 패키징하고 사이드로딩을 자동으로 처리하는 더블클릭 EXE 인스톨러로 구성할 수 있습니다.
+AT Installer는 Windows 애플리케이션용 경량 인스톨러 프레임워크입니다. 일반 EXE 패키징뿐만 아니라 Windows가 관리하는 샌드박싱 인스톨러도 만들 수 있습니다. 어떤 Windows 프로그램이든 MSIX 또는 MSIXBundle로 패키징한 뒤, 사이드로딩을 자동으로 처리하는 더블클릭 EXE 인스톨러로 묶어 배포할 수 있습니다.
 
-이 프레임워크는 세 가지 주요 구성 요소로 이루어져 있습니다:
+주요 구성 요소는 세 가지입니다.
 
 1. **Installer Composer** - `.atp` 설치 패키지를 생성하는 GUI 도구
 2. **MSIX Installer Generator** - MSIX 인증서, 매니페스트, 패키징 및 EXE SFX 구성을 위한 컴패니언 GUI 도구 ([Microsoft Store](https://apps.microsoft.com/detail/9P5GS17TCDQX)에서 다운로드)
 3. **Installer** - 애플리케이션을 추출하고 설치하는 런타임 인스톨러
 
-이 프레임워크는 Mica 배경이 적용된 WinUI 3를 사용하여 Windows 11의 현대적인 외관을 제공하며 다국어(영어, 한국어, 일본어, 중국어)를 지원합니다.
+Mica 배경이 적용된 WinUI 3 인터페이스를 사용하며, 영어·한국어·일본어·중국어를 지원합니다.
 
 > MSIX 기반 인스톨러 생성에 대한 자세한 내용은 [MSIX.ko.md](MSIX.ko.md)를 참조하세요.
 
 ## 기능
 
-- Mica 배경이 적용된 WinUI 3 인터페이스의 현대적인 UI
+- Mica 배경이 적용된 WinUI 3 인터페이스
 - 다국어 지원 (영어, 한국어, 일본어, 중국어)
-- ZIP 압축을 사용한 `.atp` (AT Package) 형식의 간단한 패키지 포맷
-- MSIX 패키징 — 인증서 생성, 매니페스트 구성, 빌드 출력으로부터 MSIX/MSIXBundle 생성
-- EXE SFX 구성 — `.msix`/`.msixbundle`을 사이드로딩을 자동 처리하는 독립 실행형 더블클릭 인스톨러로 변환 (PowerShell 불필요, 개발자 모드 불필요)
-- CLI 도구 (`aticmsixgen`) — CI 및 AI 자동화를 위한 명령줄 기반 MSIX 및 EXE 패키징
+- ZIP 압축 기반의 간단한 `.atp` (AT Package) 패키지 포맷
+- MSIX 패키징: 인증서 생성, 매니페스트 구성, 빌드 출력으로부터 MSIX/MSIXBundle 생성
+- EXE SFX 구성: `.msix`/`.msixbundle`을 사이드로딩을 자동 처리하는 독립 실행형 더블클릭 인스톨러로 변환 (PowerShell, 개발자 모드 불필요)
+- CLI 도구 (`aticmsixgen`): CI 및 AI 자동화를 위한 명령줄 기반 MSIX 및 EXE 패키징
 - 설치/제거 시 커스텀 스크립트 실행 가능
 - 멀티 아키텍처 지원 (x64, ARM64, x86)
-- 명령줄을 통한 자동 설치
+- 명령줄 자동 설치
 - Windows 제거 프로그램 레지스트리 통합
 - 시작 메뉴 바로가기 자동 생성
 - 7z SFX를 사용한 자동 압축 해제 인스톨러 생성
 
 ## 프로젝트 구조
 
-솔루션은 네 개의 프로젝트로 구성되어 있습니다:
+솔루션은 네 개 프로젝트로 구성됩니다.
 
 ### Installer
-다음을 처리하는 런타임 인스톨러 애플리케이션:
+패키지 설치를 담당하는 런타임 인스톨러 애플리케이션입니다.
 - 패키지 추출 및 설치
 - 레지스트리 등록
 - 시작 메뉴 바로가기 생성
 - 다국어 UI
 
 ### InstallerComposer
-다음 기능을 제공하는 패키지 생성 도구:
+패키지 생성 도구로, 다음 기능을 제공합니다.
 - 애플리케이션 매니페스트 구성
 - 아이콘 임베딩
 - 커스텀 스크립트 구성
-- 설정 저장/로드 기능
+- 설정 저장/로드
 
 ### InstallerComposerCommandLine
-CI, Linux, AI 자동화를 위한 NativeAOT 콘솔 패키지 생성 도구:
+CI, Linux, AI 자동화를 위한 NativeAOT 콘솔 패키지 생성 도구입니다.
 - `.aticconfig` 파일 읽기
 - WinUI Composer 실행 없이 `.atp` 패키지 생성
 - 구성 파일 위치를 기준으로 상대 애플리케이션 경로와 출력 경로 해석
 
 ### InstallerCommons
-다음을 포함하는 공유 라이브러리:
+공통 기능을 담은 공유 라이브러리입니다.
 - 진행률 리포팅 기능이 있는 ZIP 압축 유틸리티
 - 설치 및 제거 매니페스트 정의
 - 공통 헬퍼 클래스
@@ -126,11 +126,11 @@ Installer.exe "경로\패키지.atp" /silent
 
 ## MSIX 및 MSIXBundle 지원
 
-MSIX와 MSIXBundle은 훌륭한 최신 Windows 패키징 포맷이지만 Microsoft Store 외부에서 설치하는 것은 결코 간단하지 않았습니다. 개발자 모드를 켜야 하거나, PowerShell 명령어를 실행해야 하거나, 인증서와 종속성 오류를 만나야 하는 경우가 많습니다.
+MSIX와 MSIXBundle은 편리한 Windows 패키징 포맷이지만 Microsoft Store 외부에서 설치하기는 쉽지 않습니다. 사용자가 개발자 모드를 켜거나, PowerShell 명령어를 실행하거나, 인증서와 종속성 오류를 직접 해결해야 하는 경우가 많습니다.
 
-AT Installer는 이런 불편함을 모두 없앱니다. [**MSIX 인스톨러 생성기**](https://apps.microsoft.com/detail/9P5GS17TCDQX) 도구를 사용하면 모든 `.msix` 또는 `.msixbundle` 패키지를 더블클릭 한 번으로 설치되는 설치 프로그램으로 변환할 수 있습니다 — PowerShell도, 개발자 모드도, 사이드로딩 설정도 필요 없습니다.
+AT Installer를 사용하면 이 과정을 거치지 않아도 됩니다. [**MSIX 인스톨러 생성기**](https://apps.microsoft.com/detail/9P5GS17TCDQX) 도구를 이용하면 모든 `.msix` 또는 `.msixbundle` 패키지를 더블클릭 한 번으로 설치되는 프로그램으로 변환할 수 있으므로, PowerShell이나 개발자 모드, 별도의 사이드로딩 설정이 필요 없습니다.
 
-MSIX 파일을 불러오고 대상 아키텍처를 선택한 뒤 생성하기만 하면 됩니다. 아키텍처별 독립 실행형 설치 프로그램 또는 다중 아키텍처용 ZIP 아카이브가 생성됩니다. 사용자는 기존 Windows 인스톨러처럼 다운로드하고 실행하기만 하면 됩니다.
+MSIX 파일을 불러오고 대상 아키텍처를 선택한 뒤 생성하면 됩니다. 아키텍처별 독립 실행형 설치 프로그램 또는 다중 아키텍처용 ZIP 아카이브가 생성되며, 사용자는 기존 Windows 인스톨러처럼 다운로드하고 바로 실행할 수 있습니다.
 
 > **MSIX 기반 인스톨러 생성에 대해 자세히 알아보려면 [MSIX.ko.md](MSIX.ko.md)를 참조하세요.**
 
@@ -138,16 +138,16 @@ MSIX 파일을 불러오고 대상 아키텍처를 선택한 뒤 생성하기만
 
 ### Composer Config (.aticconfig)
 
-반복적인 빌드를 위한 패키지 구성 저장/로드:
+반복적인 빌드를 위해 패키지 구성을 저장하고 불러올 수 있습니다.
 - **파일 > 설정 저장**
 - **파일 > 설정 로드**
 
-명령줄 인수로 구성 파일을 전달하여 패키지 생성 자동화:
+명령줄 인수로 구성 파일을 전달해 패키지 생성을 자동화할 수 있습니다.
 ```
 InstallerComposer.exe "경로\구성파일.aticconfig"
 ```
 
-CLI 또는 Linux 자동화에서는 NativeAOT 콘솔 Composer를 사용할 수 있습니다:
+CLI 또는 Linux 자동화에서는 NativeAOT 콘솔 Composer를 사용할 수 있습니다.
 ```
 InstallerComposerCommandLine "경로/구성파일.aticconfig"
 ```
@@ -233,13 +233,13 @@ createArchive-arm64.bat
 createArchive-x86.bat
 ```
 
-이렇게 하면 Release 폴더에 `Archive.7z`,`Archive-arm64.7z` 또는 `Archive-x86.7z`가 생성됩니다.
+이렇게 하면 Release 폴더에 `Archive.7z`, `Archive-arm64.7z` 또는 `Archive-x86.7z`가 생성됩니다.
 
 > **참고**: 이 배치 파일은 `bz.exe` (반디집 CLI) 또는 시스템에 설치된 반디집을 사용하여 7z 아카이브를 생성합니다.
 
 #### 4. 자동 압축 해제 인스톨러 생성
 
-다음 옵션 중 하나를 선택:
+다음 옵션 중 하나를 선택하세요.
 
 **옵션 A: 표준 인스톨러**
 ```batch
@@ -303,7 +303,7 @@ RunProgram="Installer.exe Package.atp /silent"
 ;!@InstallEnd@!
 ```
 
-이러한 구성 파일은 7z SFX 모듈에 압축 해제 후 실행할 명령을 알려줍니다.
+이 설정 파일은 7z SFX 모듈이 압축 해제 후 실행할 명령을 지정합니다.
 
 ### 사용 예시
 
