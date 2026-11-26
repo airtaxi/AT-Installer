@@ -389,6 +389,9 @@
   <data name="PackagingPage_ManifestLoadFailedMessageFormat" xml:space="preserve">
     <value>Failed to load the manifest file: {0}</value>
   </data>
+  <data name="PackagingPage_NeutralArchitectureExclusiveMessage" xml:space="preserve">
+    <value>An architecture-neutral (AnyCPU) build runs on every architecture, so it must be packaged on its own. Remove the other output folders, or use architecture-specific builds.</value>
+  </data>
   <data name="PackagingPage_PackageNotFoundMessage" xml:space="preserve">
     <value>No .msix or .msixbundle file was found in the working directory.</value>
   </data>

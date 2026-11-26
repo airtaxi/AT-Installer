@@ -121,7 +121,8 @@ public sealed partial class PackageExePageViewModel(LocalizationService localiza
             DetectedArchitectures.Clear();
             foreach (var architecture in _architectureInfo.Architectures) DetectedArchitectures.Add(FormatArchitectureName(architecture));
 
-            DetectedArchitecturesText = string.Join(", ", DetectedArchitectures);
+            var detectedArchitecturesText = string.Join(", ", DetectedArchitectures);
+            DetectedArchitecturesText = _architectureInfo.IsNeutral ? $"Neutral ({detectedArchitecturesText})" : detectedArchitecturesText;
             HasPackageInfo = true;
         }
         catch (Exception exception)

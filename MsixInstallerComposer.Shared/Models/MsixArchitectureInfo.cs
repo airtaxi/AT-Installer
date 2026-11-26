@@ -10,6 +10,11 @@ public sealed class MsixArchitectureInfo
 
     public required bool IsBundle { get; init; }
 
+    /// <summary>
+    /// Whether the package contains an architecture-neutral application package, which installs on every supported architecture.
+    /// </summary>
+    public required bool IsNeutral { get; init; }
+
     public required string PackageName { get; init; }
 
     public required string PackageDisplayName { get; init; }

@@ -57,29 +57,38 @@ public sealed class MsixPackagingService(WinAppBinaryService winAppBinaryService
         if (!Version.TryParse(version, out _)) throw new InvalidOperationException($"Invalid version format: {version}");
 
         var architectureFolders = new List<(string Architecture, string FolderPath)>();
-        var totalFiles = 0;
-        foreach (var folder in outputFolders) totalFiles += Directory.GetFiles(folder, "*", SearchOption.AllDirectories).Length;
-        var copiedFiles = 0;
-
-        await Parallel.ForEachAsync(outputFolders, (folder, token) =>
+        var sourceFolders = new List<(string Architecture, string SourcePath, string FolderPath)>();
+        foreach (var folder in outputFolders)
         {
             var executablePath = FindFileRecursive(folder, manifestConfig.ExecutableFileName);
             if (executablePath is null) throw new InvalidOperationException($"Executable '{manifestConfig.ExecutableFileName}' not found in folder: {folder}");
 
             var architecture = PeArchitectureDetector.DetectArchitecture(executablePath);
-            if (architecture is "Unknown") throw new InvalidOperationException($"Unknown PE architecture for executable: {executablePath}");
+            if (architecture is PeArchitectureDetector.UnknownArchitecture) throw new InvalidOperationException($"Unknown PE architecture for executable: {executablePath}");
 
             if (architectureFolders.Any(item => string.Equals(item.Architecture, architecture, StringComparison.OrdinalIgnoreCase))) throw new InvalidOperationException($"Duplicate architecture: {architecture}");
 
             var architectureFolder = Path.Combine(workDirectoryPath, architecture);
-            Directory.CreateDirectory(architectureFolder);
-            CopyDirectoryRecursive(folder, architectureFolder, filesCopied =>
+            architectureFolders.Add((architecture, architectureFolder));
+            sourceFolders.Add((architecture, folder, architectureFolder));
+        }
+
+        // A neutral build installs on every architecture, so it cannot share a bundle with architecture-specific builds.
+        if (architectureFolders.Count > 1 && architectureFolders.Any(item => item.Architecture is PeArchitectureDetector.NeutralArchitecture)) throw new InvalidOperationException("An architecture-neutral (AnyCPU) build must be packaged on its own. Pass only its output folder, or use architecture-specific builds.");
+
+        var totalFiles = 0;
+        foreach (var folder in outputFolders) totalFiles += Directory.GetFiles(folder, "*", SearchOption.AllDirectories).Length;
+        var copiedFiles = 0;
+
+        await Parallel.ForEachAsync(sourceFolders, (sourceFolder, token) =>
+        {
+            Directory.CreateDirectory(sourceFolder.FolderPath);
+            CopyDirectoryRecursive(sourceFolder.SourcePath, sourceFolder.FolderPath, filesCopied =>
             {
                 Interlocked.Add(ref copiedFiles, filesCopied);
                 var percentage = totalFiles > 0 ? (int)(copiedFiles * 100.0 / totalFiles) : 0;
-                progress?.Report($"Copying {architecture} files... {percentage}%");
+                progress?.Report($"Copying {sourceFolder.Architecture} files... {percentage}%");
             });
-            architectureFolders.Add((architecture, architectureFolder));
 
             return ValueTask.CompletedTask;
         });

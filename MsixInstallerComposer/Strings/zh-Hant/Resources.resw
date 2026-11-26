@@ -386,6 +386,9 @@
   <data name="PackagingPage_ManifestLoadFailedMessageFormat" xml:space="preserve">
     <value>載入清單檔案失敗: {0}</value>
   </data>
+  <data name="PackagingPage_NeutralArchitectureExclusiveMessage" xml:space="preserve">
+    <value>架構中立 (AnyCPU) 的組建可在所有架構上執行，因此只能單獨封裝。請移除其他輸出資料夾，或使用特定架構的組建。</value>
+  </data>
   <data name="PackagingPage_PackageNotFoundMessage" xml:space="preserve">
     <value>在工作目錄中未找到 .msix 或 .msixbundle 檔案。</value>
   </data>

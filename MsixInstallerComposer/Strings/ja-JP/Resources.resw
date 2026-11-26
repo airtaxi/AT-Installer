@@ -386,6 +386,9 @@
   <data name="PackagingPage_ManifestLoadFailedMessageFormat" xml:space="preserve">
     <value>マニフェストファイルの読み込みに失敗しました: {0}</value>
   </data>
+  <data name="PackagingPage_NeutralArchitectureExclusiveMessage" xml:space="preserve">
+    <value>アーキテクチャ中立 (AnyCPU) のビルドはすべてのアーキテクチャで動作するため、単独でのみパッケージ化できます。他の出力フォルダを削除するか、アーキテクチャ別のビルドを使用してください。</value>
+  </data>
   <data name="PackagingPage_PackageNotFoundMessage" xml:space="preserve">
     <value>作業ディレクトリに.msixまたは.msixbundleファイルが見つかりませんでした。</value>
   </data>

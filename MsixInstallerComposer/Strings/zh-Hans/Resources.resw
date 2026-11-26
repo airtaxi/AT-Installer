@@ -386,6 +386,9 @@
   <data name="PackagingPage_ManifestLoadFailedMessageFormat" xml:space="preserve">
     <value>加载清单文件失败: {0}</value>
   </data>
+  <data name="PackagingPage_NeutralArchitectureExclusiveMessage" xml:space="preserve">
+    <value>架构中立 (AnyCPU) 的版本可在所有架构上运行，因此只能单独打包。请移除其他输出文件夹，或使用特定架构的版本。</value>
+  </data>
   <data name="PackagingPage_PackageNotFoundMessage" xml:space="preserve">
     <value>在工作目录中未找到 .msix 或 .msixbundle 文件。</value>
   </data>

@@ -69,6 +69,15 @@ With a manifest, certificate, version, and one or more build output directories,
 
 Because MSIX supports the **MSIXBundle** format, which lets multiple architectures live in a single package, you can add a separate output folder for each architecture (e.g. one for x64, one for ARM64). The tool detects each folder's architecture automatically from the executable and produces a single `.msix` (one architecture) or `.msixbundle` (multiple architectures).
 
+#### Architecture-neutral builds (AnyCPU)
+
+Builds that are not tied to one architecture, such as .NET Framework or .NET applications compiled for **AnyCPU**, are detected as **Neutral**. A neutral build runs on x64, x86, and ARM64, so:
+
+- It must be packaged on its own as a single `.msix`. It cannot be combined with other output folders.
+- When the resulting package is loaded in [EXE Packaging](#exe-packaging), all three architectures (x64, x86, ARM64) are available.
+
+If **Prefer 32-bit** is enabled on an AnyCPU build, the executable runs as a 32-bit process and is detected as **x86**.
+
 ---
 
 ## EXE Packaging

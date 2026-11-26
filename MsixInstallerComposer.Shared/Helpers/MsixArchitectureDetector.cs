@@ -4,12 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace MsixInstallerComposer.Shared.Helpers;
 
 public static class MsixArchitectureDetector
 {
+    private static readonly MsixArchitecture[] s_allArchitectures = [MsixArchitecture.X64, MsixArchitecture.X86, MsixArchitecture.Arm64];
+
     public static MsixArchitectureInfo Detect(string packageFilePath)
     {
         using var zip = ZipFile.OpenRead(packageFilePath);
@@ -35,6 +38,7 @@ public static class MsixArchitectureDetector
         var version = ParseVersion(identityElement?.Attribute("Version")?.Value);
 
         var architectures = new List<MsixArchitecture>();
+        var isNeutral = false;
         var packagesElement = document.Root.Element(defaultNamespace + "Packages");
         if (packagesElement != null)
         {
@@ -47,7 +51,12 @@ public static class MsixArchitectureDetector
                 version = ParseVersion(packageElement.Attribute("Version")?.Value) ?? version;
 
                 var architectureAttribute = packageElement.Attribute("Architecture")?.Value;
-                if (architectureAttribute == null) continue;
+                if (IsNeutralArchitecture(architectureAttribute))
+                {
+                    isNeutral = true;
+                    architectures.AddRange(s_allArchitectures.Except(architectures).ToList());
+                    continue;
+                }
 
                 var architecture = ParseArchitecture(architectureAttribute);
                 if (architecture.HasValue && !architectures.Contains(architecture.Value)) architectures.Add(architecture.Value);
@@ -73,6 +82,7 @@ public static class MsixArchitectureDetector
         {
             Architectures = architectures,
             IsBundle = true,
+            IsNeutral = isNeutral,
             PackageName = packageName,
             PackageDisplayName = packageDisplayName,
             Publisher = publisher,
@@ -94,7 +104,9 @@ public static class MsixArchitectureDetector
 
         var architectures = new List<MsixArchitecture>();
         var processorArchitecture = identityElement?.Attribute("ProcessorArchitecture")?.Value;
-        if (processorArchitecture != null)
+        var isNeutral = IsNeutralArchitecture(processorArchitecture);
+        if (isNeutral) architectures.AddRange(s_allArchitectures);
+        else
         {
             var architecture = ParseArchitecture(processorArchitecture);
             if (architecture.HasValue) architectures.Add(architecture.Value);
@@ -106,6 +118,7 @@ public static class MsixArchitectureDetector
         {
             Architectures = architectures,
             IsBundle = false,
+            IsNeutral = isNeutral,
             PackageName = packageName,
             PackageDisplayName = packageDisplayName,
             Publisher = publisher,
@@ -143,6 +156,11 @@ public static class MsixArchitectureDetector
 
         return null;
     }
+
+    /// <summary>
+    /// A missing architecture attribute means the package is architecture-neutral, as does the explicit "neutral" value.
+    /// </summary>
+    private static bool IsNeutralArchitecture(string value) => value is null || string.Equals(value, "neutral", StringComparison.OrdinalIgnoreCase);
 
     private static MsixArchitecture? ParseArchitecture(string value)
     {

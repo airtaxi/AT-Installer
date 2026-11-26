@@ -160,9 +160,16 @@ public sealed partial class PackagingPageViewModel(LocalizationService localizat
 
         var architecture = PeArchitectureDetector.DetectArchitecture(foundExecutablePath);
 
-        if (architecture is "Unknown")
+        if (architecture is PeArchitectureDetector.UnknownArchitecture)
         {
             await dialogService.ShowMessageAsync(localizationService.GetLocalizedString("AppDisplayName"), localizationService.GetLocalizedString("PackagingPage_UnknownArchitectureMessage"));
+            return;
+        }
+
+        // A neutral build installs on every architecture, so it cannot share a bundle with architecture-specific builds.
+        if (OutputFolders.Count > 0 && (architecture is PeArchitectureDetector.NeutralArchitecture || OutputFolders.Any(item => item.Architecture is PeArchitectureDetector.NeutralArchitecture)))
+        {
+            await dialogService.ShowMessageAsync(localizationService.GetLocalizedString("AppDisplayName"), localizationService.GetLocalizedString("PackagingPage_NeutralArchitectureExclusiveMessage"));
             return;
         }
 
@@ -298,7 +305,7 @@ public sealed partial class PackagingPageViewModel(LocalizationService localizat
             MainWindow.ShowLoading(localizationService.GetLocalizedString("PackagingPage_PackagingMessage"));
 
             var packArguments = "pack";
-            foreach (var(_, architectureFolder)in architectureFolders) packArguments += $" {ProcessHelper.EscapeCommandLineArgument(Path.GetFileName(architectureFolder))}";
+            foreach (var (_, architectureFolder) in architectureFolders) packArguments += $" {ProcessHelper.EscapeCommandLineArgument(Path.GetFileName(architectureFolder))}";
 
             packArguments += $" --executable {ProcessHelper.EscapeCommandLineArgument(_manifestConfig.ExecutableFileName)}";
 
